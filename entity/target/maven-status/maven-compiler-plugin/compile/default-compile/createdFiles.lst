@@ -1,0 +1,5 @@
+com\yosua\homie\constant\enums\ResponseCode.class
+com\yosua\homie\constant\fields\UserFields.class
+com\yosua\homie\constant\CollectionName.class
+com\yosua\homie\dao\User.class
+com\yosua\homie\dao\UserBuilder.class
