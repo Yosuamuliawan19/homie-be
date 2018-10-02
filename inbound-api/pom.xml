@@ -11,5 +11,14 @@
 
     <artifactId>inbound-api</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.yosua</groupId>
+            <artifactId>service-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.yosua</groupId>
+            <artifactId>rest-web-model</artifactId>
+        </dependency>
+    </dependencies>
 </project>

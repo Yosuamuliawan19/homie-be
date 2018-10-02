@@ -11,5 +11,10 @@
 
     <artifactId>inbound-imp</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.yosua</groupId>
+            <artifactId>inbound-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -11,5 +11,33 @@
 
     <artifactId>service-impl</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.yosua</groupId>
+            <artifactId>service-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.yosua</groupId>
+            <artifactId>libraries</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.yosua</groupId>
+            <artifactId>dao</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

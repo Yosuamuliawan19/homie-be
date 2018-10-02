@@ -16,13 +16,12 @@
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.yosua.homie</groupId>
-            <artifactId>libraries</artifactId>
+            <groupId>net.karneim</groupId>
+            <artifactId>pojobuilder</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.fakemongo</groupId>
-            <artifactId>fongo</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
-
 </project>
