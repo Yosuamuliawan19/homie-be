@@ -1,7 +1,7 @@
-package com.yosua.homie.dao;
+package com.yosua.homie.entity.dao;
 
-import com.yosua.homie.constant.CollectionName;
-import com.yosua.homie.constant.fields.UserFields;
+import com.yosua.homie.entity.constant.CollectionName;
+import com.yosua.homie.entity.constant.fields.UserFields;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

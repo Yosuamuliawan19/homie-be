@@ -1,6 +1,6 @@
-package com.yosua.dao;
+package com.yosua.homie.dao;
 
-import com.yosua.homie.dao.User;
+import com.yosua.homie.entity.dao.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UserRepository extends MongoRepository<User, String> {

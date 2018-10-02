@@ -1,4 +1,4 @@
-package com.yosua.homie.constant.fields;
+package com.yosua.homie.entity.constant.fields;
 
 public class UserFields {
     public static final String NAME = "name";

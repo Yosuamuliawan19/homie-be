@@ -1,4 +1,4 @@
-package com.yosua.homie.constant.enums;
+package com.yosua.homie.entity.constant.enums;
 
 public enum ResponseCode {
   SUCCESS("SUCCESS", "SUCCESS"),
