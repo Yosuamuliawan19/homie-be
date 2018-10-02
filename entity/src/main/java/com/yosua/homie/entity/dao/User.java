@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 @GeneratePojoBuilder
 @Document(collection = CollectionName.USER)
-public class User {
+public class User extends BaseMongo{
 
     @Field(value = UserFields.NAME)
     private String name;
@@ -55,6 +55,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", hubsID=" + Arrays.toString(hubsID) +
-                '}';
+                '}' + super.toString();
     }
 }

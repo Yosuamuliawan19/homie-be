@@ -1,4 +1,4 @@
-package com.yosua.homie.rest.web;
+package com.yosua.homie;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
