@@ -353,6 +353,5 @@
         <module>inbound-api</module>
         <module>inbound-imp</module>
         <module>libraries</module>
-        <module>test</module>
     </modules>
 </project>
