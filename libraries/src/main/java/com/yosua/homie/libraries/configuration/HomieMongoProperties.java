@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties("home.security.mongo")
+@ConfigurationProperties("homie.mongo")
 public class HomieMongoProperties {
   private Integer connectionPerHost;
   private Integer minConnectionsPerHost;
