@@ -1,11 +1,17 @@
 package com.yosua.homie.rest.web.model.response;
 
-public class UserResponse {
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
+import java.io.Serializable;
+
+@GeneratePojoBuilder
+public class UserResponse implements Serializable {
 
     private String name;
     private String email;
     private String password;
-    private String role;
+    private String phoneNumber;
+    private String token;
 
     public String getName() {
         return name;
@@ -31,21 +37,30 @@ public class UserResponse {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override
     public String toString() {
-        return "UserRequest{" +
+        return "UserResponse{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

@@ -5,7 +5,7 @@ public class UserRequest {
     private String name;
     private String email;
     private String password;
-    private String role;
+    private String phoneNumber;
 
     public String getName() {
         return name;
@@ -31,12 +31,12 @@ public class UserRequest {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class UserRequest {
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
 }
