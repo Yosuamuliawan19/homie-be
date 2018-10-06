@@ -13,6 +13,7 @@ import com.yosua.homie.rest.web.model.response.BaseResponse;
 import com.yosua.homie.rest.web.model.response.UserResponse;
 import com.yosua.homie.rest.web.model.response.UserResponseBuilder;
 import com.yosua.homie.service.api.AuthService;
+import com.yosua.homie.service.api.UserService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,17 +33,8 @@ public class UserController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping(ApiPath.ADD_USER)
-    public BaseResponse<UserResponse> addUser(
-            @ApiIgnore @Valid MandatoryRequest mandatoryRequest,
-            @RequestBody UserRequest userRequest) {
-
-        User user = authService.register(toUser(userRequest));
-        LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
-                null, toUserResponse(user)).toString());
-        return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
-                null, toUserResponse(user));
-    }
+    @Autowired
+    private UserService userService;
 
     @PostMapping(ApiPath.SIGN_IN)
     public BaseResponse<UserResponse> signIn(@RequestParam String email, @RequestParam String password) {
@@ -56,9 +48,8 @@ public class UserController {
         if(PasswordHelper.matchPassword(password, user.getPassword())) {
 
             String token = authService.createToken(user.getId());
-
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
-                    null, toUserResponse(user, token));
+                    null, userService.toUserResponse(user, token));
         } else {
             throw new BusinessLogicException(ResponseCode.INVALID_PASSWORD.getCode(),
                     ResponseCode.INVALID_PASSWORD.getMessage());
@@ -75,36 +66,6 @@ public class UserController {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
-    }
-
-    private User toUser(UserRequest userRequest) {
-        return new UserBuilder()
-                .withPassword(userRequest.getPassword())
-                .withEmail(userRequest.getEmail())
-                .withName(userRequest.getName())
-                .withPhoneNumber(userRequest.getPhoneNumber())
-                .build();
-    }
-
-    private UserResponse toUserResponse(User user) {
-        Validate.notNull(user, "user is Required");
-        return new UserResponseBuilder()
-                .withPassword(user.getPassword())
-                .withEmail(user.getEmail())
-                .withName(user.getName())
-                .withPhoneNumber(user.getPhoneNumber())
-                .build();
-    }
-
-    private UserResponse toUserResponse(User user,String token) {
-        Validate.notNull(user, "user is Required");
-        return new UserResponseBuilder()
-                .withPassword(user.getPassword())
-                .withEmail(user.getEmail())
-                .withName(user.getName())
-                .withPhoneNumber(user.getPhoneNumber())
-                .withToken(token)
-                .build();
     }
 
     @ModelAttribute
