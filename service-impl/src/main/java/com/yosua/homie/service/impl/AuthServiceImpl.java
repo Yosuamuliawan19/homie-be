@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -89,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
                 .withName(user.getName())
                 .withEmail(user.getEmail())
                 .withPhoneNumber(user.getPhoneNumber())
-                .withHubsID(user.getHubsID())
+                .withHubs(user.getHubs())
                 .build();
           try{
             return userRepository.save(newUser);
@@ -107,7 +108,7 @@ public class AuthServiceImpl implements AuthService {
 
     User user = userRepository.findUserByEmail(email);
 
-    if (user == null) {
+    if (Objects.isNull(user)) {
       throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
               ResponseCode.DATA_NOT_EXIST.getMessage());
     }

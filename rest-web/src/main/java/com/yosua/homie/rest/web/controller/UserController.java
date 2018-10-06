@@ -7,6 +7,7 @@ import com.yosua.homie.entity.dao.UserBuilder;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.libraries.utility.BaseResponseHelper;
 import com.yosua.homie.libraries.utility.PasswordHelper;
+import com.yosua.homie.rest.web.model.request.HubsRequest;
 import com.yosua.homie.rest.web.model.request.MandatoryRequest;
 import com.yosua.homie.rest.web.model.request.UserRequest;
 import com.yosua.homie.rest.web.model.response.BaseResponse;
@@ -14,6 +15,8 @@ import com.yosua.homie.rest.web.model.response.UserResponse;
 import com.yosua.homie.rest.web.model.response.UserResponseBuilder;
 import com.yosua.homie.service.api.AuthService;
 import com.yosua.homie.service.api.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +59,24 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "Edit Hub's Physical Address")
+    @PostMapping(ApiPath.EDIT_HUBS)
+    public BaseResponse<UserResponse> editHubs(
+            @ApiIgnore @Valid MandatoryRequest mandatoryRequest,
+            @RequestParam String IPaddressToBeUpdated, @RequestParam String updatedPhysicalAddress){
+        if(authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+
+             String userID= authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+             User updatedUser =  userService.editHubs(userID,IPaddressToBeUpdated,updatedPhysicalAddress);
+
+             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, userService.toUserResponse(updatedUser, mandatoryRequest.getAccessToken()));
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
     @PostMapping("test")
     public String testToken(
             @ApiIgnore @Valid MandatoryRequest mandatoryRequest,
@@ -72,4 +93,6 @@ public class UserController {
     public MandatoryRequest getMandatoryParameter(HttpServletRequest request) {
         return (MandatoryRequest) request.getAttribute("mandatory");
     }
+
+
 }
