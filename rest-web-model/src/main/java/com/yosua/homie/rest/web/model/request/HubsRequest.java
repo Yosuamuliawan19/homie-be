@@ -1,42 +1,33 @@
 package com.yosua.homie.rest.web.model.request;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class HubsRequest {
-    private String ipAddress[];
-    private String hubPhysicalAddress[];
-    private String userID;
+    private List<String> ipAddress;
+    private List<String> hubPhysicalAddress;
 
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public String[] getIpAddress() {
+    public List<String> getIpAddress() {
         return ipAddress;
     }
 
-    public void setIpAddress(String[] ipAddress) {
+    public void setIpAddress(List<String> ipAddress) {
         this.ipAddress = ipAddress;
     }
 
-    public String[] getHubPhysicalAddress() {
+    public List<String> getHubPhysicalAddress() {
         return hubPhysicalAddress;
     }
 
-    public void setHubPhysicalAddress(String[] hubPhysicalAddress) {
+    public void setHubPhysicalAddress(List<String> hubPhysicalAddress) {
         this.hubPhysicalAddress = hubPhysicalAddress;
     }
 
     @Override
     public String toString() {
         return "HubsRequest{" +
-                "ipAddress=" + Arrays.toString(ipAddress) +
-                ", hubPhysicalAddress=" + Arrays.toString(hubPhysicalAddress) +
-                ", userID='" + userID + '\'' +
+                "ipAddress=" + ipAddress +
+                ", hubPhysicalAddress=" + hubPhysicalAddress +
                 '}';
     }
 }

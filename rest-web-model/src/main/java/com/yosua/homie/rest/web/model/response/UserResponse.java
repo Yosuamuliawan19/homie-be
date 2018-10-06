@@ -1,8 +1,10 @@
 package com.yosua.homie.rest.web.model.response;
 
+import com.yosua.homie.entity.dao.Hub;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import java.io.Serializable;
+import java.util.List;
 
 @GeneratePojoBuilder
 public class UserResponse implements Serializable {
@@ -11,6 +13,7 @@ public class UserResponse implements Serializable {
     private String email;
     private String password;
     private String phoneNumber;
+    private List<Hub> hubs;
     private String token;
 
     public String getName() {
@@ -45,6 +48,14 @@ public class UserResponse implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public List<Hub> getHubs() {
+        return hubs;
+    }
+
+    public void setHubs(List<Hub> hubs) {
+        this.hubs = hubs;
+    }
+
     public String getToken() {
         return token;
     }
@@ -60,6 +71,7 @@ public class UserResponse implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", hubs=" + hubs +
                 ", token='" + token + '\'' +
                 '}';
     }

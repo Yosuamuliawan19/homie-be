@@ -1,6 +1,8 @@
 package com.yosua.homie.rest.web.model.request;
 
-import java.util.Arrays;
+import com.yosua.homie.entity.dao.Hub;
+
+import java.util.List;
 
 public class UserRequest {
 
@@ -8,7 +10,7 @@ public class UserRequest {
     private String email;
     private String password;
     private String phoneNumber;
-
+    private List<Hub> hubs;
 
     public String getName() {
         return name;
@@ -42,6 +44,14 @@ public class UserRequest {
         this.phoneNumber = phoneNumber;
     }
 
+    public List<Hub> getHubs() {
+        return hubs;
+    }
+
+    public void setHubs(List<Hub> hubs) {
+        this.hubs = hubs;
+    }
+
     @Override
     public String toString() {
         return "UserRequest{" +
@@ -49,6 +59,7 @@ public class UserRequest {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", hubs=" + hubs +
                 '}';
     }
 }
