@@ -89,6 +89,7 @@ public class AuthServiceImpl implements AuthService {
                 .withName(user.getName())
                 .withEmail(user.getEmail())
                 .withPhoneNumber(user.getPhoneNumber())
+                .withHubsID(user.getHubsID())
                 .build();
           try{
             return userRepository.save(newUser);

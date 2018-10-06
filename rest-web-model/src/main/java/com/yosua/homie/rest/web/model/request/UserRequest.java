@@ -1,11 +1,14 @@
 package com.yosua.homie.rest.web.model.request;
 
+import java.util.Arrays;
+
 public class UserRequest {
 
     private String name;
     private String email;
     private String password;
     private String phoneNumber;
+
 
     public String getName() {
         return name;
