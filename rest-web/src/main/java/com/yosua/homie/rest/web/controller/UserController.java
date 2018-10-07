@@ -42,7 +42,7 @@ public class UserController {
     @PostMapping(ApiPath.SIGN_IN)
     public BaseResponse<UserResponse> signIn(@RequestParam String email, @RequestParam String password) {
 
-        User user = authService.findOne(email);
+        User user = authService.findOne(email.toLowerCase());
         if (user == null)
         {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),

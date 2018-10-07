@@ -88,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
          newUser = new UserBuilder()
                 .withPassword(PasswordHelper.encryptPassword(user.getPassword()))
                 .withName(user.getName())
-                .withEmail(user.getEmail())
+                .withEmail(user.getEmail().toLowerCase())
                 .withPhoneNumber(user.getPhoneNumber())
                 .withHubs(user.getHubs())
                 .build();
