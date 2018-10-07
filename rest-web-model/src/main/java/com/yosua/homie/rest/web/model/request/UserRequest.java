@@ -8,10 +8,7 @@ import java.util.List;
 public class UserRequest {
 
     private String name;
-
-    @Email(message = "Email is not Valid")
     private String email;
-
     private String password;
     private String phoneNumber;
     private List<Hub> hubs;
