@@ -2,7 +2,6 @@ package com.yosua.homie.rest.web.model.request;
 
 import com.yosua.homie.entity.dao.Hub;
 
-import javax.validation.constraints.Email;
 import java.util.List;
 
 public class UserRequest {

@@ -2,8 +2,6 @@ package com.yosua.homie.rest.web.model.response;
 
 import com.yosua.homie.entity.dao.Hub;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-
-import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.List;
 
