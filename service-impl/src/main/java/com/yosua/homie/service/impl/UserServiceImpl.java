@@ -6,6 +6,8 @@ import com.yosua.homie.entity.dao.Hub;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.entity.dao.UserBuilder;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
+import com.yosua.homie.libraries.utility.BaseResponseHelper;
+import com.yosua.homie.libraries.utility.PasswordHelper;
 import com.yosua.homie.rest.web.model.request.HubsRequest;
 import com.yosua.homie.rest.web.model.request.MandatoryRequest;
 import com.yosua.homie.rest.web.model.request.UserRequest;
@@ -89,6 +91,31 @@ public class UserServiceImpl implements UserService {
             throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
                     "Failed to update User");
         }
+    }
 
+    @Override
+    public User changePassword(String userID, String oldPassword, String newPassword){
+        Validate.notNull(userID,"userID to be updated is required");
+        Validate.notNull(oldPassword,"Old Password is required");
+        Validate.notNull(newPassword, "New Password is required");
+
+        User user = userRepository.findUserById(userID);
+
+        if(PasswordHelper.matchPassword(oldPassword, user.getPassword())) {
+            if(PasswordHelper.isPasswordValid(newPassword)){
+                user.setPassword(PasswordHelper.encryptPassword(newPassword));
+                try{
+                    return userRepository.save(user);
+                } catch (Exception e) {
+                    throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                            ResponseCode.SYSTEM_ERROR.getMessage());
+                }
+            }
+            else
+                throw new BusinessLogicException(ResponseCode.INVALID_PASSWORD.getCode(), ResponseCode.INVALID_PASSWORD.getMessage());
+        } else {
+            throw new BusinessLogicException(ResponseCode.PASSWORDS_DOES_NOT_MATCH.getCode(),
+                    ResponseCode.PASSWORDS_DOES_NOT_MATCH.getMessage());
+        }
     }
 }

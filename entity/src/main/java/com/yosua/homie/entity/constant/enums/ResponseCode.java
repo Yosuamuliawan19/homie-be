@@ -10,7 +10,8 @@ public enum ResponseCode {
   RUNTIME_ERROR("RUNTIME_ERROR", "Runtime Error"),
   INVALID_TOKEN("INVALID_TOKEN", "Token is not valid"),
   INVALID_PERMISSION("INVALID_PERMISSION", "Invalid permission"),
-  USER_DOES_NOT_EXIST("USER_DOES_NOT_EXIST","Specified user does not exist");
+  USER_DOES_NOT_EXIST("USER_DOES_NOT_EXIST","Specified user does not exist"),
+  PASSWORDS_DOES_NOT_MATCH("PASSWORDS_DOES_NOT_MATCH", "Passwords does not match");
 
   private String code;
   private String message;
