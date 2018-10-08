@@ -77,6 +77,23 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "Change User's Password")
+    @PostMapping(ApiPath.CHANGE_PASSWORD)
+    public BaseResponse<UserResponse> changePassword(
+            @ApiIgnore @Valid MandatoryRequest mandatoryRequest, @RequestParam String oldPassword,@RequestParam String newPassword){
+        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            User updatedUser = userService.changePassword(userID, oldPassword, newPassword);
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, userService.toUserResponse(updatedUser, mandatoryRequest.getAccessToken()));
+        }
+        else{
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+
+    }
+
     @PostMapping("test")
     public String testToken(
             @ApiIgnore @Valid MandatoryRequest mandatoryRequest,
@@ -93,6 +110,5 @@ public class UserController {
     public MandatoryRequest getMandatoryParameter(HttpServletRequest request) {
         return (MandatoryRequest) request.getAttribute("mandatory");
     }
-
 
 }
