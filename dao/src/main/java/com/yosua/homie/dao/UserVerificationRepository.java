@@ -7,6 +7,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface UserVerificationRepository extends MongoRepository<UserVerification, String> {
     UserVerification findUserVerificationByUserID(String id);
     UserVerification findUserVerificationByCode(String code);
-
-
 }

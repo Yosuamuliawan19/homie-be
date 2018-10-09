@@ -6,7 +6,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-
 @GeneratePojoBuilder
 @Document(collection = CollectionName.USER_VERIFICATION)
 public class UserVerification extends BaseMongo {
@@ -37,6 +36,6 @@ public class UserVerification extends BaseMongo {
         return "UserVerification{" +
                 "userID='" + userID + '\'' +
                 ", code='" + code + '\'' +
-                '}';
+                '}' + super.toString();
     }
 }
