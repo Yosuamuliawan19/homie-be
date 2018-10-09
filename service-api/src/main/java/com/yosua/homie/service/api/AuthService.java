@@ -18,4 +18,6 @@ public interface AuthService {
   User findOne(String email);
 
   String getUserIdFromToken(String token);
+
+  User changePassword(String userID, String oldPassword, String newPassword);
 }
