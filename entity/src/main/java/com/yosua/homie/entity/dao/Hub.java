@@ -5,15 +5,15 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder
 public class Hub {
-    private String ipAddress;
+    private String URL;
     private String hubPhysicalAddress;
 
-    public String getIpAddress() {
-        return ipAddress;
+    public String getURL() {
+        return URL;
     }
 
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
+    public void setURL(String URL) {
+        this.URL = URL;
     }
 
     public String getHubPhysicalAddress() {
@@ -27,7 +27,7 @@ public class Hub {
     @Override
     public String toString() {
         return "Hub{" +
-                "ipAddress='" + ipAddress + '\'' +
+                "URL='" + URL + '\'' +
                 ", hubPhysicalAddress='" + hubPhysicalAddress + '\'' +
                 '}';
     }

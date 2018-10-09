@@ -1,18 +1,17 @@
 package com.yosua.homie.rest.web.model.request;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class HubsRequest {
-    private List<String> ipAddress;
+    private List<String> URL;
     private List<String> hubPhysicalAddress;
 
-    public List<String> getIpAddress() {
-        return ipAddress;
+    public List<String> getURL() {
+        return URL;
     }
 
-    public void setIpAddress(List<String> ipAddress) {
-        this.ipAddress = ipAddress;
+    public void setURL(List<String> URL) {
+        this.URL = URL;
     }
 
     public List<String> getHubPhysicalAddress() {
@@ -26,7 +25,7 @@ public class HubsRequest {
     @Override
     public String toString() {
         return "HubsRequest{" +
-                "ipAddress=" + ipAddress +
+                "URL=" + URL +
                 ", hubPhysicalAddress=" + hubPhysicalAddress +
                 '}';
     }

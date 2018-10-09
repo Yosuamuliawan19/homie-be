@@ -7,26 +7,27 @@ import com.yosua.homie.entity.dao.HubBuilder;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.HubsRequest;
-import com.yosua.homie.rest.web.model.request.UserRequest;
-import com.yosua.homie.service.api.AdminService;
+import com.yosua.homie.service.api.HubService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class HubServiceImpl implements HubService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdminServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HubServiceImpl.class);
 
     @Autowired
     UserRepository userRepository;
 
     @Override
-    public User addHubs(HubsRequest hubsRequests,String userID) {
+    public User addHubs(HubsRequest hubsRequests, String userID) {
         Validate.notNull(hubsRequests, "hubsRequest is required");
         User existingUser = userRepository.findUserById(userID);
         if(Objects.isNull(existingUser))
@@ -36,25 +37,25 @@ public class AdminServiceImpl implements AdminService {
         }
 
         List<Hub> existingHubs = existingUser.getHubs();
-        List<String> existingIP = new ArrayList<>();
-        List<String> IPToBeAdded = hubsRequests.getIpAddress();
+        List<String> existingURL = new ArrayList<>();
+        List<String> URLToBeAdded = hubsRequests.getURL();
         if(!Objects.isNull(existingHubs) &&!existingHubs.isEmpty()) {
             for (Hub hubs : existingHubs) {
-                existingIP.add(hubs.getIpAddress());
+                existingURL.add(hubs.getURL());
             }
         }
-       if(!existingIP.isEmpty())
-       {
-           for(String existingIPs: existingIP){
-               for(String IPsToBeAdded: IPToBeAdded) {
-                    if(existingIPs.equals(IPsToBeAdded))
+        if(!existingURL.isEmpty())
+        {
+            for(String existingURLs: existingURL){
+                for(String URLsToBeAdded: URLToBeAdded) {
+                    if(existingURLs.equals(URLsToBeAdded))
                     {
                         throw new BusinessLogicException(ResponseCode.DUPLICATE_DATA.getCode(),
                                 ResponseCode.DUPLICATE_DATA.getMessage());
                     }
-               }
-           }
-       }
+                }
+            }
+        }
         if(!Objects.isNull(existingHubs) &&!existingHubs.isEmpty()) {
             existingHubs.addAll(toHubs(hubsRequests));
             existingUser.setHubs(existingHubs);
@@ -71,17 +72,44 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    private List<Hub> toHubs(HubsRequest hubsRequest){
+    @Override
+    public User editHubs(String userID, String URL, String updatedPhysicalAddress) {
+        Validate.notNull(URL,"URL to be updated is required");
+        Validate.notNull(updatedPhysicalAddress,"Physical Address to be updated is required");
+        User user = userRepository.findUserById(userID);
+        List<Hub> userHubs = user.getHubs();
+        Boolean isURLFound = false;
+        for(Hub hubs: userHubs){
+            if(hubs.getURL().equals(URL)) {
+                hubs.setHubPhysicalAddress(updatedPhysicalAddress);
+                isURLFound = true;
+            }
+        }
+        if(!isURLFound) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    ResponseCode.DATA_NOT_EXIST.getMessage());
+        }
+        try{
+            return userRepository.save(user);
+        } catch (Exception e) {
+            LOGGER.warn("Failed to update User");
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    "Failed to update User");
+        }
+    }
+
+    @Override
+    public List<Hub> toHubs(HubsRequest hubsRequest){
         List<Hub> hubs = new ArrayList<>();
-        List<String> IPAddress = hubsRequest.getIpAddress();
+        List<String> URL = hubsRequest.getURL();
         List<String> physicalAddress = hubsRequest.getHubPhysicalAddress();
-        if(IPAddress.size() == physicalAddress.size())
+        if(URL.size() == physicalAddress.size())
         {
-            for(int i=0; i< IPAddress.size();i++)
+            for(int i=0; i< URL.size();i++)
             {
                 hubs.add(new HubBuilder()
                         .withHubPhysicalAddress(physicalAddress.get(i))
-                        .withIpAddress(IPAddress.get(i))
+                        .withURL(URL.get(i))
                         .build()
                 );
             }
@@ -93,4 +121,6 @@ public class AdminServiceImpl implements AdminService {
         }
         return hubs;
     }
+
+
 }

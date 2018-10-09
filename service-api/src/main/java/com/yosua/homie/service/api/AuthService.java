@@ -25,4 +25,7 @@ public interface AuthService {
   Boolean verifyCode(String code, User user);
 
   UserVerification addUserVerification(User user);
+
+  User changePassword(String userID, String oldPassword, String newPassword);
 }
+
