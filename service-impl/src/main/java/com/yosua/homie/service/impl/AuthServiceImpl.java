@@ -140,7 +140,7 @@ public class AuthServiceImpl implements AuthService {
     }
   }
 
-  @OVerride    
+  @Override
   public User changePassword(String userID, String oldPassword, String newPassword){
     Validate.notNull(userID,"userID to be updated is required");
     Validate.notNull(oldPassword,"Old Password is required");
