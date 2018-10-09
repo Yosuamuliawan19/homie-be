@@ -37,18 +37,18 @@ public class HubServiceImpl implements HubService {
         }
 
         List<Hub> existingHubs = existingUser.getHubs();
-        List<String> existingIP = new ArrayList<>();
-        List<String> IPToBeAdded = hubsRequests.getIpAddress();
+        List<String> existingURL = new ArrayList<>();
+        List<String> URLToBeAdded = hubsRequests.getURL();
         if(!Objects.isNull(existingHubs) &&!existingHubs.isEmpty()) {
             for (Hub hubs : existingHubs) {
-                existingIP.add(hubs.getIpAddress());
+                existingURL.add(hubs.getURL());
             }
         }
-        if(!existingIP.isEmpty())
+        if(!existingURL.isEmpty())
         {
-            for(String existingIPs: existingIP){
-                for(String IPsToBeAdded: IPToBeAdded) {
-                    if(existingIPs.equals(IPsToBeAdded))
+            for(String existingURLs: existingURL){
+                for(String URLsToBeAdded: URLToBeAdded) {
+                    if(existingURLs.equals(URLsToBeAdded))
                     {
                         throw new BusinessLogicException(ResponseCode.DUPLICATE_DATA.getCode(),
                                 ResponseCode.DUPLICATE_DATA.getMessage());
@@ -73,20 +73,19 @@ public class HubServiceImpl implements HubService {
     }
 
     @Override
-    public User editHubs(String userID, String IPAddress, String updatedPhysicalAddress) {
-        Validate.notNull(IPAddress,"IP Address to be updated is required");
+    public User editHubs(String userID, String URL, String updatedPhysicalAddress) {
+        Validate.notNull(URL,"URL to be updated is required");
         Validate.notNull(updatedPhysicalAddress,"Physical Address to be updated is required");
         User user = userRepository.findUserById(userID);
         List<Hub> userHubs = user.getHubs();
-        Boolean isIPFound = false;
+        Boolean isURLFound = false;
         for(Hub hubs: userHubs){
-            if(hubs.getIpAddress().equals(IPAddress))
-            {
+            if(hubs.getURL().equals(URL)) {
                 hubs.setHubPhysicalAddress(updatedPhysicalAddress);
-                isIPFound = true;
+                isURLFound = true;
             }
         }
-        if(!isIPFound) {
+        if(!isURLFound) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     ResponseCode.DATA_NOT_EXIST.getMessage());
         }
@@ -102,15 +101,15 @@ public class HubServiceImpl implements HubService {
     @Override
     public List<Hub> toHubs(HubsRequest hubsRequest){
         List<Hub> hubs = new ArrayList<>();
-        List<String> IPAddress = hubsRequest.getIpAddress();
+        List<String> URL = hubsRequest.getURL();
         List<String> physicalAddress = hubsRequest.getHubPhysicalAddress();
-        if(IPAddress.size() == physicalAddress.size())
+        if(URL.size() == physicalAddress.size())
         {
-            for(int i=0; i< IPAddress.size();i++)
+            for(int i=0; i< URL.size();i++)
             {
                 hubs.add(new HubBuilder()
                         .withHubPhysicalAddress(physicalAddress.get(i))
-                        .withIpAddress(IPAddress.get(i))
+                        .withURL(URL.get(i))
                         .build()
                 );
             }

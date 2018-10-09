@@ -65,6 +65,4 @@ public class UserServiceImpl implements UserService {
                 .withToken(token)
                 .build();
     }
-
-
 }

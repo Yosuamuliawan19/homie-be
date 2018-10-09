@@ -130,8 +130,8 @@ public class AuthServiceImpl implements AuthService {
       else
         throw new BusinessLogicException(ResponseCode.INVALID_PASSWORD.getCode(), ResponseCode.INVALID_PASSWORD.getMessage());
     } else {
-      throw new BusinessLogicException(ResponseCode.PASSWORDS_DOES_NOT_MATCH.getCode(),
-              ResponseCode.PASSWORDS_DOES_NOT_MATCH.getMessage());
+      throw new BusinessLogicException(ResponseCode.INCORRECT_PASSWORD.getCode(),
+              ResponseCode.INCORRECT_PASSWORD.getMessage());
     }
   }
 

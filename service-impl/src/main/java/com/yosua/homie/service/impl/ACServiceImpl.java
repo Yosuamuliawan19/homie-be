@@ -38,19 +38,19 @@ public class ACServiceImpl implements ACService {
     public AC addAC(ACRequest acRequest){
         Validate.notNull(acRequest,"AC Request to be added is required");
         AC newAC;
-        User user = userRepository.findUserByHubsIpAddress(acRequest.getHubIP());
+        User user = userRepository.findUserByHubsURL(acRequest.getHubURL());
         if(Objects.isNull(user))
         {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Hub does not exist!");
         }
-        AC existingACWithSameName = acRepository.findACByNameAndHubIP(acRequest.getName(), acRequest.getHubIP());
+        AC existingACWithSameName = acRepository.findACByNameAndHubURL(acRequest.getName(), acRequest.getHubURL());
         if(!Objects.isNull(existingACWithSameName)) {
             throw new BusinessLogicException(ResponseCode.DUPLICATE_DATA.getCode(),
                     "AC with the same name already exist in your hub!");
         }
         newAC = new ACBuilder()
-                .withHubIP(acRequest.getHubIP())
+                .withHubURL(acRequest.getHubURL())
                 .withName(acRequest.getName())
                 .withStatus(acRequest.getStatus())
                 .withTemperature(acRequest.getTemperature())
@@ -74,22 +74,19 @@ public class ACServiceImpl implements ACService {
         }
         List<AC> ACs = new ArrayList<>();
         List<Hub> userHubs = user.getHubs();
-        List<String> hubsIP = new ArrayList<>();
+        List<String> hubsURL = new ArrayList<>();
         if(!Objects.isNull(userHubs) && !userHubs.isEmpty()){
             for(Hub hubs: userHubs)
             {
-                hubsIP.add(hubs.getIpAddress());
+                hubsURL.add(hubs.getURL());
             }
         }
-        LOGGER.info(hubsIP.toString());
-        if(!hubsIP.isEmpty()){
-            for(String IPs: hubsIP)
+        if(!hubsURL.isEmpty()){
+            for(String URLs: hubsURL)
             {
-                ACs.addAll(acRepository.findACSByHubIP(IPs));
+                ACs.addAll(acRepository.findACSByHubURL(URLs));
             }
         }
-        LOGGER.info("helloow");
-        LOGGER.info(ACs.toString());
         return ACs;
     }
 
@@ -97,7 +94,7 @@ public class ACServiceImpl implements ACService {
     public ACResponse toACResponse(AC ac){
         Validate.notNull(ac,"AC is required");
         return new ACResponseBuilder()
-                .withHubIP(ac.getHubIP())
+                .withHubURL(ac.getHubURL())
                 .withName(ac.getName())
                 .withStatus(ac.getStatus())
                 .withTemperature(ac.getTemperature())
@@ -110,7 +107,7 @@ public class ACServiceImpl implements ACService {
         List<ACResponse> acResponses= new ArrayList<>();
         for(AC ACs: ACList){
             acResponses.add(new ACResponseBuilder()
-                                .withHubIP(ACs.getHubIP())
+                                .withHubURL(ACs.getHubURL())
                                 .withName(ACs.getName())
                                 .withStatus(ACs.getStatus())
                                 .withTemperature(ACs.getTemperature())

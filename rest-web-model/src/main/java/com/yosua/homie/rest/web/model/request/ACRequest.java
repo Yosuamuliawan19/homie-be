@@ -5,7 +5,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 public class ACRequest {
     private String name;
-    private String hubIP;
+    private String hubURL;
     private DeviceStatus status;
     private Double temperature;
 
@@ -17,12 +17,12 @@ public class ACRequest {
         this.name = name;
     }
 
-    public String getHubIP() {
-        return hubIP;
+    public String getHubURL() {
+        return hubURL;
     }
 
-    public void setHubIP(String hubID) {
-        this.hubIP = hubID;
+    public void setHubURL(String hubURL) {
+        this.hubURL = hubURL;
     }
 
     public DeviceStatus getStatus() {
@@ -45,7 +45,7 @@ public class ACRequest {
     public String toString() {
         return "ACRequest{" +
                 "name='" + name + '\'' +
-                ", hubID='" + hubIP + '\'' +
+                ", hubURL='" + hubURL + '\'' +
                 ", status=" + status +
                 ", temperature=" + temperature +
                 '}';

@@ -8,7 +8,7 @@ import java.io.Serializable;
 @GeneratePojoBuilder
 public class ACResponse implements Serializable {
     private String name;
-    private String hubIP;
+    private String hubURL;
     private DeviceStatus status;
     private Double temperature;
 
@@ -20,12 +20,12 @@ public class ACResponse implements Serializable {
         this.name = name;
     }
 
-    public String getHubIP() {
-        return hubIP;
+    public String getHubURL() {
+        return hubURL;
     }
 
-    public void setHubIP(String hubIP) {
-        this.hubIP = hubIP;
+    public void setHubURL(String hubURL) {
+        this.hubURL = hubURL;
     }
 
     public DeviceStatus getStatus() {
@@ -44,13 +44,5 @@ public class ACResponse implements Serializable {
         this.temperature = temperature;
     }
 
-    @Override
-    public String toString() {
-        return "ACResponse{" +
-                "name='" + name + '\'' +
-                ", hubIP='" + hubIP + '\'' +
-                ", status=" + status +
-                ", temperature=" + temperature +
-                '}';
-    }
+
 }

@@ -72,7 +72,7 @@ public class User extends BaseMongo{
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", hubs=" + hubs +
+                ", hubs =" + hubs +
                 '}';
     }
 }

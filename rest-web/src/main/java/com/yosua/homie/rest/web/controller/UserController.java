@@ -68,11 +68,11 @@ public class UserController {
     @PostMapping(ApiPath.EDIT_HUBS)
     public BaseResponse<UserResponse> editHubs(
             @ApiIgnore @Valid MandatoryRequest mandatoryRequest,
-            @RequestParam String IPaddressToBeUpdated, @RequestParam String updatedPhysicalAddress){
+            @RequestParam String URLToBeUpdated, @RequestParam String updatedPhysicalAddress){
         if(authService.isTokenValid(mandatoryRequest.getAccessToken())) {
 
              String userID= authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
-             User updatedUser =  hubService.editHubs(userID,IPaddressToBeUpdated,updatedPhysicalAddress);
+             User updatedUser =  hubService.editHubs(userID,URLToBeUpdated,updatedPhysicalAddress);
 
              return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, userService.toUserResponse(updatedUser, mandatoryRequest.getAccessToken()));

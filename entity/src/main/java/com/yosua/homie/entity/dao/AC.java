@@ -16,8 +16,8 @@ public class AC extends BaseMongo {
     @Field(value = ACFields.NAME)
     private String name;
 
-    @Field(value = ACFields.HUB_IP)
-    private String hubIP;
+    @Field(value = ACFields.HUB_URL)
+    private String hubURL;
 
     @Field(value = ACFields.STATUS)
     private DeviceStatus status;
@@ -33,12 +33,12 @@ public class AC extends BaseMongo {
         this.name = name;
     }
 
-    public String getHubIP() {
-        return hubIP;
+    public String getHubURL() {
+        return hubURL;
     }
 
-    public void setHubIP(String hubIP) {
-        this.hubIP = hubIP;
+    public void setHubURL(String hubURL) {
+        this.hubURL = hubURL;
     }
 
     public DeviceStatus getStatus() {
@@ -61,10 +61,9 @@ public class AC extends BaseMongo {
     public String toString() {
         return "AC{" +
                 "name='" + name + '\'' +
-                ", hubID='" + hubIP+ '\'' +
+                ", hubURL='" + hubURL + '\'' +
                 ", status=" + status +
                 ", temperature=" + temperature +
                 '}' + super.toString();
     }
-
 }

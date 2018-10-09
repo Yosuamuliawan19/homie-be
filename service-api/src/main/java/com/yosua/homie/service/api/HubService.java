@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface HubService {
     User addHubs(HubsRequest hubsRequest, String userID);
-    User editHubs(String userID, String IPAddress, String updatedPhysicalAddress);
+    User editHubs(String userID, String URL, String updatedPhysicalAddress);
     List<Hub> toHubs(HubsRequest hubsRequest);
 }
