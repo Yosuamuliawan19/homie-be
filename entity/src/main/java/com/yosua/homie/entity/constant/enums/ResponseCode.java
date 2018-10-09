@@ -2,6 +2,10 @@ package com.yosua.homie.entity.constant.enums;
 
 public enum ResponseCode {
   SUCCESS("SUCCESS", "SUCCESS"),
+  INVALID_EMAIL("INVALID_EMAIL", "Invalid Email"),
+  UNSUPPORTED_ENCODING("UNSUPPORTED_ENCODING", "Unsupported Encoding"),
+
+  INVALID_VERIFICATION_CODE("INVALID_VERIFICATION_CODE", "Invalid Verification Code"),
   SYSTEM_ERROR("SYSTEM_ERROR", "Contact our team"),
   DUPLICATE_DATA("DUPLICATED_DATA", "Duplicated data"),
   DATA_NOT_EXIST("DATA_DOES_NOT_EXIST", "No data exist"),
@@ -13,6 +17,7 @@ public enum ResponseCode {
   USER_DOES_NOT_EXIST("USER_DOES_NOT_EXIST","Specified user does not exist"),
   PASSWORDS_DOES_NOT_MATCH("PASSWORDS_DOES_NOT_MATCH", "Passwords does not match"),
   INCORRECT_PASSWORD("INCORRECT PASSWORD", "INCORRECT PASSWORD");
+
 
   private String code;
   private String message;

@@ -24,5 +24,6 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>
+
     </dependencies>
 </project>

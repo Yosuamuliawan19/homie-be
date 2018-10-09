@@ -38,6 +38,10 @@
             <groupId>com.yosua</groupId>
             <artifactId>dao</artifactId>
         </dependency>
+        <dependency>
+            <groupId>it.ozimov</groupId>
+            <artifactId>spring-boot-email-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

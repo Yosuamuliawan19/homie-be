@@ -4,24 +4,37 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.common.collect.Lists;
 import com.yosua.homie.dao.UserRepository;
+import com.yosua.homie.dao.UserVerificationRepository;
 import com.yosua.homie.entity.JWTokenClaim;
 import com.yosua.homie.entity.JWTokenClaimBuilder;
+import com.yosua.homie.entity.constant.EmailDetails;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.entity.dao.UserBuilder;
+import com.yosua.homie.entity.dao.UserVerification;
+import com.yosua.homie.entity.dao.UserVerificationBuilder;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.libraries.utility.PasswordHelper;
 import com.yosua.homie.service.api.AuthService;
+import it.ozimov.springboot.mail.model.Email;
+import it.ozimov.springboot.mail.model.defaultimpl.DefaultEmail;
+import it.ozimov.springboot.mail.service.EmailService;
+import lombok.Builder;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.xml.bind.ValidationEvent;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Random;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -30,6 +43,12 @@ public class AuthServiceImpl implements AuthService {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private UserVerificationRepository userVerificationRepository;
+
+  @Autowired
+  public EmailService emailService;
 
   @Value("${homie.auth.secret}")
   private String TOKEN_SECRET;
@@ -110,6 +129,18 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override
+  public UserVerification addUserVerification(User user) {
+    Validate.notNull(user, "user is required");
+    UserVerification userVerification = new UserVerificationBuilder().withUserID(user.getId()).build();
+    try{
+      return userVerificationRepository.save(userVerification);
+    } catch (Exception e) {
+      throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+              ResponseCode.SYSTEM_ERROR.getMessage());
+    }
+  }
+
+  @OVerride    
   public User changePassword(String userID, String oldPassword, String newPassword){
     Validate.notNull(userID,"userID to be updated is required");
     Validate.notNull(oldPassword,"Old Password is required");
@@ -147,5 +178,42 @@ public class AuthServiceImpl implements AuthService {
     return user;
   }
 
+  @Override
+  public void generateCode(User user){
+    Long seed = new Date().getTime();
+    Random random = new Random(seed);
+    Integer codeInt = random.nextInt(1000000);
+    String code = codeInt.toString();
+
+    // update the code in the database
+    UserVerification userVerification = userVerificationRepository.findUserVerificationByUserID(user.getId());
+    if (userVerification == null){
+      throw new BusinessLogicException(ResponseCode.USER_DOES_NOT_EXIST.getCode(),
+              ResponseCode.USER_DOES_NOT_EXIST.getMessage());
+    }
+    userVerification.setCode(code);
+    userVerificationRepository.save(userVerification);
+    // send email
+    try {
+      final Email email = DefaultEmail.builder()
+              .from(new InternetAddress(EmailDetails.EMAIL_ADDRESS, "Marco Tullio Cicerone "))
+              .to(Lists.newArrayList(new InternetAddress(user.getEmail().toString(), "Pomponius Attĭcus")))
+              .subject("Two factor authentication - HOMIE")
+              .body(code.toString())
+              .encoding("UTF-8").build();
+
+      emailService.send(email);
+    } catch (UnsupportedEncodingException e) {
+      throw new BusinessLogicException(ResponseCode.UNSUPPORTED_ENCODING.getCode(),
+              ResponseCode.UNSUPPORTED_ENCODING.getMessage());
+    }
+  }
+
+  @Override
+  public Boolean verifyCode(String code, User user) {
+    // update the code in the database
+    UserVerification userVerification = userVerificationRepository.findUserVerificationByUserID(user.getId());
+    return userVerification.getCode().equals(code);
+  }
 
 }
