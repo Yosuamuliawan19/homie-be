@@ -128,7 +128,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "Get All User's AC")
-    @PostMapping(ApiPath.GET_ALL_USERS_AC)
+    @GetMapping(ApiPath.GET_ALL_USERS_AC)
     public BaseResponse<List<ACResponse>> getAllUsersAC(@ApiIgnore @Valid MandatoryRequest mandatoryRequest) {
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
