@@ -8,6 +8,10 @@ public interface ApiPath {
 
   String ID = "/{id}";
 
+  String HTTP = "http://";
+  //flask
+  String FLASK_TURN_ON_AC = "/AC/turn-on/";
+
   //Admin
   String ADD_HUBS = BASE_PATH + ADMIN_CONTROLLER + "/add-hubs";
   String ADD_USER = BASE_PATH + ADMIN_CONTROLLER+ "/add-user";
@@ -17,4 +21,5 @@ public interface ApiPath {
   String EDIT_HUBS = BASE_PATH + USER_CONTROLLER + "/edit-hubs";
   String CHANGE_PASSWORD = BASE_PATH + USER_CONTROLLER + "/change-password";
   String GET_ALL_USERS_AC = BASE_PATH + USER_CONTROLLER + "/get-all-users-ac";
+  String TURN_ON_AC = BASE_PATH + USER_CONTROLLER + "/turn-on-ac";
 }

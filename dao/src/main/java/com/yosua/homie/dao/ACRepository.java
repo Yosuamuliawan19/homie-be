@@ -8,4 +8,5 @@ import java.util.List;
 public interface ACRepository extends MongoRepository<AC, String> {
     AC findACByNameAndHubURL(String name, String hubURL);
     List<AC> findACSByHubURL(String hubURL);
+    AC findACById(String id);
 }

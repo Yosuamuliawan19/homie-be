@@ -10,6 +10,7 @@ import com.yosua.homie.libraries.utility.PasswordHelper;
 import com.yosua.homie.rest.web.model.request.MandatoryRequest;
 import com.yosua.homie.rest.web.model.response.ACResponse;
 import com.yosua.homie.rest.web.model.response.BaseResponse;
+import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
 import com.yosua.homie.rest.web.model.response.UserResponse;
 import com.yosua.homie.service.api.ACService;
 import com.yosua.homie.service.api.AuthService;
@@ -48,12 +49,11 @@ public class UserController {
     public BaseResponse<UserResponse> signIn(@RequestParam String email, @RequestParam String password) {
 
         User user = authService.findOne(email.toLowerCase());
-        if (user == null)
-        {
+        if (user == null) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     ResponseCode.DATA_NOT_EXIST.getMessage());
         }
-        if(PasswordHelper.matchPassword(password, user.getPassword())) {
+        if (PasswordHelper.matchPassword(password, user.getPassword())) {
 
             String token = authService.createToken(user.getId());
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
@@ -68,13 +68,13 @@ public class UserController {
     @PostMapping(ApiPath.EDIT_HUBS)
     public BaseResponse<UserResponse> editHubs(
             @ApiIgnore @Valid MandatoryRequest mandatoryRequest,
-            @RequestParam String URLToBeUpdated, @RequestParam String updatedPhysicalAddress){
-        if(authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            @RequestParam String URLToBeUpdated, @RequestParam String updatedPhysicalAddress) {
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
 
-             String userID= authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
-             User updatedUser =  hubService.editHubs(userID,URLToBeUpdated,updatedPhysicalAddress);
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            User updatedUser = hubService.editHubs(userID, URLToBeUpdated, updatedPhysicalAddress);
 
-             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, userService.toUserResponse(updatedUser, mandatoryRequest.getAccessToken()));
         } else {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
@@ -85,16 +85,15 @@ public class UserController {
     @ApiOperation(value = "Change User's Password")
     @PostMapping(ApiPath.CHANGE_PASSWORD)
     public BaseResponse<UserResponse> changePassword(
-            @ApiIgnore @Valid MandatoryRequest mandatoryRequest, @RequestParam String oldPassword,@RequestParam String newPassword){
-        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            @ApiIgnore @Valid MandatoryRequest mandatoryRequest, @RequestParam String oldPassword, @RequestParam String newPassword) {
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
 
             String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
             User updatedUser = authService.changePassword(userID, oldPassword, newPassword);
 
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, userService.toUserResponse(updatedUser, mandatoryRequest.getAccessToken()));
-        }
-        else{
+        } else {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
@@ -103,15 +102,24 @@ public class UserController {
 
     @ApiOperation(value = "Get All User's AC")
     @PostMapping(ApiPath.GET_ALL_USERS_AC)
-    public BaseResponse<List<ACResponse>> getAllUsersAC(@ApiIgnore @Valid MandatoryRequest mandatoryRequest)
-    {
-        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+    public BaseResponse<List<ACResponse>> getAllUsersAC(@ApiIgnore @Valid MandatoryRequest mandatoryRequest) {
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
             List<AC> ACList = acService.getAllUsersAC(userID);
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, acService.toACResponse(ACList));
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
         }
-        else{
+    }
+
+    @ApiOperation(value = "Turn on AC")
+    @GetMapping(ApiPath.TURN_ON_AC)
+    public FlaskBaseResponse turnOnAC(@ApiIgnore @Valid MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+           return acService.turnOnAC(deviceID);
+        } else {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
