@@ -39,8 +39,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(ApiPath.SIGN_IN)
-    public BaseResponse<UserResponse> signIn(@RequestParam String email, @RequestParam String password) {
+    @PostMapping(ApiPath.VERIFY_CREDENTIALS)
+    public BaseResponse<UserResponse> verifyCredentials(@RequestParam String email, @RequestParam String password) {
 
         User user = authService.findOne(email.toLowerCase());
         if (user == null)
@@ -50,9 +50,35 @@ public class UserController {
         }
         if(PasswordHelper.matchPassword(password, user.getPassword())) {
 
-            String token = authService.createToken(user.getId());
+
+            authService.generateCode(user);
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
-                    null, userService.toUserResponse(user, token));
+                    null, userService.toUserResponse(user));
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_PASSWORD.getCode(),
+                    ResponseCode.INVALID_PASSWORD.getMessage());
+        }
+    }
+    @PostMapping(ApiPath.SIGN_IN)
+    public BaseResponse<UserResponse> signIn(@RequestParam String email, @RequestParam String password, @RequestParam String code ) {
+
+        User user = authService.findOne(email.toLowerCase());
+        if (user == null)
+        {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    ResponseCode.DATA_NOT_EXIST.getMessage());
+        }
+        if(PasswordHelper.matchPassword(password, user.getPassword())) {
+
+            Boolean success = authService.verifyCode(code, user);
+            if (success){
+                return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                        null, userService.toUserResponse(user));
+            }else{
+                throw new BusinessLogicException(ResponseCode.INVALID_VERIFICATION_CODE.getCode(),
+                        ResponseCode.INVALID_VERIFICATION_CODE.getMessage());
+            }
+
         } else {
             throw new BusinessLogicException(ResponseCode.INVALID_PASSWORD.getCode(),
                     ResponseCode.INVALID_PASSWORD.getMessage());

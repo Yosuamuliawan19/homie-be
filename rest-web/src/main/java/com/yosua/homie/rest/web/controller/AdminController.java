@@ -5,6 +5,7 @@ import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.User;
+import com.yosua.homie.entity.dao.UserVerification;
 import com.yosua.homie.libraries.utility.BaseResponseHelper;
 import com.yosua.homie.rest.web.model.request.HubsRequest;
 import com.yosua.homie.rest.web.model.request.MandatoryRequest;
@@ -41,8 +42,10 @@ public class AdminController {
     public BaseResponse<UserResponse> addUser(@RequestBody UserRequest userRequest) {
 
         User user = authService.register(userService.toUser(userRequest));
+        UserVerification userVerification = authService.addUserVerification(user);
         LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, userService.toUserResponse(user)).toString());
+        LOGGER.info(userVerification.toString());
         return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, userService.toUserResponse(user));
     }
