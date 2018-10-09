@@ -10,6 +10,5 @@ public interface UserService {
     User toUser(UserRequest userRequest);
     UserResponse toUserResponse(User user,String token);
     UserResponse toUserResponse(User user);
-    User editHubs(String userID, String IPAddress, String updatedPhysicalAddress);
-    User changePassword(String userID, String oldPassword, String newPassword);
+
 }
