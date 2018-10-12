@@ -134,4 +134,18 @@ public class ACServiceImpl implements ACService {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
     }
+    @Override
+    public FlaskBaseResponse turnOffAC(String deviceID){
+        Validate.notNull(deviceID, "Device ID is required");
+        AC ac = acRepository.findACById(deviceID);
+        if(Objects.isNull(ac)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "AC does not exist!");
+        }
+        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_OFF_AC + deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+    }
+
 }

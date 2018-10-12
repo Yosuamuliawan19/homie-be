@@ -2,11 +2,13 @@ package com.yosua.homie.service.impl;
 
 import com.yosua.homie.dao.TVRepository;
 import com.yosua.homie.dao.UserRepository;
+import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.*;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.TVRequest;
 import com.yosua.homie.rest.web.model.response.ACResponse;
+import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
 import com.yosua.homie.rest.web.model.response.TVResponse;
 import com.yosua.homie.rest.web.model.response.TVResponseBuilder;
 import com.yosua.homie.service.api.TVService;
@@ -14,6 +16,7 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,4 +119,84 @@ public class TVServiceImpl implements TVService {
         }
         return tvResponses;
     }
+    @Override
+    public FlaskBaseResponse turnOnTV(String deviceID){
+        Validate.notNull(deviceID, "Device ID is required");
+        TV tv = tvRepository.findTVById(deviceID);
+        if(Objects.isNull(tv)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "TV does not exist!");
+        }
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_ON_TV + deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+    }
+    @Override
+    public FlaskBaseResponse turnOffTV(String deviceID){
+        Validate.notNull(deviceID, "Device ID is required");
+        TV tv = tvRepository.findTVById(deviceID);
+        if(Objects.isNull(tv)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "TV does not exist!");
+        }
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_OFF_TV + deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+    }
+    @Override
+    public FlaskBaseResponse volumeUpTV(String deviceID){
+        Validate.notNull(deviceID, "Device ID is required");
+        TV tv = tvRepository.findTVById(deviceID);
+        if(Objects.isNull(tv)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "TV does not exist!");
+        }
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_UP_TV+ deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+    }
+    @Override
+    public FlaskBaseResponse volumeDownTV(String deviceID){
+        Validate.notNull(deviceID, "Device ID is required");
+        TV tv = tvRepository.findTVById(deviceID);
+        if(Objects.isNull(tv)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "TV does not exist!");
+        }
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV+ deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+    }
+    @Override
+    public FlaskBaseResponse programUpTV(String deviceID){
+        Validate.notNull(deviceID, "Device ID is required");
+        TV tv = tvRepository.findTVById(deviceID);
+        if(Objects.isNull(tv)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "TV does not exist!");
+        }
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_UP_TV+ deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+    }
+    @Override
+    public FlaskBaseResponse programDownTV(String deviceID){
+        Validate.notNull(deviceID, "Device ID is required");
+        TV tv = tvRepository.findTVById(deviceID);
+        if(Objects.isNull(tv)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "TV does not exist!");
+        }
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_DOWN_TV+ deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+    }
+
+
 }

@@ -202,7 +202,7 @@ public class AuthServiceImpl implements AuthService {
               .body(code.toString())
               .encoding("UTF-8").build();
 
-      emailService.send(email);
+//      emailService.send(email);
     } catch (UnsupportedEncodingException e) {
       throw new BusinessLogicException(ResponseCode.UNSUPPORTED_ENCODING.getCode(),
               ResponseCode.UNSUPPORTED_ENCODING.getMessage());

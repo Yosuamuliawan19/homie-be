@@ -77,9 +77,10 @@ public class UserController {
         if(PasswordHelper.matchPassword(password, user.getPassword())) {
 
             Boolean success = authService.verifyCode(code, user);
+
             if (success){
                 return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
-                        null, userService.toUserResponse(user));
+                        null, userService.toUserResponse(user, authService.createToken(user.getId())));
             }else{
                 throw new BusinessLogicException(ResponseCode.INVALID_VERIFICATION_CODE.getCode(),
                         ResponseCode.INVALID_VERIFICATION_CODE.getMessage());
@@ -145,7 +146,18 @@ public class UserController {
     @GetMapping(ApiPath.TURN_ON_AC)
     public FlaskBaseResponse turnOnAC(@ApiIgnore @Valid MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
-           return acService.turnOnAC(deviceID);
+            return acService.turnOnAC(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Turn off AC")
+    @GetMapping(ApiPath.TURN_OFF_AC)
+    public FlaskBaseResponse turnOffAC(@ApiIgnore @Valid MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            return acService.turnOffAC(deviceID);
         } else {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
                     ResponseCode.INVALID_TOKEN.getMessage());

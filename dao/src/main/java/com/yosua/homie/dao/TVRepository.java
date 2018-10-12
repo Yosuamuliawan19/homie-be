@@ -9,4 +9,5 @@ import java.util.List;
 public interface TVRepository extends MongoRepository<TV, String> {
     TV findTVByNameAndHubURL(String name, String hubURL);
     List<TV> findTVByHubURL(String hubURL);
+    TV findTVById(String id);
 }
