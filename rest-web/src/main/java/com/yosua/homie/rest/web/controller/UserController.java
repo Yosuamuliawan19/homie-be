@@ -77,9 +77,10 @@ public class UserController {
         if(PasswordHelper.matchPassword(password, user.getPassword())) {
 
             Boolean success = authService.verifyCode(code, user);
+
             if (success){
                 return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
-                        null, userService.toUserResponse(user));
+                        null, userService.toUserResponse(user, authService.createToken(user.getId())));
             }else{
                 throw new BusinessLogicException(ResponseCode.INVALID_VERIFICATION_CODE.getCode(),
                         ResponseCode.INVALID_VERIFICATION_CODE.getMessage());
