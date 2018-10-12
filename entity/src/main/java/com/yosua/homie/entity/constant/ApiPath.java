@@ -35,4 +35,5 @@ public interface ApiPath {
   String CHANGE_PASSWORD = BASE_PATH + USER_CONTROLLER + "/change-password";
   String GET_ALL_USERS_AC = BASE_PATH + USER_CONTROLLER + "/get-all-users-ac";
   String TURN_ON_AC = BASE_PATH + USER_CONTROLLER + "/turn-on-ac";
+  String TURN_OFF_AC = BASE_PATH + USER_CONTROLLER + "/turn-off-ac";
 }
