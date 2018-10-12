@@ -15,4 +15,5 @@ public interface ACService {
     List<AC> getAllUsersAC(String userID);
     List<ACResponse> toACResponse(List<AC> ACList);
     FlaskBaseResponse turnOnAC(String deviceID);
+    FlaskBaseResponse turnOffAC(String deviceID);
 }
