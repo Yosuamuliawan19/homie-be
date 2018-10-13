@@ -28,6 +28,9 @@ public interface ApiPath {
   String FLASK_TURN_ON_LAMP = "/lamp/turn-on/";
   String FLASK_TURN_OFF_LAMP = "/lamp/turn-off/";
 
+
+  String FLASK_CHECK_RAIN = "/rain/";
+
   //Admin
   String ADD_HUBS = BASE_PATH + ADMIN_CONTROLLER + "/add-hubs";
   String ADD_USER = BASE_PATH + ADMIN_CONTROLLER+ "/add-user";
