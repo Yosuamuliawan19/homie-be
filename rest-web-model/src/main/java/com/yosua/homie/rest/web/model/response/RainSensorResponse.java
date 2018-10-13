@@ -1,8 +1,11 @@
 package com.yosua.homie.rest.web.model.response;
 
 import com.yosua.homie.entity.constant.enums.DeviceStatus;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import java.io.Serializable;
+
+@GeneratePojoBuilder
 
 public class RainSensorResponse implements Serializable {
     private String name;
