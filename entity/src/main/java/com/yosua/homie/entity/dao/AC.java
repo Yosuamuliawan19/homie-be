@@ -25,6 +25,7 @@ public class AC extends BaseMongo {
     @Field(value = ACFields.TEMPERATURE)
     private Double temperature;
 
+
     public String getName() {
         return name;
     }
