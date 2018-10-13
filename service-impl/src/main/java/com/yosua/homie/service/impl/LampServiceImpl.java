@@ -9,17 +9,20 @@ import com.yosua.homie.entity.dao.*;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.LampRequest;
 import com.yosua.homie.rest.web.model.response.*;
+import com.yosua.homie.service.api.LampService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class LampServiceImpl {
+@Service
+public class LampServiceImpl implements LampService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LampServiceImpl.class);
 
     @Autowired
@@ -27,7 +30,9 @@ public class LampServiceImpl {
 
     @Autowired
     LampRepository lampRepository;
-    Lamp addLamp(LampRequest lampRequest){
+
+    @Override
+    public Lamp addLamp(LampRequest lampRequest){
         Validate.notNull(lampRequest,"Lamp Request to be added is required");
         Lamp newLamp;
         User user = userRepository.findUserByHubsURL(lampRequest.getHubURL());
@@ -53,7 +58,9 @@ public class LampServiceImpl {
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
     }
-    LampResponse toLampResponse(Lamp lamp){
+
+    @Override
+    public LampResponse toLampResponse(Lamp lamp){
         Validate.notNull(lamp,"Lamp is required");
         return new LampResponseBuilder()
                 .withHubURL(lamp.getHubURL())
@@ -61,7 +68,9 @@ public class LampServiceImpl {
                 .withStatus(lamp.getStatus())
                 .build();
     }
-    List<Lamp> getAllUsersLamp(String userID){
+
+    @Override
+    public List<Lamp> getAllUsersLamp(String userID){
         Validate.notNull(userID,"UserID is required");
         User user = userRepository.findUserById(userID);
         if(Objects.isNull(user))
@@ -86,7 +95,9 @@ public class LampServiceImpl {
         }
         return Lamps;
     }
-    List<LampResponse> toLampResponse(List<Lamp> lampList){
+
+    @Override
+    public List<LampResponse> toLampResponse(List<Lamp> lampList){
         Validate.notNull(lampList, "lamp List is required");
         List<LampResponse> lampResponses= new ArrayList<>();
         for(Lamp lamps: lampList){
@@ -98,7 +109,9 @@ public class LampServiceImpl {
         }
         return lampResponses;
     }
-    FlaskBaseResponse turnOnLamp(String deviceID){
+
+    @Override
+    public FlaskBaseResponse turnOnLamp(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         Lamp lamp = lampRepository.findLampById(deviceID);
         if(Objects.isNull(lamp)) {
@@ -110,7 +123,9 @@ public class LampServiceImpl {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
     }
-    FlaskBaseResponse turnOffLamp(String deviceID){
+
+    @Override
+    public FlaskBaseResponse turnOffLamp(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         Lamp lamp = lampRepository.findLampById(deviceID);
         if(Objects.isNull(lamp)) {
