@@ -48,6 +48,7 @@
         <fasterxml.jackson.version>2.8.8</fasterxml.jackson.version>
         <project.lombok.version>1.16.16</project.lombok.version>
         <commons.codec.version>1.4</commons.codec.version>
+        <spring.kafka.version>1.3.2.RELEASE</spring.kafka.version>
     </properties>
 
     <dependencyManagement>
@@ -230,6 +231,11 @@
                 <artifactId>powermock-api-mockito</artifactId>
                 <version>${powermock.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${spring.kafka.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
