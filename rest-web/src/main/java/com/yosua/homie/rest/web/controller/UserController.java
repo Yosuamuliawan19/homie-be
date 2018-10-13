@@ -95,7 +95,7 @@ public class UserController {
     @ApiOperation(value = "Edit Hub's Physical Address")
     @PostMapping(ApiPath.EDIT_HUBS)
     public BaseResponse<UserResponse> editHubs(
-            @ApiIgnore @Valid MandatoryRequest mandatoryRequest,
+            @ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest,
             @RequestParam String URLToBeUpdated, @RequestParam String updatedPhysicalAddress) {
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
 
@@ -113,7 +113,7 @@ public class UserController {
     @ApiOperation(value = "Change User's Password")
     @PostMapping(ApiPath.CHANGE_PASSWORD)
     public BaseResponse<UserResponse> changePassword(
-            @ApiIgnore @Valid MandatoryRequest mandatoryRequest, @RequestParam String oldPassword, @RequestParam String newPassword) {
+            @ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String oldPassword, @RequestParam String newPassword) {
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
 
             String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
@@ -130,10 +130,12 @@ public class UserController {
 
     @ApiOperation(value = "Get All User's AC")
     @GetMapping(ApiPath.GET_ALL_USERS_AC)
-    public BaseResponse<List<ACResponse>> getAllUsersAC(@ApiIgnore @Valid MandatoryRequest mandatoryRequest) {
+    public BaseResponse<List<ACResponse>> getAllUsersAC(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest) {
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
             List<AC> ACList = acService.getAllUsersAC(userID);
+            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, acService.toACResponse(ACList)).toString());
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, acService.toACResponse(ACList));
         } else {
@@ -144,8 +146,9 @@ public class UserController {
 
     @ApiOperation(value = "Turn on AC")
     @GetMapping(ApiPath.TURN_ON_AC)
-    public FlaskBaseResponse turnOnAC(@ApiIgnore @Valid MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskBaseResponse turnOnAC(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Turn on AC Token: " +  mandatoryRequest.getAccessToken());
             return acService.turnOnAC(deviceID);
         } else {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
@@ -155,7 +158,7 @@ public class UserController {
 
     @ApiOperation(value = "Turn off AC")
     @GetMapping(ApiPath.TURN_OFF_AC)
-    public FlaskBaseResponse turnOffAC(@ApiIgnore @Valid MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskBaseResponse turnOffAC(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             return acService.turnOffAC(deviceID);
         } else {
