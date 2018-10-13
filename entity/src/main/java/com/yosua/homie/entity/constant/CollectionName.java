@@ -7,4 +7,5 @@ public class CollectionName {
     public static final String TV = "TV";
     public static final String LAMP = "LAMP";
     public static final String RAIN_SENSOR = "Rain Sensor";
+    public static final String GAS_SENSOR = "Gas Sensor";
 }

@@ -30,6 +30,7 @@ public interface ApiPath {
 
 
   String FLASK_CHECK_RAIN = "/rain/";
+  String FLASH_CHECK_GAS = "/gas/";
 
   //Admin
   String ADD_HUBS = BASE_PATH + ADMIN_CONTROLLER + "/add-hubs";
