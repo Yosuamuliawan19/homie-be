@@ -40,7 +40,17 @@ public interface ApiPath {
   String VERIFY_CREDENTIALS = BASE_PATH + USER_CONTROLLER + "/verify-credentials";
   String EDIT_HUBS = BASE_PATH + USER_CONTROLLER + "/edit-hubs";
   String CHANGE_PASSWORD = BASE_PATH + USER_CONTROLLER + "/change-password";
+
+
   String GET_ALL_USERS_AC = BASE_PATH + USER_CONTROLLER + "/get-all-users-ac";
   String TURN_ON_AC = BASE_PATH + USER_CONTROLLER + "/turn-on-ac";
   String TURN_OFF_AC = BASE_PATH + USER_CONTROLLER + "/turn-off-ac";
+
+  String GET_ALL_USERS_TV = BASE_PATH + USER_CONTROLLER + "/get-all-users-tv";
+  String TURN_ON_TV = BASE_PATH + USER_CONTROLLER + "/turn-on-tv";
+  String TURN_OFF_TV = BASE_PATH + USER_CONTROLLER + "/turn-off-tv";
+
+  String GET_ALL_USERS_LAMP= BASE_PATH + USER_CONTROLLER + "/get-all-users-lamp";
+  String TURN_ON_LAMP = BASE_PATH + USER_CONTROLLER + "/turn-on-lamp";
+  String TURN_OFF_LAMP = BASE_PATH + USER_CONTROLLER + "/turn-off-lamp";
 }
