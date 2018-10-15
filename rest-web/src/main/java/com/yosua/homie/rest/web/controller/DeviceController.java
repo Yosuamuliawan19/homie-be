@@ -2,10 +2,7 @@ package com.yosua.homie.rest.web.controller;
 
 import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
-import com.yosua.homie.entity.dao.AC;
-import com.yosua.homie.entity.dao.Lamp;
-import com.yosua.homie.entity.dao.TV;
-import com.yosua.homie.entity.dao.User;
+import com.yosua.homie.entity.dao.*;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.libraries.utility.BaseResponseHelper;
 import com.yosua.homie.libraries.utility.PasswordHelper;
@@ -173,6 +170,67 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
+
+
+    // Rain sensor --------------
+    @ApiOperation(value = "Get All User's rain sensor")
+    @GetMapping(ApiPath.GET_ALL_USERS_RAIN_SENSOR)
+    public BaseResponse<List<RainSensorResponse>> getAllUsersRainSensor(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest) {
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            List<RainSensor> RainSensorList = rainSensorService.getAllUsersRainSensor(userID);
+            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, rainSensorService.toRainSensorResponse(RainSensorList)).toString());
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, rainSensorService.toRainSensorResponse(RainSensorList));
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Check for rain ")
+    @GetMapping(ApiPath.CHECK_FOR_RAIN)
+    public FlaskBaseResponse checkForRain(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Check for rain Token: " +  mandatoryRequest.getAccessToken());
+            return rainSensorService.checkRain(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
+    // Flame sensor --------------
+    @ApiOperation(value = "Get All User's flame sensor")
+    @GetMapping(ApiPath.GET_ALL_USERS_FLAME_SENSOR)
+    public BaseResponse<List<FlameSensorResponse>> getAllUsersFlameSensor(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest) {
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            List<FlameSensor> FlameSensorList = flameSensorService.getAllUsersFlameSensor(userID);
+            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, flameSensorService.toFlameSensorResponse(FlameSensorList)).toString());
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, flameSensorService.toFlameSensorResponse(FlameSensorList));
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Check for rain ")
+    @GetMapping(ApiPath.CHECK_FOR_FLAME)
+    public FlaskBaseResponse checkForFlame(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Check for flame Token: " +  mandatoryRequest.getAccessToken());
+            return flameSensorService.checkFlame(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
+
 
 
 }

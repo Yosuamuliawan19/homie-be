@@ -53,4 +53,12 @@ public interface ApiPath {
   String GET_ALL_USERS_LAMP= BASE_PATH + USER_CONTROLLER + "/get-all-users-lamp";
   String TURN_ON_LAMP = BASE_PATH + USER_CONTROLLER + "/turn-on-lamp";
   String TURN_OFF_LAMP = BASE_PATH + USER_CONTROLLER + "/turn-off-lamp";
+
+
+  String GET_ALL_USERS_RAIN_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-rain-sensor/";
+  String CHECK_FOR_RAIN = BASE_PATH + USER_CONTROLLER + "/check-for-rain/";
+
+  String GET_ALL_USERS_FLAME_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-flame-sensor/";
+  String CHECK_FOR_FLAME = BASE_PATH + USER_CONTROLLER + "/check-for-flame/";
+
 }

@@ -128,46 +128,6 @@ public class UserController {
 
     }
 
-    @ApiOperation(value = "Get All User's AC")
-    @GetMapping(ApiPath.GET_ALL_USERS_AC)
-    public BaseResponse<List<ACResponse>> getAllUsersAC(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest) {
-        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
-            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
-            List<AC> ACList = acService.getAllUsersAC(userID);
-            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
-                    null, acService.toACResponse(ACList)).toString());
-            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
-                    null, acService.toACResponse(ACList));
-        } else {
-            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
-                    ResponseCode.INVALID_TOKEN.getMessage());
-        }
-    }
-
-    @ApiOperation(value = "Turn on AC")
-    @GetMapping(ApiPath.TURN_ON_AC)
-    public FlaskBaseResponse turnOnAC(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
-        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
-            LOGGER.info("Turn on AC Token: " +  mandatoryRequest.getAccessToken());
-            return acService.turnOnAC(deviceID);
-        } else {
-            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
-                    ResponseCode.INVALID_TOKEN.getMessage());
-        }
-    }
-
-    @ApiOperation(value = "Turn off AC")
-    @GetMapping(ApiPath.TURN_OFF_AC)
-    public FlaskBaseResponse turnOffAC(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
-        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
-            return acService.turnOffAC(deviceID);
-        } else {
-            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
-                    ResponseCode.INVALID_TOKEN.getMessage());
-        }
-    }
-
-
     @ModelAttribute
     public MandatoryRequest getMandatoryParameter(HttpServletRequest request) {
         return (MandatoryRequest) request.getAttribute("mandatory");
