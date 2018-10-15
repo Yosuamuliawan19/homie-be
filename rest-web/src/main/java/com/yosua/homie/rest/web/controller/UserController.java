@@ -125,7 +125,6 @@ public class UserController {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
-
     }
 
     @ModelAttribute
