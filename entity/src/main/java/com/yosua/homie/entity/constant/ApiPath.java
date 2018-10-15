@@ -10,27 +10,27 @@ public interface ApiPath {
 
   String HTTP = "http://";
   //flask
-  String FLASK_TURN_ON_AC = "/AC/turn-on/";
-  String FLASK_TURN_OFF_AC = "/AC/turn-off/";
-  String FLASK_SET_TEMPERATURE_AC = "/AC/set-temp/";
+  String FLASK_TURN_ON_AC = "/AC/turn-on";
+  String FLASK_TURN_OFF_AC = "/AC/turn-off";
+  String FLASK_SET_TEMPERATURE_AC = "/AC/set-temp";
 
 
-  String FLASK_TURN_ON_TV = "/TV/turn-on/";
-  String FLASK_TURN_OFF_TV = "/TV/turn-off/";
-  String FLASK_VOLUME_UP_TV = "/TV/volume-up/";
-  String FLASK_VOLUME_DOWN_TV = "/TV/volume-down/";
-  String FLASK_PROGRAM_UP_TV = "/TV/program-up/";
-  String FLASK_PROGRAM_DOWN_TV = "/TV/program-down/";
-  String FLASK_MUTE_TV = "/TV/mute/";
+  String FLASK_TURN_ON_TV = "/TV/turn-on";
+  String FLASK_TURN_OFF_TV = "/TV/turn-off";
+  String FLASK_VOLUME_UP_TV = "/TV/volume-up";
+  String FLASK_VOLUME_DOWN_TV = "/TV/volume-down";
+  String FLASK_PROGRAM_UP_TV = "/TV/program-up";
+  String FLASK_PROGRAM_DOWN_TV = "/TV/program-down";
+  String FLASK_MUTE_TV = "/TV/mute";
 
-  String FLASK_CHECK_FLAME = "/flame/";
+  String FLASK_CHECK_FLAME = "/flame";
 
-  String FLASK_TURN_ON_LAMP = "/lamp/turn-on/";
-  String FLASK_TURN_OFF_LAMP = "/lamp/turn-off/";
+  String FLASK_TURN_ON_LAMP = "/lamp/turn-on";
+  String FLASK_TURN_OFF_LAMP = "/lamp/turn-off";
 
 
-  String FLASK_CHECK_RAIN = "/rain/";
-  String FLASH_CHECK_GAS = "/gas/";
+  String FLASK_CHECK_RAIN = "/rain";
+  String FLASH_CHECK_GAS = "/gas";
 
   //Admin
   String ADD_HUBS = BASE_PATH + ADMIN_CONTROLLER + "/add-hubs";
@@ -56,12 +56,12 @@ public interface ApiPath {
   String TURN_OFF_LAMP = BASE_PATH + USER_CONTROLLER + "/turn-off-lamp";
 
 
-  String GET_ALL_USERS_RAIN_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-rain-sensor/";
-  String CHECK_FOR_RAIN = BASE_PATH + USER_CONTROLLER + "/check-for-rain/";
+  String GET_ALL_USERS_RAIN_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-rain-sensor";
+  String CHECK_FOR_RAIN = BASE_PATH + USER_CONTROLLER + "/check-for-rain";
 
-  String GET_ALL_USERS_FLAME_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-flame-sensor/";
-  String CHECK_FOR_FLAME = BASE_PATH + USER_CONTROLLER + "/check-for-flame/";
+  String GET_ALL_USERS_FLAME_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-flame-sensor";
+  String CHECK_FOR_FLAME = BASE_PATH + USER_CONTROLLER + "/check-for-flame";
 
-  String GET_ALL_USERS_GAS_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-gas-sensor/";
-  String CHECK_FOR_GAS = BASE_PATH + USER_CONTROLLER + "/check-for-gas/";
+  String GET_ALL_USERS_GAS_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-gas-sensor";
+  String CHECK_FOR_GAS = BASE_PATH + USER_CONTROLLER + "/check-for-gas";
 }
