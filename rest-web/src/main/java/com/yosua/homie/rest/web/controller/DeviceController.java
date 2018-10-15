@@ -134,7 +134,7 @@ public class DeviceController {
     }
 
     // Lamp --------------
-    @ApiOperation(value = "Get All User's Lamp")
+    @ApiOperation(value = "Get All Users' Lamp")
     @GetMapping(ApiPath.GET_ALL_USERS_LAMP)
     public BaseResponse<List<LampResponse>> getAllUsersLamp(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest) {
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
@@ -174,7 +174,7 @@ public class DeviceController {
     }
 
     // Rain sensor --------------
-    @ApiOperation(value = "Get All User's rain sensor")
+    @ApiOperation(value = "Get All Users' Rain Sensor")
     @GetMapping(ApiPath.GET_ALL_USERS_RAIN_SENSOR)
     public BaseResponse<List<RainSensorResponse>> getAllUsersRainSensor(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest) {
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
@@ -190,7 +190,7 @@ public class DeviceController {
         }
     }
 
-    @ApiOperation(value = "Check for rain ")
+    @ApiOperation(value = "Check for Rain ")
     @GetMapping(ApiPath.CHECK_FOR_RAIN)
     public FlaskBaseResponse checkForRain(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
@@ -203,7 +203,7 @@ public class DeviceController {
     }
 
     // Flame sensor --------------
-    @ApiOperation(value = "Get All User's flame sensor")
+    @ApiOperation(value = "Get All Users' Flame Sensor")
     @GetMapping(ApiPath.GET_ALL_USERS_FLAME_SENSOR)
     public BaseResponse<List<FlameSensorResponse>> getAllUsersFlameSensor(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest) {
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
@@ -232,7 +232,7 @@ public class DeviceController {
     }
 
     // Gas Sensor --------------
-    @ApiOperation(value = "Get all users' gas sensor")
+    @ApiOperation(value = "Get All Users' Gas Sensor")
     @GetMapping(ApiPath.GET_ALL_USERS_GAS_SENSOR)
     public BaseResponse<List<GasSensorResponse>> getAllUsersGasSensor (@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
         if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
