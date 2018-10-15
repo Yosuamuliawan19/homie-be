@@ -9,6 +9,7 @@ import com.yosua.homie.libraries.utility.PasswordHelper;
 import com.yosua.homie.rest.web.model.request.MandatoryRequest;
 import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.*;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,8 @@ public class DeviceController {
     @Autowired
     private FlameSensorService flameSensorService;
 
-
+    @Autowired
+    private GasSensorService gasSensorService;
 
     // AC --------------
     @ApiOperation(value = "Get All User's AC")
@@ -171,7 +173,6 @@ public class DeviceController {
         }
     }
 
-
     // Rain sensor --------------
     @ApiOperation(value = "Get All User's rain sensor")
     @GetMapping(ApiPath.GET_ALL_USERS_RAIN_SENSOR)
@@ -218,7 +219,7 @@ public class DeviceController {
         }
     }
 
-    @ApiOperation(value = "Check for rain ")
+    @ApiOperation(value = "Check for Flame")
     @GetMapping(ApiPath.CHECK_FOR_FLAME)
     public FlaskBaseResponse checkForFlame(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
@@ -230,7 +231,34 @@ public class DeviceController {
         }
     }
 
+    // Gas Sensor --------------
+    @ApiOperation(value = "Get all users' gas sensor")
+    @GetMapping(ApiPath.GET_ALL_USERS_GAS_SENSOR)
+    public BaseResponse<List<GasSensorResponse>> getAllUsersGasSensor (@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
+        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            List<GasSensor> GasSensorList = gasSensorService.getAllUsersGasSensor(userID);
+            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, gasSensorService.toGasSensorResponse(GasSensorList)).toString());
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, gasSensorService.toGasSensorResponse(GasSensorList));
+        }
+        else{
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
 
-
-
+    @ApiOperation(value = "Check for Gas")
+    @GetMapping(ApiPath.CHECK_FOR_GAS)
+    public FlaskBaseResponse checkForGas(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String devieID){
+        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            LOGGER.info("Check for gas token: " + mandatoryRequest.getAccessToken());
+            return gasSensorService.checkGas(devieID);
+        }
+        else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
 }

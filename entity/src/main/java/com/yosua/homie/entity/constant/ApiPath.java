@@ -62,4 +62,6 @@ public interface ApiPath {
   String GET_ALL_USERS_FLAME_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-flame-sensor/";
   String CHECK_FOR_FLAME = BASE_PATH + USER_CONTROLLER + "/check-for-flame/";
 
+  String GET_ALL_USERS_GAS_SENSOR = BASE_PATH + USER_CONTROLLER + "get-all-users-flame-sensor/";
+  String CHECK_FOR_GAS = BASE_PATH + USER_CONTROLLER + "/check-for-gas/";
 }
