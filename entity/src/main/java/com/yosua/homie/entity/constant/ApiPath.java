@@ -23,7 +23,7 @@ public interface ApiPath {
   String FLASK_PROGRAM_DOWN_TV = "/TV/program-down/";
   String FLASK_MUTE_TV = "/TV/mute/";
 
-
+  String FLASK_CHECK_FLAME = "/flame/";
 
   String FLASK_TURN_ON_LAMP = "/lamp/turn-on/";
   String FLASK_TURN_OFF_LAMP = "/lamp/turn-off/";
