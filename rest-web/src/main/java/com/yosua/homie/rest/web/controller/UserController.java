@@ -125,7 +125,6 @@ public class UserController {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
-
     }
 
     @ApiOperation(value = "Get All User's AC")
@@ -166,7 +165,6 @@ public class UserController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-
 
     @ModelAttribute
     public MandatoryRequest getMandatoryParameter(HttpServletRequest request) {
