@@ -2,19 +2,10 @@ package com.yosua.homie.rest.web.controller;
 
 import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
-import com.yosua.homie.entity.dao.AC;
-import com.yosua.homie.entity.dao.TV;
-import com.yosua.homie.entity.dao.User;
-import com.yosua.homie.entity.dao.UserVerification;
+import com.yosua.homie.entity.dao.*;
 import com.yosua.homie.libraries.utility.BaseResponseHelper;
-import com.yosua.homie.rest.web.model.request.ACRequest;
-import com.yosua.homie.rest.web.model.request.HubsRequest;
-import com.yosua.homie.rest.web.model.request.TVRequest;
-import com.yosua.homie.rest.web.model.request.UserRequest;
-import com.yosua.homie.rest.web.model.response.ACResponse;
-import com.yosua.homie.rest.web.model.response.BaseResponse;
-import com.yosua.homie.rest.web.model.response.TVResponse;
-import com.yosua.homie.rest.web.model.response.UserResponse;
+import com.yosua.homie.rest.web.model.request.*;
+import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +32,16 @@ public class AdminController {
 
     @Autowired
     private TVService tvService;
+
+    @Autowired
+    private LampService lampService;
+
+    @Autowired
+    private RainSensorService rainSensorService;
+
+    @Autowired
+    private FlameSensorService flameSensorService;
+
 
     @PostMapping(ApiPath.ADD_USER)
     public BaseResponse<UserResponse> addUser(@RequestBody UserRequest userRequest) {
@@ -82,5 +83,35 @@ public class AdminController {
                 null, tvService.toTVResponse(newTV)).toString());
         return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, tvService.toTVResponse(newTV));
+    }
+
+    @PostMapping(ApiPath.ADD_LAMP)
+    public BaseResponse<LampResponse> addLamp(@RequestBody LampRequest lampRequest)
+    {
+         Lamp newLamp = lampService.addLamp(lampRequest);
+        LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, lampService.toLampResponse(newLamp)).toString());
+        return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, lampService.toLampResponse(newLamp));
+    }
+
+    @PostMapping(ApiPath.ADD_RAIN_SENSOR)
+    public BaseResponse<RainSensorResponse> addRainSensor(@RequestBody RainSensorRequest rainSensorRequest)
+    {
+        RainSensor newRainSensor = rainSensorService.addRainSensor(rainSensorRequest);
+        LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, rainSensorService.toRainSensorResponse(newRainSensor)).toString());
+        return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, rainSensorService.toRainSensorResponse(newRainSensor));
+    }
+
+    @PostMapping(ApiPath.ADD_FLAME_SENSOR)
+    public BaseResponse<FlameSensorResponse> addFlameSensor(@RequestBody FlameSensorRequest flameSensorRequest)
+    {
+        FlameSensor newFlameSensor = flameSensorService.addFlameSensor(flameSensorRequest);
+        LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, flameSensorService.toFlameSensorResponse(newFlameSensor)).toString());
+        return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, flameSensorService.toFlameSensorResponse(newFlameSensor));
     }
 }

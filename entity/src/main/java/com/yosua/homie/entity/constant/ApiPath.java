@@ -35,6 +35,11 @@ public interface ApiPath {
   String ADD_USER = BASE_PATH + ADMIN_CONTROLLER+ "/add-user";
   String ADD_AC = BASE_PATH + ADMIN_CONTROLLER + "/add-ac";
   String ADD_TV = BASE_PATH + ADMIN_CONTROLLER + "/add-tv";
+  String ADD_LAMP = BASE_PATH + ADMIN_CONTROLLER + "/add-lamp";
+  String ADD_RAIN_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-rain-sensor";
+  String ADD_FLAME_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-flame-sensor";
+
+
   //User
   String SIGN_IN = BASE_PATH + USER_CONTROLLER + "/sign-in";
   String VERIFY_CREDENTIALS = BASE_PATH + USER_CONTROLLER + "/verify-credentials";
