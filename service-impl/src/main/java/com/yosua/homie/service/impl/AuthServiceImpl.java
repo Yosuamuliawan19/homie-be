@@ -90,6 +90,7 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public Boolean isTokenValid(String token) {
+    LOGGER.info(token);
     JWTokenClaim jwTokenClaim = this.getTokenInformation(token);
     return jwTokenClaim != null;
   }

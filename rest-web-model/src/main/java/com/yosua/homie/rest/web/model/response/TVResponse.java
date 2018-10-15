@@ -11,6 +11,15 @@ public class TVResponse {
     private Integer channelNumber;
     private Integer volume;
     private Boolean isMuted;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -62,13 +71,14 @@ public class TVResponse {
 
     @Override
     public String toString() {
-        return "TVRequest{" +
+        return "TVResponse{" +
                 "name='" + name + '\'' +
                 ", hubURL='" + hubURL + '\'' +
                 ", status=" + status +
                 ", channelNumber=" + channelNumber +
                 ", volume=" + volume +
                 ", isMuted=" + isMuted +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

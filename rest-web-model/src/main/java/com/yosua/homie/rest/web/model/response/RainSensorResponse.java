@@ -11,6 +11,15 @@ public class RainSensorResponse implements Serializable {
     private String name;
     private String hubURL;
     private DeviceStatus status;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -42,6 +51,7 @@ public class RainSensorResponse implements Serializable {
                 "name='" + name + '\'' +
                 ", hubURL='" + hubURL + '\'' +
                 ", status=" + status +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

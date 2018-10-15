@@ -101,6 +101,7 @@ public class RainSensorServiceImpl implements RainSensorService {
         List<RainSensorResponse> rainSensorResponses= new ArrayList<>();
         for(RainSensor RainSensors: rainSensorList){
             rainSensorResponses.add(new RainSensorResponseBuilder()
+                    .withId(RainSensors.getId())
                     .withHubURL(RainSensors.getHubURL())
                     .withName(RainSensors.getName())
                     .withStatus(RainSensors.getStatus())

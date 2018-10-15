@@ -3,14 +3,17 @@ package com.yosua.homie.rest.web.controller;
 import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.AC;
+import com.yosua.homie.entity.dao.TV;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.entity.dao.UserVerification;
 import com.yosua.homie.libraries.utility.BaseResponseHelper;
 import com.yosua.homie.rest.web.model.request.ACRequest;
 import com.yosua.homie.rest.web.model.request.HubsRequest;
+import com.yosua.homie.rest.web.model.request.TVRequest;
 import com.yosua.homie.rest.web.model.request.UserRequest;
 import com.yosua.homie.rest.web.model.response.ACResponse;
 import com.yosua.homie.rest.web.model.response.BaseResponse;
+import com.yosua.homie.rest.web.model.response.TVResponse;
 import com.yosua.homie.rest.web.model.response.UserResponse;
 import com.yosua.homie.service.api.*;
 import org.slf4j.Logger;
@@ -35,6 +38,9 @@ public class AdminController {
 
     @Autowired
     private ACService acService;
+
+    @Autowired
+    private TVService tvService;
 
     @PostMapping(ApiPath.ADD_USER)
     public BaseResponse<UserResponse> addUser(@RequestBody UserRequest userRequest) {
@@ -66,5 +72,15 @@ public class AdminController {
                 null, acService.toACResponse(newAC)).toString());
         return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, acService.toACResponse(newAC));
+    }
+
+    @PostMapping(ApiPath.ADD_TV)
+    public BaseResponse<TVResponse> addAC(@RequestBody TVRequest TVRequest)
+    {
+        TV newTV = tvService.addTV(TVRequest);
+        LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, tvService.toTVResponse(newTV)).toString());
+        return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, tvService.toTVResponse(newTV));
     }
 }

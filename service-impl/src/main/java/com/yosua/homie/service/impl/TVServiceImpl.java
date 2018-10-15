@@ -58,6 +58,7 @@ public class TVServiceImpl implements TVService {
                 .withMuted(tvRequest.getMuted())
                 .build();
         try{
+            LOGGER.info("added tv " + newTV.getHubURL());
             return tvRepository.save(newTV);
         } catch (Exception e) {
             throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
@@ -111,6 +112,7 @@ public class TVServiceImpl implements TVService {
         List<TVResponse> tvResponses= new ArrayList<>();
         for(TV TVs: TVList){
             tvResponses.add(new TVResponseBuilder()
+                    .withId(TVs.getId())
                     .withHubURL(TVs.getHubURL())
                     .withName(TVs.getName())
                     .withStatus(TVs.getStatus())

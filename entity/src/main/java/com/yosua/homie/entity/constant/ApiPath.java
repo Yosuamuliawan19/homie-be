@@ -5,6 +5,7 @@ public interface ApiPath {
   String BASE_PATH = "/homie";
   String USER_CONTROLLER = "/user";
   String ADMIN_CONTROLLER = "/admin";
+  String DEVICE_CONTROLLER = "/device";
 
   String ID = "/{id}";
 
@@ -28,37 +29,34 @@ public interface ApiPath {
   String FLASK_TURN_ON_LAMP = "/lamp/turn-on/";
   String FLASK_TURN_OFF_LAMP = "/lamp/turn-off/";
 
-
   String FLASK_CHECK_RAIN = "/rain/";
-
   //Admin
   String ADD_HUBS = BASE_PATH + ADMIN_CONTROLLER + "/add-hubs";
   String ADD_USER = BASE_PATH + ADMIN_CONTROLLER+ "/add-user";
   String ADD_AC = BASE_PATH + ADMIN_CONTROLLER + "/add-ac";
+  String ADD_TV = BASE_PATH + ADMIN_CONTROLLER + "/add-tv";
   //User
   String SIGN_IN = BASE_PATH + USER_CONTROLLER + "/sign-in";
   String VERIFY_CREDENTIALS = BASE_PATH + USER_CONTROLLER + "/verify-credentials";
   String EDIT_HUBS = BASE_PATH + USER_CONTROLLER + "/edit-hubs";
   String CHANGE_PASSWORD = BASE_PATH + USER_CONTROLLER + "/change-password";
 
+  String GET_ALL_USERS_AC = BASE_PATH + DEVICE_CONTROLLER + "/get-all-users-ac";
+  String TURN_ON_AC = BASE_PATH + DEVICE_CONTROLLER + "/turn-on-ac";
+  String TURN_OFF_AC = BASE_PATH + DEVICE_CONTROLLER + "/turn-off-ac";
 
-  String GET_ALL_USERS_AC = BASE_PATH + USER_CONTROLLER + "/get-all-users-ac";
-  String TURN_ON_AC = BASE_PATH + USER_CONTROLLER + "/turn-on-ac";
-  String TURN_OFF_AC = BASE_PATH + USER_CONTROLLER + "/turn-off-ac";
+  String GET_ALL_USERS_TV = BASE_PATH + DEVICE_CONTROLLER + "/get-all-users-tv";
+  String TURN_ON_TV = BASE_PATH + DEVICE_CONTROLLER + "/turn-on-tv";
+  String TURN_OFF_TV = BASE_PATH + DEVICE_CONTROLLER + "/turn-off-tv";
 
-  String GET_ALL_USERS_TV = BASE_PATH + USER_CONTROLLER + "/get-all-users-tv";
-  String TURN_ON_TV = BASE_PATH + USER_CONTROLLER + "/turn-on-tv";
-  String TURN_OFF_TV = BASE_PATH + USER_CONTROLLER + "/turn-off-tv";
+  String GET_ALL_USERS_LAMP= BASE_PATH + DEVICE_CONTROLLER + "/get-all-users-lamp";
+  String TURN_ON_LAMP = BASE_PATH + DEVICE_CONTROLLER + "/turn-on-lamp";
+  String TURN_OFF_LAMP = BASE_PATH + DEVICE_CONTROLLER + "/turn-off-lamp";
 
-  String GET_ALL_USERS_LAMP= BASE_PATH + USER_CONTROLLER + "/get-all-users-lamp";
-  String TURN_ON_LAMP = BASE_PATH + USER_CONTROLLER + "/turn-on-lamp";
-  String TURN_OFF_LAMP = BASE_PATH + USER_CONTROLLER + "/turn-off-lamp";
+  String GET_ALL_USERS_RAIN_SENSOR = BASE_PATH + DEVICE_CONTROLLER + "/get-all-users-rain-sensor/";
+  String CHECK_FOR_RAIN = BASE_PATH + DEVICE_CONTROLLER + "/check-for-rain/";
 
-
-  String GET_ALL_USERS_RAIN_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-rain-sensor/";
-  String CHECK_FOR_RAIN = BASE_PATH + USER_CONTROLLER + "/check-for-rain/";
-
-  String GET_ALL_USERS_FLAME_SENSOR = BASE_PATH + USER_CONTROLLER + "/get-all-users-flame-sensor/";
-  String CHECK_FOR_FLAME = BASE_PATH + USER_CONTROLLER + "/check-for-flame/";
+  String GET_ALL_USERS_FLAME_SENSOR = BASE_PATH + DEVICE_CONTROLLER + "/get-all-users-flame-sensor/";
+  String CHECK_FOR_FLAME = BASE_PATH + DEVICE_CONTROLLER + "/check-for-flame/";
 
 }
