@@ -1,8 +1,17 @@
 package com.yosua.homie.rest.web.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.*;
+import com.yosua.homie.entity.dao.AC;
+import com.yosua.homie.entity.dao.TV;
+import com.yosua.homie.entity.dao.Lamp;
+import com.yosua.homie.entity.dao.RainSensor;
+import com.yosua.homie.entity.dao.FlameSensor;
+import com.yosua.homie.entity.dao.GasSensor;
+import com.yosua.homie.entity.dao.User;
+import com.yosua.homie.entity.dao.UserVerification;
 import com.yosua.homie.libraries.utility.BaseResponseHelper;
 import com.yosua.homie.rest.web.model.request.*;
 import com.yosua.homie.rest.web.model.response.*;
@@ -41,7 +50,9 @@ public class AdminController {
 
     @Autowired
     private FlameSensorService flameSensorService;
-
+  
+    @Autowired
+    private GasSensorService gasSensorService;
 
     @PostMapping(ApiPath.ADD_USER)
     public BaseResponse<UserResponse> addUser(@RequestBody UserRequest userRequest) {
@@ -76,7 +87,7 @@ public class AdminController {
     }
 
     @PostMapping(ApiPath.ADD_TV)
-    public BaseResponse<TVResponse> addAC(@RequestBody TVRequest TVRequest)
+    public BaseResponse<TVResponse> addTV(@RequestBody TVRequest TVRequest)
     {
         TV newTV = tvService.addTV(TVRequest);
         LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
@@ -113,5 +124,15 @@ public class AdminController {
                 null, flameSensorService.toFlameSensorResponse(newFlameSensor)).toString());
         return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, flameSensorService.toFlameSensorResponse(newFlameSensor));
+    }
+
+    @PostMapping(ApiPath.ADD_GAS_SENSOR)
+    public BaseResponse<GasSensorResponse> addGasSensor(@RequestBody GasSensorRequest GasSensorRequest)
+    {
+        GasSensor newGasSensor = gasSensorService.addGasSensor(GasSensorRequest);
+        LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, gasSensorService.toGasSensorResponse(newGasSensor)).toString());
+        return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, gasSensorService.toGasSensorResponse(newGasSensor));
     }
 }
