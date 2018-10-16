@@ -102,6 +102,7 @@ public class LampServiceImpl implements LampService {
         List<LampResponse> lampResponses= new ArrayList<>();
         for(Lamp lamps: lampList){
             lampResponses.add(new LampResponseBuilder()
+                    .withId(lamps.getId())
                     .withHubURL(lamps.getHubURL())
                     .withName(lamps.getName())
                     .withStatus(lamps.getStatus())

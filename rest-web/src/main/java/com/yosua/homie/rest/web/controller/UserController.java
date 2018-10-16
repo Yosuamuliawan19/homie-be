@@ -69,7 +69,8 @@ public class UserController {
     public BaseResponse<UserResponse> signIn(@RequestParam String email, @RequestParam String password, @RequestParam String code ) {
 
         User user = authService.findOne(email.toLowerCase());
-        if (user == null)
+        LOGGER.info("user id " + user.getId());
+        if (user.equals(null))
         {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     ResponseCode.DATA_NOT_EXIST.getMessage());

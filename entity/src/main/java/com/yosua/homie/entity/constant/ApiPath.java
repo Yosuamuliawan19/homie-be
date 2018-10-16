@@ -29,26 +29,22 @@ public interface ApiPath {
   String FLASK_TURN_ON_LAMP = "/lamp/turn-on";
   String FLASK_TURN_OFF_LAMP = "/lamp/turn-off";
 
-
-  String FLASK_CHECK_RAIN = "/rain";
-  String FLASH_CHECK_GAS = "/gas";
-
+  String FLASK_CHECK_RAIN = "/rain/";
   //Admin
-  String ADD_HUBS = ADMIN_CONTROLLER + "/add-hubs";
-  String ADD_USER = ADMIN_CONTROLLER+ "/add-user";
-  String ADD_AC = ADMIN_CONTROLLER + "/add-ac";
-  String ADD_TV = ADMIN_CONTROLLER + "/add-tv";
-  String ADD_LAMP = ADMIN_CONTROLLER + "add-lamp";
-  String ADD_RAIN_SENSOR = ADMIN_CONTROLLER + "add-rain-sensor";
-  String ADD_FlAME_SENSOR = ADMIN_CONTROLLER + "add-flame-sensor";
-  String ADD_GAS_SENSOR = ADMIN_CONTROLLER + "add-gas-sensor";
+  String ADD_HUBS = BASE_PATH + ADMIN_CONTROLLER + "/add-hubs";
+  String ADD_USER = BASE_PATH + ADMIN_CONTROLLER+ "/add-user";
+  String ADD_AC = BASE_PATH + ADMIN_CONTROLLER + "/add-ac";
+  String ADD_TV = BASE_PATH + ADMIN_CONTROLLER + "/add-tv";
+  String ADD_LAMP = BASE_PATH + ADMIN_CONTROLLER + "/add-lamp";
+  String ADD_RAIN_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-rain-sensor";
+  String ADD_FLAME_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-flame-sensor";
   //User
   String SIGN_IN = USER_CONTROLLER + "/sign-in";
   String VERIFY_CREDENTIALS = USER_CONTROLLER + "/verify-credentials";
   String EDIT_HUBS = USER_CONTROLLER + "/edit-hubs";
   String CHANGE_PASSWORD = USER_CONTROLLER + "/change-password";
 
-
+  //Device
   String GET_ALL_USERS_AC = DEVICE_CONTROLLER + "/get-all-users-ac";
   String TURN_ON_AC = DEVICE_CONTROLLER + "/turn-on-ac";
   String TURN_OFF_AC = DEVICE_CONTROLLER + "/turn-off-ac";
@@ -60,7 +56,6 @@ public interface ApiPath {
   String GET_ALL_USERS_LAMP = DEVICE_CONTROLLER + "/get-all-users-lamp";
   String TURN_ON_LAMP = DEVICE_CONTROLLER + "/turn-on-lamp";
   String TURN_OFF_LAMP = DEVICE_CONTROLLER + "/turn-off-lamp";
-
 
   String GET_ALL_USERS_RAIN_SENSOR = DEVICE_CONTROLLER + "/get-all-users-rain-sensor";
   String CHECK_FOR_RAIN = DEVICE_CONTROLLER + "/check-for-rain";

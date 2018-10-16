@@ -3,6 +3,7 @@ package com.yosua.homie.rest.web.controller;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
+import com.yosua.homie.entity.dao.*;
 import com.yosua.homie.entity.dao.AC;
 import com.yosua.homie.entity.dao.TV;
 import com.yosua.homie.entity.dao.Lamp;
@@ -49,7 +50,7 @@ public class AdminController {
 
     @Autowired
     private FlameSensorService flameSensorService;
-
+  
     @Autowired
     private GasSensorService gasSensorService;
 
@@ -96,9 +97,9 @@ public class AdminController {
     }
 
     @PostMapping(ApiPath.ADD_LAMP)
-    public BaseResponse<LampResponse> addLamp(@RequestBody LampRequest LampRequest)
+    public BaseResponse<LampResponse> addLamp(@RequestBody LampRequest lampRequest)
     {
-        Lamp newLamp = lampService.addLamp(LampRequest);
+         Lamp newLamp = lampService.addLamp(lampRequest);
         LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, lampService.toLampResponse(newLamp)).toString());
         return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
@@ -106,19 +107,19 @@ public class AdminController {
     }
 
     @PostMapping(ApiPath.ADD_RAIN_SENSOR)
-    public BaseResponse<RainSensorResponse> addRainSensor(@RequestBody RainSensorRequest RainSensorRequest)
+    public BaseResponse<RainSensorResponse> addRainSensor(@RequestBody RainSensorRequest rainSensorRequest)
     {
-        RainSensor newRainSensor = rainSensorService.addRainSensor(RainSensorRequest);
+        RainSensor newRainSensor = rainSensorService.addRainSensor(rainSensorRequest);
         LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, rainSensorService.toRainSensorResponse(newRainSensor)).toString());
         return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, rainSensorService.toRainSensorResponse(newRainSensor));
     }
 
-    @PostMapping(ApiPath.ADD_FlAME_SENSOR)
-    public BaseResponse<FlameSensorResponse> addFlameSensor(@RequestBody FlameSensorRequest FlameSensorRequest)
+    @PostMapping(ApiPath.ADD_FLAME_SENSOR)
+    public BaseResponse<FlameSensorResponse> addFlameSensor(@RequestBody FlameSensorRequest flameSensorRequest)
     {
-        FlameSensor newFlameSensor = flameSensorService.addFlameSensor(FlameSensorRequest);
+        FlameSensor newFlameSensor = flameSensorService.addFlameSensor(flameSensorRequest);
         LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, flameSensorService.toFlameSensorResponse(newFlameSensor)).toString());
         return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),

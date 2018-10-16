@@ -63,6 +63,7 @@ public class FlameSensorServiceImpl implements FlameSensorService {
     public FlameSensorResponse toFlameSensorResponse(FlameSensor flameSensor){
         Validate.notNull(flameSensor,"Flame Sensor is required");
         return new FlameSensorResponseBuilder()
+                .withId(flameSensor.getId())
                 .withHubURL(flameSensor.getHubURL())
                 .withName(flameSensor.getName())
                 .withStatus(flameSensor.getStatus())

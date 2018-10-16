@@ -112,6 +112,7 @@ public class ACServiceImpl implements ACService {
         List<ACResponse> acResponses= new ArrayList<>();
         for(AC ACs: ACList){
             acResponses.add(new ACResponseBuilder()
+                                .withId(ACs.getId())
                                 .withHubURL(ACs.getHubURL())
                                 .withName(ACs.getName())
                                 .withStatus(ACs.getStatus())
