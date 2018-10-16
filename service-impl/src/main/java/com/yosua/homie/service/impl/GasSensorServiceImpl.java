@@ -61,9 +61,9 @@ public class GasSensorServiceImpl implements GasSensorService {
     }
 
     @Override
-    public GasSensor toGasSensorResponse(GasSensor gasSensor){
-        Validate.notNull(gasSensor,"Rain Sensor is required");
-        return new GasSensorBuilder()
+    public GasSensorResponse toGasSensorResponse(GasSensor gasSensor){
+        Validate.notNull(gasSensor,"Gas Sensor is required");
+        return new GasSensorResponseBuilder()
                 .withHubURL(gasSensor.getHubURL())
                 .withName(gasSensor.getName())
                 .withStatus(gasSensor.getStatus())
