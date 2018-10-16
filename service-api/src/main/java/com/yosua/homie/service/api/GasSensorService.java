@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GasSensorService {
     GasSensor addGasSensor(GasSensorRequest gasSensorRequest);
-    GasSensor toGasSensorResponse(GasSensor gasSensor);
+    GasSensorResponse toGasSensorResponse(GasSensor gasSensor);
     List<GasSensor> getAllUsersGasSensor(String userID);
     List<GasSensorResponse> toGasSensorResponse(List<GasSensor> gasSensorList);
     FlaskBaseResponse checkGas(String deviceID);

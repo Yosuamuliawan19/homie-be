@@ -44,5 +44,15 @@ public class ACResponse implements Serializable {
         this.temperature = temperature;
     }
 
-
+    @Override
+    public String toString()
+    {
+        return "ACSensorResponse{" +
+                "name='" + name + '\'' +
+                ", hubURL='" + hubURL + '\'' +
+                ", status=" + status + '\'' +
+                ", temperature" + temperature +
+                '}' + super.toString();
+    }
 }
+
