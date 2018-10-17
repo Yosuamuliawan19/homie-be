@@ -1,17 +1,8 @@
 package com.yosua.homie.rest.web.controller;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.*;
-import com.yosua.homie.entity.dao.AC;
-import com.yosua.homie.entity.dao.TV;
-import com.yosua.homie.entity.dao.Lamp;
-import com.yosua.homie.entity.dao.RainSensor;
-import com.yosua.homie.entity.dao.FlameSensor;
-import com.yosua.homie.entity.dao.GasSensor;
-import com.yosua.homie.entity.dao.User;
-import com.yosua.homie.entity.dao.UserVerification;
 import com.yosua.homie.libraries.utility.BaseResponseHelper;
 import com.yosua.homie.rest.web.model.request.*;
 import com.yosua.homie.rest.web.model.response.*;

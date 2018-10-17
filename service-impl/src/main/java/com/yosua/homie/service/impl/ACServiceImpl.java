@@ -1,10 +1,8 @@
 package com.yosua.homie.service.impl;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.yosua.homie.dao.ACRepository;
 import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.ApiPath;
-import com.yosua.homie.entity.constant.enums.DeviceStatus;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.AC;
 import com.yosua.homie.entity.dao.ACBuilder;
@@ -14,7 +12,6 @@ import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.ACRequest;
 import com.yosua.homie.rest.web.model.response.ACResponse;
 import com.yosua.homie.rest.web.model.response.ACResponseBuilder;
-import com.yosua.homie.rest.web.model.response.BaseResponse;
 import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
 import com.yosua.homie.service.api.ACService;
 import org.apache.commons.lang3.Validate;

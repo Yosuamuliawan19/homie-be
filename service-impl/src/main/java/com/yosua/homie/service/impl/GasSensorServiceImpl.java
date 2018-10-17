@@ -4,10 +4,15 @@ import com.yosua.homie.dao.GasSensorRepository;
 import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
-import com.yosua.homie.entity.dao.*;
+import com.yosua.homie.entity.dao.GasSensor;
+import com.yosua.homie.entity.dao.GasSensorBuilder;
+import com.yosua.homie.entity.dao.Hub;
+import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.GasSensorRequest;
-import com.yosua.homie.rest.web.model.response.*;
+import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
+import com.yosua.homie.rest.web.model.response.GasSensorResponse;
+import com.yosua.homie.rest.web.model.response.GasSensorResponseBuilder;
 import com.yosua.homie.service.api.GasSensorService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -120,7 +125,7 @@ public class GasSensorServiceImpl implements GasSensorService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Gas sensor does not exist");
         }
-        final String url = ApiPath.HTTP + gasSensor.getHubURL() + ApiPath.FLASH_CHECK_GAS + deviceID + "/";
+        final String url = ApiPath.HTTP + gasSensor.getHubURL() + ApiPath.FLASK_CHECK_GAS + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);

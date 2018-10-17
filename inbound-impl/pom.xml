@@ -9,12 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>inbound-imp</artifactId>
-
+    <artifactId>inbound-impl</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.yosua</groupId>
             <artifactId>inbound-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
     </dependencies>
 </project>

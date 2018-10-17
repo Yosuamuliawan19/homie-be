@@ -1,7 +1,6 @@
 package com.yosua.homie.rest.web.model.request;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
 

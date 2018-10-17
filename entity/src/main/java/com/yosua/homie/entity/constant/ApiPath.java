@@ -25,6 +25,7 @@ public interface ApiPath {
   String FLASK_MUTE_TV = "/TV/mute";
 
   String FLASK_CHECK_FLAME = "/flame";
+  String FLASK_CHECK_GAS = "/gas";
 
   String FLASK_TURN_ON_LAMP = "/lamp/turn-on";
   String FLASK_TURN_OFF_LAMP = "/lamp/turn-off";
@@ -38,6 +39,7 @@ public interface ApiPath {
   String ADD_LAMP = BASE_PATH + ADMIN_CONTROLLER + "/add-lamp";
   String ADD_RAIN_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-rain-sensor";
   String ADD_FLAME_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-flame-sensor";
+  String ADD_GAS_SENSOR = ADMIN_CONTROLLER  + "/add-gas-sensor";
   //User
   String SIGN_IN = USER_CONTROLLER + "/sign-in";
   String VERIFY_CREDENTIALS = USER_CONTROLLER + "/verify-credentials";

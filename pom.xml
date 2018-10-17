@@ -48,7 +48,6 @@
         <fasterxml.jackson.version>2.8.8</fasterxml.jackson.version>
         <project.lombok.version>1.16.16</project.lombok.version>
         <commons.codec.version>1.4</commons.codec.version>
-        <spring.kafka.version>1.3.2.RELEASE</spring.kafka.version>
     </properties>
 
     <dependencyManagement>
@@ -103,7 +102,7 @@
             </dependency>
             <dependency>
                 <groupId>com.yosua</groupId>
-                <artifactId>inbound-imp</artifactId>
+                <artifactId>inbound-impl</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -111,8 +110,6 @@
                 <artifactId>libraries</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
@@ -235,7 +232,7 @@
             <dependency>
                 <groupId>org.springframework.kafka</groupId>
                 <artifactId>spring-kafka</artifactId>
-                <version>${spring.kafka.version}</version>
+                <version>1.3.7.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -362,7 +359,7 @@
         <module>outbound-api</module>
         <module>outbound-impl</module>
         <module>inbound-api</module>
-        <module>inbound-imp</module>
+        <module>inbound-impl</module>
         <module>libraries</module>
     </modules>
 </project>

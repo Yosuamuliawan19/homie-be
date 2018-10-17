@@ -1,6 +1,5 @@
 package com.yosua.homie.dao;
 
-import com.yosua.homie.entity.dao.AC;
 import com.yosua.homie.entity.dao.RainSensor;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
