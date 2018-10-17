@@ -6,20 +6,11 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import java.io.Serializable;
 
 @GeneratePojoBuilder
-public class ACResponse implements Serializable {
-    private String id;
+
+public class GasSensorResponse implements Serializable{
     private String name;
     private String hubURL;
     private DeviceStatus status;
-    private Double temperature;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -45,23 +36,12 @@ public class ACResponse implements Serializable {
         this.status = status;
     }
 
-    public Double getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(Double temperature) {
-        this.temperature = temperature;
-    }
-
     @Override
-    public String toString()
-    {
-        return "ACSensorResponse{" +
+    public String toString() {
+        return "GasSensorResponse{" +
                 "name='" + name + '\'' +
                 ", hubURL='" + hubURL + '\'' +
-                ", status=" + status + '\'' +
-                ", temperature" + temperature +
-                '}' + super.toString();
+                ", status=" + status +
+                '}';
     }
 }
-
