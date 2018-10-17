@@ -211,5 +211,18 @@ public class TVServiceImpl implements TVService {
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
     }
 
+    @Override
+    public FlaskBaseResponse muteTV(String deviceID){
+        Validate.notNull(deviceID, "Device ID is required");
+        TV tv = tvRepository.findTVById(deviceID);
+        if(Objects.isNull(tv)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "TV does not exist!");
+        }
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_MUTE_TV + "/"+ deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+    }
 
 }

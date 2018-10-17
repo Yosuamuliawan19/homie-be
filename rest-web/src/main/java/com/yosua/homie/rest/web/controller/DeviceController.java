@@ -52,6 +52,9 @@ public class DeviceController {
     @Autowired
     private GasSensorService gasSensorService;
 
+    @Autowired
+    private SmokeSensorService smokeSensorService;
+
     // AC --------------
     @ApiOperation(value = "Get All User's AC")
     @GetMapping(ApiPath.GET_ALL_USERS_AC)
@@ -349,4 +352,37 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
+//    // Smoke Sensor --------------
+//    @ApiOperation(value = "Get All Users' Smoke Sensor")
+//    @GetMapping(ApiPath.GET_ALL_USERS_SMOKE_SENSOR)
+//    public BaseResponse<List<SmokeSensorResponse>> getAllUsersSmokeSensor (@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
+//        if(authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+//            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+//            List<SmokeSensor> SmokeSensorList = smokeSensorService.getAllUsersSmokeSensor(userID);
+//            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+//                    null, smokeSensorService.toSmokeSensorResponse(SmokeSensorList)).toString());
+//            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+//                    null, smokeSensorService.toSmokeSensorResponse(SmokeSensorList));
+//        }
+//        else{
+//            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+//                    ResponseCode.INVALID_TOKEN.getMessage());
+//        }
+//    }
+//
+//    @ApiOperation(value = "Check for Smoke")
+//    @GetMapping(ApiPath.CHECK_FOR_GAS)
+//    public FlaskBaseResponse checkForSmoke(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String devieID){
+//        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+//            LOGGER.info("Check for smoke token: " + mandatoryRequest.getAccessToken());
+//            return smokeSensorService.checkSmoke(devieID);
+//        }
+//        else {
+//            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+//                    ResponseCode.INVALID_TOKEN.getMessage());
+//        }
+//    }
+
+
+
 }

@@ -21,5 +21,7 @@ public interface TVService {
     public FlaskBaseResponse volumeDownTV(String deviceID);
     public FlaskBaseResponse programUpTV(String deviceID);
     public FlaskBaseResponse programDownTV(String deviceID);
+    public FlaskBaseResponse muteTV(String deviceID);
+
 
 }
