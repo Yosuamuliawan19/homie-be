@@ -147,6 +147,53 @@ public class DeviceController {
         }
     }
 
+    @ApiOperation(value = "Volume up TV")
+    @GetMapping(ApiPath.FLASK_VOLUME_UP_TV)
+    public FlaskBaseResponse volumeUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Volume up TV Token: " +  mandatoryRequest.getAccessToken());
+            return tvService.volumeUpTV(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Volum down AC")
+    @GetMapping(ApiPath.FLASK_VOLUME_DOWN_TV)
+    public FlaskBaseResponse volumeDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Volume down TV Token: " +  mandatoryRequest.getAccessToken());
+            return tvService.volumeDownTV(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+    @ApiOperation(value = "Program up TV")
+    @GetMapping(ApiPath.FLASK_VOLUME_UP_TV)
+    public FlaskBaseResponse programUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Program up TV Token: " +  mandatoryRequest.getAccessToken());
+            return tvService.programUpTV(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Program down AC")
+    @GetMapping(ApiPath.FLASK_PROGRAM_DOWN_TV)
+    public FlaskBaseResponse programDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Program down TV Token: " +  mandatoryRequest.getAccessToken());
+            return tvService.programDownTV(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
     // Lamp --------------
     @ApiOperation(value = "Get All User's Lamp")
     @GetMapping(ApiPath.GET_ALL_USERS_LAMP)
