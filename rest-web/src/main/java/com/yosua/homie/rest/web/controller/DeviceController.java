@@ -9,6 +9,7 @@ import com.yosua.homie.rest.web.model.request.MandatoryRequest;
 import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.*;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,21 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
+    @ApiOperation(value = "Get ac by id")
+    @GetMapping(ApiPath.GET_AC_BY_DEVICE_ID)
+    public BaseResponse<ACResponse> getACbyDeviceID(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            AC ac = acService.getACFromDeviceID(deviceID);
+            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, acService.toACResponse(ac)).toString());
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, acService.toACResponse(ac));
+        }else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
 
     @ApiOperation(value = "Turn on AC")
     @GetMapping(ApiPath.TURN_ON_AC)
@@ -107,7 +123,21 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-
+    @ApiOperation(value = "Get tv by id")
+    @GetMapping(ApiPath.GET_TV_BY_DEVICE_ID)
+    public BaseResponse<TVResponse> getTVbyDeviceID(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            TV tv = tvService.getTVFromDeviceID(deviceID);
+            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, tvService.toTVResponse(tv)).toString());
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, tvService.toTVResponse(tv));
+        }else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
     @ApiOperation(value = "Turn on TV")
     @GetMapping(ApiPath.TURN_ON_TV)
     public FlaskBaseResponse turnOnTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
@@ -130,6 +160,52 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
+//
+    @ApiOperation(value = "Volume up TV")
+    @GetMapping(ApiPath.FLASK_VOLUME_UP_TV)
+    public FlaskBaseResponse volumeUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Volume up TV Token: " +  mandatoryRequest.getAccessToken());
+            return tvService.volumeUpTV(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+    @ApiOperation(value = "Volume down AC")
+    @GetMapping(ApiPath.FLASK_VOLUME_DOWN_TV)
+    public FlaskBaseResponse volumeDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Volume down TV Token: " +  mandatoryRequest.getAccessToken());
+            return tvService.volumeDownTV(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+    @ApiOperation(value = "Program up TV")
+    @GetMapping(ApiPath.FLASK_PROGRAM_UP_TV)
+    public FlaskBaseResponse programUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Program up TV Token: " +  mandatoryRequest.getAccessToken());
+            return tvService.programUpTV(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+    @ApiOperation(value = "Program down AC")
+    @GetMapping(ApiPath.FLASK_PROGRAM_DOWN_TV)
+    public FlaskBaseResponse programDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            LOGGER.info("Program down TV Token: " +  mandatoryRequest.getAccessToken());
+            return tvService.programDownTV(deviceID);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
 
     // Lamp --------------
     @ApiOperation(value = "Get All Users' Lamp")
@@ -147,7 +223,21 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-
+    @ApiOperation(value = "Get lamp by id")
+    @GetMapping(ApiPath.GET_LAMP_BY_DEVICE_ID)
+    public BaseResponse<LampResponse> getLampByDeviceID(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            Lamp lamp = lampService.getLampFromDeviceID(deviceID);
+            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, lampService.toLampResponse(lamp)).toString());
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, lampService.toLampResponse(lamp));
+        }else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
     @ApiOperation(value = "Turn on Lamp")
     @GetMapping(ApiPath.TURN_ON_LAMP)
     public FlaskBaseResponse turnOnLamp(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){

@@ -99,6 +99,7 @@ public class TVServiceImpl implements TVService {
     public TVResponse toTVResponse(TV tv){
         Validate.notNull(tv,"TV is required");
         return new TVResponseBuilder()
+                .withId(tv.getId())
                 .withHubURL(tv.getHubURL())
                 .withName(tv.getName())
                 .withStatus(tv.getStatus())
@@ -106,6 +107,12 @@ public class TVServiceImpl implements TVService {
                 .withVolume(tv.getVolume())
                 .withMuted(tv.getMuted())
                 .build();
+    }
+
+    @Override
+    public TV getTVFromDeviceID(String deviceID) {
+        Validate.notNull(deviceID,"DeviceID is required");
+        return tvRepository.findTVById(deviceID);
     }
 
     @Override
@@ -146,7 +153,7 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_OFF_TV + deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_OFF_TV+ "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
@@ -159,7 +166,7 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_UP_TV+ deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_UP_TV + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
@@ -172,7 +179,7 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV+ deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
@@ -185,7 +192,7 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_UP_TV+ deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_UP_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
@@ -198,7 +205,7 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_DOWN_TV+ deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_DOWN_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);

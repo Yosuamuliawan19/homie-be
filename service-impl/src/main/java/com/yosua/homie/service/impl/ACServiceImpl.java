@@ -91,11 +91,16 @@ public class ACServiceImpl implements ACService {
         }
         return ACs;
     }
-
+    @Override
+    public AC getACFromDeviceID(String deviceID) {
+        Validate.notNull(deviceID,"DeviceID is required");
+        return acRepository.findACById(deviceID);
+    }
     @Override
     public ACResponse toACResponse(AC ac){
         Validate.notNull(ac,"AC is required");
         return new ACResponseBuilder()
+                .withId(ac.getId())
                 .withHubURL(ac.getHubURL())
                 .withName(ac.getName())
                 .withStatus(ac.getStatus())
@@ -127,7 +132,7 @@ public class ACServiceImpl implements ACService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "AC does not exist!");
         }
-        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_ON_AC + deviceID + "/";
+        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_ON_AC + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
@@ -140,7 +145,7 @@ public class ACServiceImpl implements ACService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "AC does not exist!");
         }
-        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_OFF_AC + deviceID + "/";
+        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_OFF_AC + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);

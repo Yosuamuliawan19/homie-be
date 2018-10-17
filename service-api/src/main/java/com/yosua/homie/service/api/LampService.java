@@ -11,6 +11,7 @@ public interface LampService {
     Lamp addLamp(LampRequest lampRequest);
     LampResponse toLampResponse(Lamp lamp);
     List<Lamp> getAllUsersLamp(String userID);
+    Lamp getLampFromDeviceID(String deviceID) ;
     List<LampResponse> toLampResponse(List<Lamp> lampList);
     FlaskBaseResponse turnOnLamp(String deviceID);
     FlaskBaseResponse turnOffLamp(String deviceID);
