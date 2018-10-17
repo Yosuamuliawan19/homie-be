@@ -49,6 +49,7 @@ public interface ApiPath {
   String GET_ALL_USERS_AC = BASE_PATH + DEVICE_CONTROLLER + "/get-all-users-ac";
   String TURN_ON_AC = BASE_PATH + DEVICE_CONTROLLER + "/turn-on-ac";
   String TURN_OFF_AC = BASE_PATH + DEVICE_CONTROLLER + "/turn-off-ac";
+  String GET_AC_BY_DEVICE_ID = BASE_PATH + DEVICE_CONTROLLER + "/get-ac-by-device-id";
 
   String GET_ALL_USERS_TV = BASE_PATH + DEVICE_CONTROLLER + "/get-all-users-tv";
   String TURN_ON_TV = BASE_PATH + DEVICE_CONTROLLER + "/turn-on-tv";

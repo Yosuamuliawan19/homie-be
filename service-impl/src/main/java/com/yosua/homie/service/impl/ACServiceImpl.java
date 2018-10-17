@@ -94,11 +94,16 @@ public class ACServiceImpl implements ACService {
         }
         return ACs;
     }
-
+    @Override
+    public AC getACFromDeviceID(String deviceID) {
+        Validate.notNull(deviceID,"DeviceID is required");
+        return acRepository.findACById(deviceID);
+    }
     @Override
     public ACResponse toACResponse(AC ac){
         Validate.notNull(ac,"AC is required");
         return new ACResponseBuilder()
+                .withId(ac.getId())
                 .withHubURL(ac.getHubURL())
                 .withName(ac.getName())
                 .withStatus(ac.getStatus())

@@ -10,6 +10,7 @@ import com.yosua.homie.rest.web.model.request.MandatoryRequest;
 import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.*;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,21 @@ public class DeviceController {
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, acService.toACResponse(ACList));
         } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+    @ApiOperation(value = "Get ac by id")
+    @GetMapping(ApiPath.GET_AC_BY_DEVICE_ID)
+    public BaseResponse<ACResponse> getACbyDeviceID(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            AC ac = acService.getACFromDeviceID(deviceID);
+            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, acService.toACResponse(ac)).toString());
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, acService.toACResponse(ac));
+        }else {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
@@ -217,6 +233,7 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
+
 
     @ApiOperation(value = "Check for rain ")
     @GetMapping(ApiPath.CHECK_FOR_FLAME)
