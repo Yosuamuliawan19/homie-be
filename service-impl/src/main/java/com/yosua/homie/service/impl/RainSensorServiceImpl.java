@@ -62,6 +62,7 @@ public class RainSensorServiceImpl implements RainSensorService {
     public RainSensorResponse toRainSensorResponse(RainSensor rainSensor){
         Validate.notNull(rainSensor,"Rain Sensor is required");
         return new RainSensorResponseBuilder()
+                .withId(rainSensor.getId())
                 .withHubURL(rainSensor.getHubURL())
                 .withName(rainSensor.getName())
                 .withStatus(rainSensor.getStatus())

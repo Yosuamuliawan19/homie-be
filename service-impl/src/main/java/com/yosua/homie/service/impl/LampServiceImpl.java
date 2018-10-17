@@ -63,6 +63,7 @@ public class LampServiceImpl implements LampService {
     public LampResponse toLampResponse(Lamp lamp){
         Validate.notNull(lamp,"Lamp is required");
         return new LampResponseBuilder()
+                .withId(lamp.getId())
                 .withHubURL(lamp.getHubURL())
                 .withName(lamp.getName())
                 .withStatus(lamp.getStatus())
