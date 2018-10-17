@@ -1,9 +1,6 @@
 package com.yosua.homie.rest.web.model.request;
 
 import com.yosua.homie.entity.constant.enums.DeviceStatus;
-import com.yosua.homie.entity.constant.fields.TVFields;
-import com.yosua.homie.entity.dao.BaseMongo;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 public class TVRequest {
     private String name;

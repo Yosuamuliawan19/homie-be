@@ -1,7 +1,6 @@
 package com.yosua.homie.rest.web.model.request;
 
 import com.yosua.homie.entity.constant.enums.DeviceStatus;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 public class ACRequest {
     private String name;

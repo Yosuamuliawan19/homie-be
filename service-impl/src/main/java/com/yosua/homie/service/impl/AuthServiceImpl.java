@@ -21,16 +21,14 @@ import com.yosua.homie.service.api.AuthService;
 import it.ozimov.springboot.mail.model.Email;
 import it.ozimov.springboot.mail.model.defaultimpl.DefaultEmail;
 import it.ozimov.springboot.mail.service.EmailService;
-import lombok.Builder;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import javax.mail.internet.AddressException;
+
 import javax.mail.internet.InternetAddress;
-import javax.xml.bind.ValidationEvent;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Objects;

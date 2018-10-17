@@ -2,15 +2,12 @@ package com.yosua.homie.rest.web.controller;
 
 import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
-import com.yosua.homie.entity.dao.AC;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.libraries.utility.BaseResponseHelper;
 import com.yosua.homie.libraries.utility.PasswordHelper;
 import com.yosua.homie.rest.web.model.request.MandatoryRequest;
-import com.yosua.homie.rest.web.model.response.ACResponse;
 import com.yosua.homie.rest.web.model.response.BaseResponse;
-import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
 import com.yosua.homie.rest.web.model.response.UserResponse;
 import com.yosua.homie.service.api.ACService;
 import com.yosua.homie.service.api.AuthService;
@@ -25,7 +22,6 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(ApiPath.BASE_PATH)

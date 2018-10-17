@@ -3,7 +3,6 @@ package com.yosua.homie.entity.dao;
 import com.yosua.homie.entity.constant.CollectionName;
 import com.yosua.homie.entity.constant.enums.DeviceStatus;
 import com.yosua.homie.entity.constant.fields.FlameSensorFields;
-import com.yosua.homie.entity.constant.fields.RainSensorFields;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

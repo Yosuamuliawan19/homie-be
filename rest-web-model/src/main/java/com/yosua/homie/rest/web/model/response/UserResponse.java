@@ -2,6 +2,7 @@ package com.yosua.homie.rest.web.model.response;
 
 import com.yosua.homie.entity.dao.Hub;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import java.io.Serializable;
 import java.util.List;
 

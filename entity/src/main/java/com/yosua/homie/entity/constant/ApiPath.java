@@ -38,7 +38,7 @@ public interface ApiPath {
   String ADD_LAMP = BASE_PATH + ADMIN_CONTROLLER + "/add-lamp";
   String ADD_RAIN_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-rain-sensor";
   String ADD_FLAME_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-flame-sensor";
-  String ADD_GAS_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-gas-sensor";
+  String ADD_GAS_SENSOR = ADMIN_CONTROLLER  + "/add-gas-sensor";
   //User
   String SIGN_IN = USER_CONTROLLER + "/sign-in";
   String VERIFY_CREDENTIALS = USER_CONTROLLER + "/verify-credentials";

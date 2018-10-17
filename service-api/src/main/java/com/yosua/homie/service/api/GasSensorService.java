@@ -2,8 +2,8 @@ package com.yosua.homie.service.api;
 
 import com.yosua.homie.entity.dao.GasSensor;
 import com.yosua.homie.rest.web.model.request.GasSensorRequest;
-import com.yosua.homie.rest.web.model.response.GasSensorResponse;
 import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
+import com.yosua.homie.rest.web.model.response.GasSensorResponse;
 
 import java.util.List;
 

@@ -1,15 +1,8 @@
 package com.yosua.homie.service.impl;
 
 import com.yosua.homie.dao.UserRepository;
-import com.yosua.homie.entity.constant.enums.ResponseCode;
-import com.yosua.homie.entity.dao.Hub;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.entity.dao.UserBuilder;
-import com.yosua.homie.libraries.exception.BusinessLogicException;
-import com.yosua.homie.libraries.utility.BaseResponseHelper;
-import com.yosua.homie.libraries.utility.PasswordHelper;
-import com.yosua.homie.rest.web.model.request.HubsRequest;
-import com.yosua.homie.rest.web.model.request.MandatoryRequest;
 import com.yosua.homie.rest.web.model.request.UserRequest;
 import com.yosua.homie.rest.web.model.response.UserResponse;
 import com.yosua.homie.rest.web.model.response.UserResponseBuilder;
@@ -19,8 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
