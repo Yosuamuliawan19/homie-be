@@ -25,7 +25,7 @@ public interface ApiPath {
   String FLASK_MUTE_TV = "/TV/mute";
 
   String FLASK_CHECK_FLAME = "/flame";
-
+  String FLASK_CHECK_GAS = "/gas";
   String FLASK_TURN_ON_LAMP = "/lamp/turn-on";
   String FLASK_TURN_OFF_LAMP = "/lamp/turn-off";
 
@@ -38,6 +38,7 @@ public interface ApiPath {
   String ADD_LAMP = BASE_PATH + ADMIN_CONTROLLER + "/add-lamp";
   String ADD_RAIN_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-rain-sensor";
   String ADD_FLAME_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-flame-sensor";
+  String ADD_GAS_SENSOR = BASE_PATH + ADMIN_CONTROLLER + "/add-gas-sensor";
   //User
   String SIGN_IN = USER_CONTROLLER + "/sign-in";
   String VERIFY_CREDENTIALS = USER_CONTROLLER + "/verify-credentials";
@@ -48,16 +49,19 @@ public interface ApiPath {
   String GET_ALL_USERS_AC = DEVICE_CONTROLLER + "/get-all-users-ac";
   String TURN_ON_AC = DEVICE_CONTROLLER + "/turn-on-ac";
   String TURN_OFF_AC = DEVICE_CONTROLLER + "/turn-off-ac";
-  String GET_AC_BY_DEVICE_ID = BASE_PATH + DEVICE_CONTROLLER + "/get-ac-by-device-id";
+  String GET_AC_BY_DEVICE_ID =  DEVICE_CONTROLLER + "/get-ac-by-device-id";
 
 
   String GET_ALL_USERS_TV = DEVICE_CONTROLLER + "/get-all-users-tv";
   String TURN_ON_TV = DEVICE_CONTROLLER + "/turn-on-tv";
   String TURN_OFF_TV = DEVICE_CONTROLLER + "/turn-off-tv";
+  String GET_TV_BY_DEVICE_ID =  DEVICE_CONTROLLER + "/get-tv-by-device-id";
+
 
   String GET_ALL_USERS_LAMP = DEVICE_CONTROLLER + "/get-all-users-lamp";
   String TURN_ON_LAMP = DEVICE_CONTROLLER + "/turn-on-lamp";
   String TURN_OFF_LAMP = DEVICE_CONTROLLER + "/turn-off-lamp";
+  String GET_LAMP_BY_DEVICE_ID =  DEVICE_CONTROLLER + "/get-lamp-by-device-id";
 
   String GET_ALL_USERS_RAIN_SENSOR = DEVICE_CONTROLLER + "/get-all-users-rain-sensor";
   String CHECK_FOR_RAIN = DEVICE_CONTROLLER + "/check-for-rain";

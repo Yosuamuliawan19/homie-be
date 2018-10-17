@@ -12,6 +12,7 @@ import java.util.List;
 public interface TVService {
     public TV addTV(TVRequest tvRequest);
     public List<TV> getAllUsersTV(String userID);
+    public TV getTVFromDeviceID(String id);
     public TVResponse toTVResponse(TV tv);
     public List<TVResponse> toTVResponse(List<TV> TVList);
     public FlaskBaseResponse turnOnTV(String deviceID);
@@ -20,4 +21,5 @@ public interface TVService {
     public FlaskBaseResponse volumeDownTV(String deviceID);
     public FlaskBaseResponse programUpTV(String deviceID);
     public FlaskBaseResponse programDownTV(String deviceID);
+
 }

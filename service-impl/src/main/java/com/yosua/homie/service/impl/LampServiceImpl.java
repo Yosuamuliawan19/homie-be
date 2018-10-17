@@ -69,7 +69,11 @@ public class LampServiceImpl implements LampService {
                 .withStatus(lamp.getStatus())
                 .build();
     }
-
+    @Override
+    public Lamp getLampFromDeviceID(String deviceID) {
+        Validate.notNull(deviceID,"DeviceID is required");
+        return lampRepository.findLampById(deviceID);
+    }
     @Override
     public List<Lamp> getAllUsersLamp(String userID){
         Validate.notNull(userID,"UserID is required");

@@ -125,7 +125,21 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-
+    @ApiOperation(value = "Get tv by id")
+    @GetMapping(ApiPath.GET_TV_BY_DEVICE_ID)
+    public BaseResponse<TVResponse> getTVbyDeviceID(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            TV tv = tvService.getTVFromDeviceID(deviceID);
+            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, tvService.toTVResponse(tv)).toString());
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, tvService.toTVResponse(tv));
+        }else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
     @ApiOperation(value = "Turn on TV")
     @GetMapping(ApiPath.TURN_ON_TV)
     public FlaskBaseResponse turnOnTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
@@ -211,7 +225,21 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-
+    @ApiOperation(value = "Get lamp by id")
+    @GetMapping(ApiPath.GET_LAMP_BY_DEVICE_ID)
+    public BaseResponse<LampResponse> getLampByDeviceID(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            Lamp lamp = lampService.getLampFromDeviceID(deviceID);
+            LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, lampService.toLampResponse(lamp)).toString());
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, lampService.toLampResponse(lamp));
+        }else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
     @ApiOperation(value = "Turn on Lamp")
     @GetMapping(ApiPath.TURN_ON_LAMP)
     public FlaskBaseResponse turnOnLamp(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
