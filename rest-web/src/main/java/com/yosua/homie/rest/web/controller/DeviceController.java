@@ -146,7 +146,7 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-
+//
     @ApiOperation(value = "Volume up TV")
     @GetMapping(ApiPath.FLASK_VOLUME_UP_TV)
     public FlaskBaseResponse volumeUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
@@ -158,8 +158,7 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-
-    @ApiOperation(value = "Volum down AC")
+    @ApiOperation(value = "Volume down AC")
     @GetMapping(ApiPath.FLASK_VOLUME_DOWN_TV)
     public FlaskBaseResponse volumeDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
@@ -171,7 +170,7 @@ public class DeviceController {
         }
     }
     @ApiOperation(value = "Program up TV")
-    @GetMapping(ApiPath.FLASK_VOLUME_UP_TV)
+    @GetMapping(ApiPath.FLASK_PROGRAM_UP_TV)
     public FlaskBaseResponse programUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Program up TV Token: " +  mandatoryRequest.getAccessToken());
@@ -181,7 +180,6 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-
     @ApiOperation(value = "Program down AC")
     @GetMapping(ApiPath.FLASK_PROGRAM_DOWN_TV)
     public FlaskBaseResponse programDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
@@ -193,6 +191,7 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
+
 
     // Lamp --------------
     @ApiOperation(value = "Get All User's Lamp")
