@@ -97,6 +97,7 @@ public class TVServiceImpl implements TVService {
     public TVResponse toTVResponse(TV tv){
         Validate.notNull(tv,"TV is required");
         return new TVResponseBuilder()
+                .withId(tv.getId())
                 .withHubURL(tv.getHubURL())
                 .withName(tv.getName())
                 .withStatus(tv.getStatus())
