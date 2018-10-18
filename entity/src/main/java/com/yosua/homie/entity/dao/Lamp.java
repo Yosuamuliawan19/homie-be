@@ -7,6 +7,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Date;
+
 @GeneratePojoBuilder
 @Document(collection = CollectionName.LAMP)
 public class Lamp extends BaseMongo {
@@ -18,6 +20,14 @@ public class Lamp extends BaseMongo {
 
     @Field(value = LampFields.STATUS)
     private DeviceStatus status;
+
+    @Field(value = LampFields.START_TIMER)
+    private Date startTimer;
+
+    @Field(value = LampFields.END_TIMER)
+    private Date endTimer;
+
+
 
     public String getName() {
         return name;
