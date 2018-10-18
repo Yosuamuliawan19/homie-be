@@ -5,10 +5,13 @@ import com.yosua.homie.rest.web.model.request.EnvironmentSensorRequest;
 import com.yosua.homie.rest.web.model.response.EnvironmentSensorResponse;
 import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
 
+import java.util.Date;
 import java.util.List;
 
 public interface EnvironmentSensorService {
     EnvironmentSensor addEnvironmentSensor(EnvironmentSensorRequest environmentSensorRequest);
     EnvironmentSensorResponse toEnvironmentSensorResponse(EnvironmentSensor environmentSensor);
     List<EnvironmentSensorResponse> toEnvironmentSensorResponse(List<EnvironmentSensor> environmentSensorList);
+    List<Double> getTemperatureData();
+    Double getAverageTemperatureData(Date startTime, Date endTime);
 }
