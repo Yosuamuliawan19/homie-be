@@ -3,21 +3,14 @@ package com.yosua.homie.rest.web.model.response;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @GeneratePojoBuilder
 public class EnvironmentSensorResponse implements Serializable {
     private String hubURL;
     private Double temperature;
     private Double humidity;
-
-    @Override
-    public String toString() {
-        return "EnvironmentSensorRequest{" +
-                "hubURL='" + hubURL + '\'' +
-                ", temperature=" + temperature +
-                ", humidity=" + humidity +
-                '}';
-    }
+    private Date serverTime;
 
     public String getHubURL() {
         return hubURL;
@@ -41,5 +34,23 @@ public class EnvironmentSensorResponse implements Serializable {
 
     public void setHumidity(Double humidity) {
         this.humidity = humidity;
+    }
+
+    public Date getServerTime() {
+        return serverTime;
+    }
+
+    public void setServerTime(Date serverTime) {
+        this.serverTime = serverTime;
+    }
+
+    @Override
+    public String toString() {
+        return "EnvironmentSensorResponse{" +
+                "hubURL='" + hubURL + '\'' +
+                ", temperature=" + temperature +
+                ", humidity=" + humidity +
+                ", serverTime=" + serverTime +
+                '}';
     }
 }
