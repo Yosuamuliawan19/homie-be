@@ -115,7 +115,6 @@ public class SmokeSensorServiceImpl implements SmokeSensorService {
         return smokeSensorResponses;
     }
 
-
     @Override
     public FlaskBaseResponse checkSmoke(String deviceID)
     {
@@ -130,6 +129,6 @@ public class SmokeSensorServiceImpl implements SmokeSensorService {
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
-
     }
+
 }

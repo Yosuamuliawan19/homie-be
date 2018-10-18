@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface SmokeSensorService {
     SmokeSensor addSmokeSensor(SmokeSensorRequest smokeSensorRequest);
-    public SmokeSensorResponse toSmokeSensorResponse(SmokeSensor smokeSensor);
-    public List<SmokeSensor> getAllUsersSmokeSensor(String userID);
-    public  List<SmokeSensorResponse> toSmokeSensorResponse (List<SmokeSensor> smokeSensorList);
-    public  FlaskBaseResponse checkSmoke(String deviceID);
+    SmokeSensorResponse toSmokeSensorResponse(SmokeSensor smokeSensor);
+    List<SmokeSensor> getAllUsersSmokeSensor(String userID);
+    List<SmokeSensorResponse> toSmokeSensorResponse (List<SmokeSensor> smokeSensorList);
+    FlaskBaseResponse checkSmoke(String deviceID);
 }

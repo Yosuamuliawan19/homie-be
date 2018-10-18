@@ -45,6 +45,8 @@ public class AdminController {
     @Autowired
     private GasSensorService gasSensorService;
 
+    @Autowired
+    private SmokeSensorService smokeSensorService;
 
     @PostMapping(ApiPath.ADD_USER)
     public BaseResponse<UserResponse> addUser(@RequestBody UserRequest userRequest) {
@@ -119,12 +121,22 @@ public class AdminController {
     }
 
     @PostMapping(ApiPath.ADD_GAS_SENSOR)
-    public BaseResponse<GasSensorResponse> addGasSensor(@RequestBody GasSensorRequest GasSensorRequest)
+    public BaseResponse<GasSensorResponse> addGasSensor(@RequestBody GasSensorRequest gasSensorRequest)
     {
-        GasSensor newGasSensor = gasSensorService.addGasSensor(GasSensorRequest);
+        GasSensor newGasSensor = gasSensorService.addGasSensor(gasSensorRequest);
         LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, gasSensorService.toGasSensorResponse(newGasSensor)).toString());
         return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, gasSensorService.toGasSensorResponse(newGasSensor));
+    }
+
+    @PostMapping(ApiPath.ADD_SMOKE_SENSOR)
+    public BaseResponse<SmokeSensorResponse> addSmokeSensor(@RequestBody SmokeSensorRequest smokeSensorRequest)
+    {
+        SmokeSensor newSmokeSensor = smokeSensorService.addSmokeSensor(smokeSensorRequest);
+        LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, smokeSensorService.toSmokeSensorResponse(newSmokeSensor)).toString());
+        return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, smokeSensorService.toSmokeSensorResponse(newSmokeSensor));
     }
 }
