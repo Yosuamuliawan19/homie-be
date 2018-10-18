@@ -1,33 +1,14 @@
-package com.yosua.homie.entity.dao;
+package com.yosua.homie.rest.web.model.response;
 
-import com.yosua.homie.entity.constant.CollectionName;
 import com.yosua.homie.entity.constant.enums.DeviceStatus;
-import com.yosua.homie.entity.constant.fields.LampFields;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.util.Date;
 
 @GeneratePojoBuilder
-@Document(collection = CollectionName.LAMP)
-public class Lamp extends BaseMongo {
-    @Field(value = LampFields.NAME)
+public class FlaskLampResponse extends  FlaskBaseResponse{
     private String name;
-
-    @Field(value = LampFields.HUB_URL)
     private String hubURL;
-
-    @Field(value = LampFields.STATUS)
     private DeviceStatus status;
-
-    @Field(value = LampFields.START_TIMER)
-    private Date startTimer;
-
-    @Field(value = LampFields.END_TIMER)
-    private Date endTimer;
-
-
+    private String id;
 
     public String getName() {
         return name;
@@ -53,13 +34,21 @@ public class Lamp extends BaseMongo {
         this.status = status;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        return "Lamp{" +
+        return "FlaskLampResponse{" +
                 "name='" + name + '\'' +
                 ", hubURL='" + hubURL + '\'' +
                 ", status=" + status +
-                '}' + super.toString();
+                ", id='" + id + '\'' +
+                '}';
     }
 }
-

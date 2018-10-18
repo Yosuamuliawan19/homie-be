@@ -79,4 +79,9 @@ public interface ApiPath {
 
   //Environment Control
   String GET_TEMPERATURE_DATA = ENVIRONMENT_CONTROLLER + "/get-temperature-data";
+
+  //Kafka Notification
+  String NOTIFY_IN_CASE_OF_GAS = "/gas-notification";
+  String NOTIFY_IN_CASE_OF_FLAME = "/flame-notification";
+  String NOTIFY_IN_CASE_OF_RAIN = "/rain-notification";
 }
