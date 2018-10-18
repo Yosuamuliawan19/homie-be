@@ -6,6 +6,7 @@ public interface ApiPath {
   String USER_CONTROLLER = "/user";
   String ADMIN_CONTROLLER = "/admin";
   String DEVICE_CONTROLLER = "/device";
+  String ENVIRONMENT_CONTROLLER = "/environment/data";
 
   String ID = "/{id}";
 
@@ -75,6 +76,9 @@ public interface ApiPath {
 
   String GET_ALL_USERS_SMOKE_SENSOR = DEVICE_CONTROLLER + "/get-all-users-smoke-sensor";
   String CHECK_FOR_SMOKE = DEVICE_CONTROLLER + "/check-for-smoke";
+
+  //Environment Control
+  String GET_TEMPERATURE_DATA = ENVIRONMENT_CONTROLLER + "/get-temperature-data";
 
   //Kafka Notification
   String NOTIFY_IN_CASE_OF_GAS = "/gas-notification";

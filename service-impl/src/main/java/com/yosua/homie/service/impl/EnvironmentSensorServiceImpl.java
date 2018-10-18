@@ -1,5 +1,6 @@
 package com.yosua.homie.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yosua.homie.dao.EnvironmentSensorRepository;
 import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
@@ -12,14 +13,13 @@ import com.yosua.homie.rest.web.model.response.EnvironmentSensorResponse;
 import com.yosua.homie.rest.web.model.response.EnvironmentSensorResponseBuilder;
 import com.yosua.homie.service.api.EnvironmentSensorService;
 import org.apache.commons.lang3.Validate;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
@@ -85,6 +85,41 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
                     .build());
         }
         return environmentSensorResponses;
+    }
+
+    @Override
+    public List<Double> getTemperatureData(){
+        Date currentTime = new DateTime().toDate();
+        Date startTime;
+        Date endTime;
+        ArrayList<Double> averageTemperaturesPerDay = new ArrayList<>();
+        for(int i=0;i<7;i++){
+
+            endTime = new DateTime(currentTime).minusDays(7-i-1).toDate();
+            startTime = new DateTime(currentTime).minusDays(7-i).toDate();
+            LOGGER.info(startTime + "    " + endTime);
+            averageTemperaturesPerDay.add(getAverageTemperatureData(endTime,startTime));
+
+        }
+        LOGGER.info(averageTemperaturesPerDay.toString());
+        return averageTemperaturesPerDay;
+    }
+
+    @Override
+    public Double getAverageTemperatureData(Date endTime, Date startTime){
+        Double sum = 0.0;
+        double average = 0.0;
+        List<EnvironmentSensor> environmentData = environmentSensorRepository.findEnvironmentSensorByServerTimeBetween
+                (endTime.toInstant(),startTime.toInstant());
+        if(!Objects.isNull(environmentData) && !environmentData.isEmpty()){
+            for(EnvironmentSensor data: environmentData){
+                LOGGER.info(data.toString());
+                sum += data.getTemperature();
+            }
+            average = sum/environmentData.size();
+        }
+        LOGGER.info("AVERAGE: " + average);
+        return average;
     }
 
 }
