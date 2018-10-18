@@ -5,6 +5,7 @@ import com.yosua.homie.entity.constant.fields.EnvironmentSensorFields;
 import com.yosua.homie.entity.constant.fields.LampFields;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.springframework.data.mongodb.core.mapping.Field;
+import java.util.Date;
 
 @GeneratePojoBuilder
 public class EnvironmentSensor extends BaseMongo {
@@ -18,6 +19,8 @@ public class EnvironmentSensor extends BaseMongo {
     @Field(value = EnvironmentSensorFields.HUMIDITY)
     private Double humidity;
 
+    @Field(value = EnvironmentSensorFields.SERVER_TIME)
+    private Date serverTime;
 
     public String getHubURL() {
         return hubURL;
@@ -43,12 +46,21 @@ public class EnvironmentSensor extends BaseMongo {
         this.humidity = humidity;
     }
 
+    public Date getServerTime() {
+        return serverTime;
+    }
+
+    public void setServerTime(Date serverTime) {
+        this.serverTime = serverTime;
+    }
+
     @Override
     public String toString() {
         return "EnvironmentSensor{" +
                 "hubURL='" + hubURL + '\'' +
                 ", temperature=" + temperature +
                 ", humidity=" + humidity +
-                '}';
+                ", serverTime=" + serverTime +
+                '}' + super.toString();
     }
 }

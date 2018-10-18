@@ -1,6 +1,5 @@
 package com.yosua.homie.service.impl;
 
-import com.yosua.homie.dao.ACRepository;
 import com.yosua.homie.dao.EnvironmentSensorRepository;
 import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
@@ -9,20 +8,20 @@ import com.yosua.homie.entity.dao.EnvironmentSensorBuilder;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.EnvironmentSensorRequest;
-import com.yosua.homie.rest.web.model.response.ACResponseBuilder;
 import com.yosua.homie.rest.web.model.response.EnvironmentSensorResponse;
 import com.yosua.homie.rest.web.model.response.EnvironmentSensorResponseBuilder;
-import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
 import com.yosua.homie.service.api.EnvironmentSensorService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Service
 public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ACServiceImpl.class);
@@ -43,15 +42,17 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Hub does not exist!");
         }
-        EnvironmentSensor existingEnvironmentSensorWithSameURL = environmentSensorRepository.findEnvironmentSensorByHubURL(environmentSensorRequest.getHubURL());
-        if(!Objects.isNull(existingEnvironmentSensorWithSameURL)) {
+        EnvironmentSensor existingEnvironmentSensorWithSameURLAndServerTime = environmentSensorRepository.findEnvironmentSensorByHubURLAndServerTime
+                (environmentSensorRequest.getHubURL(), environmentSensorRequest.getServerTime());
+        if(!Objects.isNull(existingEnvironmentSensorWithSameURLAndServerTime)) {
             throw new BusinessLogicException(ResponseCode.DUPLICATE_DATA.getCode(),
-                    "EnvironmentSensor with the same url already exist in your hub!");
+                    "Environment Record already exist!");
         }
         newEnvironmentSensor = new EnvironmentSensorBuilder()
                 .withHubURL(environmentSensorRequest.getHubURL())
                 .withTemperature(environmentSensorRequest.getTemperature())
                 .withHumidity(environmentSensorRequest.getHumidity())
+                .withServerTime(environmentSensorRequest.getServerTime())
                 .build();
         try{
             return environmentSensorRepository.save(newEnvironmentSensor);
@@ -67,6 +68,7 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
                 .withHubURL(environmentSensor.getHubURL())
                 .withHumidity(environmentSensor.getHumidity())
                 .withTemperature(environmentSensor.getTemperature())
+                .withServerTime(environmentSensor.getServerTime())
                 .build();
     }
 
@@ -79,6 +81,7 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
                     .withHubURL(EnvironmentSensors.getHubURL())
                     .withHumidity(EnvironmentSensors.getHumidity())
                     .withTemperature(EnvironmentSensors.getTemperature())
+                    .withServerTime(EnvironmentSensors.getServerTime())
                     .build());
         }
         return environmentSensorResponses;

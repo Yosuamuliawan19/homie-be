@@ -39,7 +39,7 @@ public class HubServiceImpl implements HubService {
         List<Hub> existingHubs = existingUser.getHubs();
         List<String> existingURL = new ArrayList<>();
         List<String> URLToBeAdded = hubsRequests.getURL();
-        if(!Objects.isNull(existingHubs) &&!existingHubs.isEmpty()) {
+        if(!Objects.isNull(existingHubs) && !existingHubs.isEmpty()) {
             for (Hub hubs : existingHubs) {
                 existingURL.add(hubs.getURL());
             }
