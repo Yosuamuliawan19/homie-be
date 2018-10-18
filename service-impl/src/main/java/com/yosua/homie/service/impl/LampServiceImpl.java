@@ -11,9 +11,7 @@ import com.yosua.homie.entity.dao.LampBuilder;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.LampRequest;
-import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
-import com.yosua.homie.rest.web.model.response.LampResponse;
-import com.yosua.homie.rest.web.model.response.LampResponseBuilder;
+import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.LampService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -122,36 +120,77 @@ public class LampServiceImpl implements LampService {
     }
 
     @Override
-    public FlaskBaseResponse turnOnLamp(String deviceID){
+    public FlaskLampResponse turnOnLamp(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         Lamp lamp = lampRepository.findLampById(deviceID);
+        Lamp newLamp;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(lamp)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Lamp does not exist!");
         }
         lamp.setStatus(DeviceStatus.ON);
-        lampRepository.save(lamp);
+        try{
+            newLamp = lampRepository.save(lamp);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
 
         final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_ON_LAMP + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+        try {
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskLampResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+        return new FlaskLampResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withHubURL(newLamp.getHubURL())
+                .withName(newLamp.getName())
+                .withStatus(newLamp.getStatus())
+                .build();
     }
 
     @Override
-    public FlaskBaseResponse turnOffLamp(String deviceID){
+    public FlaskLampResponse turnOffLamp(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         Lamp lamp = lampRepository.findLampById(deviceID);
+        Lamp newLamp;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(lamp)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Lamp does not exist!");
         }
         lamp.setStatus(DeviceStatus.OFF);
-        lampRepository.save(lamp);
+        try{
+            newLamp = lampRepository.save(lamp);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
 
         final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_OFF_LAMP + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+        try {
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskLampResponse.class);
+        }catch (Exception e)
+        {
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+        return new FlaskLampResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withHubURL(newLamp.getHubURL())
+                .withName(newLamp.getName())
+                .withStatus(newLamp.getStatus())
+                .build();
     }
 }

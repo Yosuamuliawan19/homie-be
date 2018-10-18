@@ -1,26 +1,23 @@
-package com.yosua.homie.entity.dao;
+package com.yosua.homie.rest.web.model.response;
 
-import com.yosua.homie.entity.constant.CollectionName;
 import com.yosua.homie.entity.constant.enums.DeviceStatus;
-import com.yosua.homie.entity.constant.fields.ACFields;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 @GeneratePojoBuilder
-@Document(collection = CollectionName.AC)
-public class AC extends BaseMongo {
-    @Field(value = ACFields.NAME)
+public class FlaskACResponse extends FlaskBaseResponse {
+    private String id;
     private String name;
-
-    @Field(value = ACFields.HUB_URL)
     private String hubURL;
-
-    @Field(value = ACFields.STATUS)
     private DeviceStatus status;
-
-    @Field(value = ACFields.TEMPERATURE)
     private Double temperature;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -56,10 +53,11 @@ public class AC extends BaseMongo {
 
     @Override
     public String toString() {
-        return "AC{" +
-                "name='" + name + '\'' +
+        return "FlaskACResponse{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", hubURL='" + hubURL + '\'' +
-                ", status=" + status +
+                ", power=" + status +
                 ", temperature=" + temperature +
                 '}' + super.toString();
     }

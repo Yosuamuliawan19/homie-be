@@ -8,6 +8,7 @@ import com.yosua.homie.libraries.utility.BaseResponseHelper;
 import com.yosua.homie.rest.web.model.request.MandatoryRequest;
 import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.*;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -110,6 +111,18 @@ public class DeviceController {
         }
     }
 
+    @ApiOperation(value = "Set AC Temperature")
+    @GetMapping(ApiPath.FLASK_SET_TEMPERATURE_AC)
+    public FlaskBaseResponse setTemperature(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID,
+                                            @RequestParam Double temperature){
+        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            return acService.setTemperature(deviceID, temperature);
+        }else{
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
     // TV --------------
     @ApiOperation(value = "Get All User's TV")
     @GetMapping(ApiPath.GET_ALL_USERS_TV)
@@ -126,7 +139,7 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-    @ApiOperation(value = "Get tv by id")
+    @ApiOperation(value = "Get TV by id")
     @GetMapping(ApiPath.GET_TV_BY_DEVICE_ID)
     public BaseResponse<TVResponse> getTVbyDeviceID(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())){
@@ -153,7 +166,7 @@ public class DeviceController {
         }
     }
 
-    @ApiOperation(value = "Turn off AC")
+    @ApiOperation(value = "Turn off TV")
     @GetMapping(ApiPath.TURN_OFF_TV)
     public FlaskBaseResponse turnOffTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
@@ -163,7 +176,7 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-//
+
     @ApiOperation(value = "Volume up TV")
     @GetMapping(ApiPath.FLASK_VOLUME_UP_TV)
     public FlaskBaseResponse volumeUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
@@ -175,7 +188,7 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-    @ApiOperation(value = "Volume down AC")
+    @ApiOperation(value = "Volume down TV")
     @GetMapping(ApiPath.FLASK_VOLUME_DOWN_TV)
     public FlaskBaseResponse volumeDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
@@ -197,7 +210,7 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-    @ApiOperation(value = "Program down AC")
+    @ApiOperation(value = "Program down TV")
     @GetMapping(ApiPath.FLASK_PROGRAM_DOWN_TV)
     public FlaskBaseResponse programDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
@@ -209,6 +222,18 @@ public class DeviceController {
         }
     }
 
+    @ApiOperation(value = "Mute TV")
+    @GetMapping(ApiPath.FLASK_MUTE_TV)
+    public FlaskBaseResponse muteTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken()))
+        {
+            return tvService.muteTV(deviceID);
+        }
+        else{
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
 
     // Lamp --------------
     @ApiOperation(value = "Get All Users' Lamp")
@@ -226,7 +251,7 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-    @ApiOperation(value = "Get lamp by id")
+    @ApiOperation(value = "Get Lamp by id")
     @GetMapping(ApiPath.GET_LAMP_BY_DEVICE_ID)
     public BaseResponse<LampResponse> getLampByDeviceID(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())){

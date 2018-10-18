@@ -75,4 +75,9 @@ public interface ApiPath {
 
   String GET_ALL_USERS_SMOKE_SENSOR = DEVICE_CONTROLLER + "/get-all-users-smoke-sensor";
   String CHECK_FOR_SMOKE = DEVICE_CONTROLLER + "/check-for-smoke";
+
+  //Kafka Notification
+  String NOTIFY_IN_CASE_OF_GAS = "/gas-notification";
+  String NOTIFY_IN_CASE_OF_FLAME = "/flame-notification";
+  String NOTIFY_IN_CASE_OF_RAIN = "/rain-notification";
 }
