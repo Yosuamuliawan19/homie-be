@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -287,6 +291,27 @@ public class DeviceController {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
+    }
+
+    @ApiOperation(value = "Set timer for lamp")
+    @GetMapping(ApiPath.SET_TIMER_LAMP)
+    public void setTimerLamp(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID, @RequestParam String StringStart, @RequestParam String StringEnd){
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date start = null;
+        Date end = null;
+        try {
+            start = dateFormatter.parse(StringStart);
+            end  = dateFormatter.parse(StringEnd);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+//  if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            lampService.setTimerLamp(deviceID, start, end);
+//        } else {
+//            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+//                    ResponseCode.INVALID_TOKEN.getMessage());
+//        }
     }
 
     // Rain sensor --------------

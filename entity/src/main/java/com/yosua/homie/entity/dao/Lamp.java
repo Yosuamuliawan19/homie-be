@@ -53,13 +53,31 @@ public class Lamp extends BaseMongo {
         this.status = status;
     }
 
+    public Date getStartTimer() {
+        return startTimer;
+    }
+
+    public void setStartTimer(Date startTimer) {
+        this.startTimer = startTimer;
+    }
+
+    public Date getEndTimer() {
+        return endTimer;
+    }
+
+    public void setEndTimer(Date endTimer) {
+        this.endTimer = endTimer;
+    }
+
     @Override
     public String toString() {
         return "Lamp{" +
                 "name='" + name + '\'' +
                 ", hubURL='" + hubURL + '\'' +
                 ", status=" + status +
-                '}' + super.toString();
+                ", startTimer=" + startTimer +
+                ", endTimer=" + endTimer +
+                '}';
     }
 }
 

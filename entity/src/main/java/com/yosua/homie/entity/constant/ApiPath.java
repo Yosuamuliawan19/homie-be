@@ -63,6 +63,7 @@ public interface ApiPath {
   String TURN_ON_LAMP = DEVICE_CONTROLLER + "/turn-on-lamp";
   String TURN_OFF_LAMP = DEVICE_CONTROLLER + "/turn-off-lamp";
   String GET_LAMP_BY_DEVICE_ID =  DEVICE_CONTROLLER + "/get-lamp-by-device-id";
+  String SET_TIMER_LAMP =  DEVICE_CONTROLLER + "/set-timer-lamp";
 
   String GET_ALL_USERS_RAIN_SENSOR = DEVICE_CONTROLLER + "/get-all-users-rain-sensor";
   String CHECK_FOR_RAIN = DEVICE_CONTROLLER + "/check-for-rain";
