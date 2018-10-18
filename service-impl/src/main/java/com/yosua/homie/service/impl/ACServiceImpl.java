@@ -11,9 +11,7 @@ import com.yosua.homie.entity.dao.Hub;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.ACRequest;
-import com.yosua.homie.rest.web.model.response.ACResponse;
-import com.yosua.homie.rest.web.model.response.ACResponseBuilder;
-import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
+import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.ACService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -126,49 +124,113 @@ public class ACServiceImpl implements ACService {
     }
 
     @Override
-    public FlaskBaseResponse turnOnAC(String deviceID){
+    public FlaskACResponse turnOnAC(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         AC ac = acRepository.findACById(deviceID);
+        AC newAC;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(ac)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "AC does not exist!");
         }
         ac.setStatus(DeviceStatus.ON);
-        acRepository.save(ac);
+        try {
+            newAC = acRepository.save(ac);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
         final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_ON_AC + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+        try {
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskBaseResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+        return new FlaskACResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withHubURL(newAC.getHubURL())
+                .withName(newAC.getName())
+                .withStatus(newAC.getStatus())
+                .withTemperature(newAC.getTemperature())
+                .build();
     }
     @Override
-    public FlaskBaseResponse turnOffAC(String deviceID){
+    public FlaskACResponse turnOffAC(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         AC ac = acRepository.findACById(deviceID);
+        AC newAC;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(ac)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "AC does not exist!");
         }
         ac.setStatus(DeviceStatus.OFF);
-        acRepository.save(ac);
+        try {
+            newAC = acRepository.save(ac);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
         final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_OFF_AC + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+        try {
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskBaseResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+        return new FlaskACResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withHubURL(newAC.getHubURL())
+                .withName(newAC.getName())
+                .withStatus(newAC.getStatus())
+                .withTemperature(newAC.getTemperature())
+                .build();
     }
 
     @Override
-    public FlaskBaseResponse setTemperature(String deviceID, Integer temperature){
+    public FlaskACResponse setTemperature(String deviceID, Double temperature) {
         Validate.notNull(deviceID, "Device ID is required");
         AC ac = acRepository.findACById(deviceID);
-        if(Objects.isNull(ac)) {
+        AC newAC;
+        FlaskBaseResponse flaskBaseResponse;
+        if (Objects.isNull(ac)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "AC does not exist!");
         }
-        ac.setTemperature(Double.valueOf(temperature));
-        acRepository.save(ac);
-        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV + "/"+ deviceID + "/" + temperature + "/";
+        ac.setTemperature(temperature);
+        try {
+            newAC = acRepository.save(ac);
+        } catch (Exception e) {
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV + "/" + deviceID + "/" + temperature + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+        try {
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskBaseResponse.class);
+        } catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+        return new FlaskACResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withHubURL(newAC.getHubURL())
+                .withName(newAC.getName())
+                .withStatus(newAC.getStatus())
+                .withTemperature(newAC.getTemperature())
+                .build();
     }
 }

@@ -23,5 +23,4 @@ public interface TVService {
     FlaskBaseResponse programDownTV(String deviceID);
     FlaskBaseResponse muteTV(String deviceID);
 
-
 }

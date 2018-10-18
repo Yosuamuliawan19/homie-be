@@ -11,9 +11,7 @@ import com.yosua.homie.entity.dao.TVBuilder;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.TVRequest;
-import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
-import com.yosua.homie.rest.web.model.response.TVResponse;
-import com.yosua.homie.rest.web.model.response.TVResponseBuilder;
+import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.TVService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -134,112 +132,271 @@ public class TVServiceImpl implements TVService {
         return tvResponses;
     }
     @Override
-    public FlaskBaseResponse turnOnTV(String deviceID){
+    public FlaskTVResponse turnOnTV(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         TV tv = tvRepository.findTVById(deviceID);
+        TV newTV;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(tv)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
-
         tv.setStatus(DeviceStatus.ON);
-        tvRepository.save(tv);
+        try {
+            newTV = tvRepository.save(tv);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
 
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_ON_TV + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+        try {
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskTVResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+        return new FlaskTVResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withName(newTV.getName())
+                .withHubURL(newTV.getHubURL())
+                .withStatus(newTV.getStatus())
+                .withChannelNumber(newTV.getChannelNumber())
+                .withVolume(newTV.getVolume())
+                .withMuted(newTV.getMuted())
+                .build();
     }
     @Override
-    public FlaskBaseResponse turnOffTV(String deviceID){
+    public FlaskTVResponse turnOffTV(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         TV tv = tvRepository.findTVById(deviceID);
+        TV newTV;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(tv)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
         tv.setStatus(DeviceStatus.OFF);
-        tvRepository.save(tv);
+        try{
+            newTV = tvRepository.save(tv);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_OFF_TV+ "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+        try{
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskTVResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+        return new FlaskTVResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withName(newTV.getName())
+                .withHubURL(newTV.getHubURL())
+                .withStatus(newTV.getStatus())
+                .withChannelNumber(newTV.getChannelNumber())
+                .withVolume(newTV.getVolume())
+                .withMuted(newTV.getMuted())
+                .build();
     }
     @Override
-    public FlaskBaseResponse volumeUpTV(String deviceID){
+    public FlaskTVResponse volumeUpTV(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         TV tv = tvRepository.findTVById(deviceID);
+        TV newTV;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(tv)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
         tv.setVolume(tv.getVolume()+1);
-        tvRepository.save(tv);
+        try {
+            newTV = tvRepository.save(tv);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_UP_TV + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+
+        try{
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskTVResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+        return new FlaskTVResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withName(newTV.getName())
+                .withHubURL(newTV.getHubURL())
+                .withStatus(newTV.getStatus())
+                .withChannelNumber(newTV.getChannelNumber())
+                .withVolume(newTV.getVolume())
+                .withMuted(newTV.getMuted())
+                .build();
     }
     @Override
-    public FlaskBaseResponse volumeDownTV(String deviceID){
+    public FlaskTVResponse volumeDownTV(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         TV tv = tvRepository.findTVById(deviceID);
+        TV newTV;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(tv)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
         tv.setVolume(tv.getVolume()-1);
-        tvRepository.save(tv);
+        try {
+            newTV = tvRepository.save(tv);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+
+        try{
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskTVResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+        return new FlaskTVResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withName(newTV.getName())
+                .withHubURL(newTV.getHubURL())
+                .withStatus(newTV.getStatus())
+                .withChannelNumber(newTV.getChannelNumber())
+                .withVolume(newTV.getVolume())
+                .withMuted(newTV.getMuted())
+                .build();
     }
     @Override
-    public FlaskBaseResponse programUpTV(String deviceID){
+    public FlaskTVResponse programUpTV(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         TV tv = tvRepository.findTVById(deviceID);
+        TV newTV;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(tv)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
         tv.setVolume(tv.getChannelNumber()+1);
-        tvRepository.save(tv);
+        try{
+            newTV = tvRepository.save(tv);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_UP_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+
+        try {
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskTVResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+        return new FlaskTVResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withName(newTV.getName())
+                .withHubURL(newTV.getHubURL())
+                .withStatus(newTV.getStatus())
+                .withChannelNumber(newTV.getChannelNumber())
+                .withVolume(newTV.getVolume())
+                .withMuted(newTV.getMuted())
+                .build();
     }
     @Override
-    public FlaskBaseResponse programDownTV(String deviceID){
+    public FlaskTVResponse programDownTV(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         TV tv = tvRepository.findTVById(deviceID);
+        TV newTV;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(tv)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
         tv.setVolume(tv.getChannelNumber()-1);
-        tvRepository.save(tv);
+        try{
+            newTV = tvRepository.save(tv);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_DOWN_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+        try {
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskTVResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+        return new FlaskTVResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withName(newTV.getName())
+                .withHubURL(newTV.getHubURL())
+                .withStatus(newTV.getStatus())
+                .withChannelNumber(newTV.getChannelNumber())
+                .withVolume(newTV.getVolume())
+                .withMuted(newTV.getMuted())
+                .build();
+
     }
 
     @Override
-    public FlaskBaseResponse muteTV(String deviceID){
+    public FlaskTVResponse muteTV(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         TV tv = tvRepository.findTVById(deviceID);
+        TV newTV;
+        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(tv)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
         tv.setMuted(!tv.getMuted());
-        tvRepository.save(tv);
+        try {
+            newTV = tvRepository.save(tv);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_MUTE_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+        try{
+            flaskBaseResponse = restTemplate.getForObject(url, FlaskTVResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+        return new FlaskTVResponseBuilder()
+                .withCode(flaskBaseResponse.getCode())
+                .withMessage(flaskBaseResponse.getMessage())
+                .withName(newTV.getName())
+                .withHubURL(newTV.getHubURL())
+                .withStatus(newTV.getStatus())
+                .withChannelNumber(newTV.getChannelNumber())
+                .withVolume(newTV.getVolume())
+                .withMuted(newTV.getMuted())
+                .build();
     }
 
 }
