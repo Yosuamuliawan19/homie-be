@@ -16,7 +16,7 @@ public interface ApiPath {
   String FLASK_SET_TEMPERATURE_AC = "/AC/set-temp";
 
 
-  String FLASK_TURN_ON_TV = "/Device /turn-on";
+  String FLASK_TURN_ON_TV = "/Device/turn-on";
   String FLASK_TURN_OFF_TV = "/TV/turn-off";
   String FLASK_VOLUME_UP_TV = "/TV/volume-up";
   String FLASK_VOLUME_DOWN_TV = "/TV/volume-down";
