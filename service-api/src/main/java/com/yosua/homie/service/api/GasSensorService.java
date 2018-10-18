@@ -13,4 +13,5 @@ public interface GasSensorService {
     List<GasSensor> getAllUsersGasSensor(String userID);
     List<GasSensorResponse> toGasSensorResponse(List<GasSensor> gasSensorList);
     FlaskBaseResponse checkGas(String deviceID);
+//    FlaskBaseResponse notifyGas(String deviceID);
 }

@@ -129,4 +129,10 @@ public class RainSensorServiceImpl implements RainSensorService {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
     }
+
+//    @Override
+//    public FlaskBaseResponse notifyRain(String deviceID){
+//        Validate.notNull(deviceID, "Device ID is required");
+//
+//    }
 }
