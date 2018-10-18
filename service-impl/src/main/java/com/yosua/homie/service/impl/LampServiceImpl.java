@@ -3,6 +3,7 @@ package com.yosua.homie.service.impl;
 import com.yosua.homie.dao.LampRepository;
 import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.ApiPath;
+import com.yosua.homie.entity.constant.enums.DeviceStatus;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.Hub;
 import com.yosua.homie.entity.dao.Lamp;
@@ -128,6 +129,9 @@ public class LampServiceImpl implements LampService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Lamp does not exist!");
         }
+        lamp.setStatus(DeviceStatus.ON);
+        lampRepository.save(lamp);
+
         final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_ON_LAMP + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
@@ -142,6 +146,9 @@ public class LampServiceImpl implements LampService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Lamp does not exist!");
         }
+        lamp.setStatus(DeviceStatus.OFF);
+        lampRepository.save(lamp);
+
         final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_OFF_LAMP + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
