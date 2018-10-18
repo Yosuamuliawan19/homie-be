@@ -10,18 +10,18 @@ import com.yosua.homie.rest.web.model.response.TVResponse;
 import java.util.List;
 
 public interface TVService {
-    public TV addTV(TVRequest tvRequest);
-    public List<TV> getAllUsersTV(String userID);
-    public TV getTVFromDeviceID(String id);
-    public TVResponse toTVResponse(TV tv);
-    public List<TVResponse> toTVResponse(List<TV> TVList);
-    public FlaskBaseResponse turnOnTV(String deviceID);
-    public FlaskBaseResponse turnOffTV(String deviceID);
-    public FlaskBaseResponse volumeUpTV(String deviceID);
-    public FlaskBaseResponse volumeDownTV(String deviceID);
-    public FlaskBaseResponse programUpTV(String deviceID);
-    public FlaskBaseResponse programDownTV(String deviceID);
-    public FlaskBaseResponse muteTV(String deviceID);
+    TV addTV(TVRequest tvRequest);
+    List<TV> getAllUsersTV(String userID);
+    TV getTVFromDeviceID(String id);
+    TVResponse toTVResponse(TV tv);
+    List<TVResponse> toTVResponse(List<TV> TVList);
+    FlaskBaseResponse turnOnTV(String deviceID);
+    FlaskBaseResponse turnOffTV(String deviceID);
+    FlaskBaseResponse volumeUpTV(String deviceID);
+    FlaskBaseResponse volumeDownTV(String deviceID);
+    FlaskBaseResponse programUpTV(String deviceID);
+    FlaskBaseResponse programDownTV(String deviceID);
+    FlaskBaseResponse muteTV(String deviceID);
 
 
 }

@@ -371,7 +371,7 @@ public class DeviceController {
     }
 
     @ApiOperation(value = "Check for Smoke")
-    @GetMapping(ApiPath.CHECK_FOR_GAS)
+    @GetMapping(ApiPath.CHECK_FOR_SMOKE)
     public FlaskBaseResponse checkForSmoke(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String devieID){
         if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
             LOGGER.info("Check for smoke token: " + mandatoryRequest.getAccessToken());
