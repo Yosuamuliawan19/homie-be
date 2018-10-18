@@ -3,6 +3,7 @@ package com.yosua.homie.service.impl;
 import com.yosua.homie.dao.ACRepository;
 import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.ApiPath;
+import com.yosua.homie.entity.constant.enums.DeviceStatus;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.AC;
 import com.yosua.homie.entity.dao.ACBuilder;
@@ -132,6 +133,8 @@ public class ACServiceImpl implements ACService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "AC does not exist!");
         }
+        ac.setStatus(DeviceStatus.ON);
+        acRepository.save(ac);
         final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_ON_AC + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
@@ -145,23 +148,27 @@ public class ACServiceImpl implements ACService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "AC does not exist!");
         }
+        ac.setStatus(DeviceStatus.OFF);
+        acRepository.save(ac);
         final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_OFF_AC + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
     }
 
-//    @Override
-//    public FlaskBaseResponse temperatureUp(String deviceID){
-//        Validate.notNull(deviceID, "Device ID is required");
-//        AC ac = acRepository.findACById(deviceID);
-//        if(Objects.isNull(ac)) {
-//            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
-//                    "AC does not exist!");
-//        }
-//        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV + "/"+ deviceID + "/";
-//        LOGGER.info(url);
-//        RestTemplate restTemplate = new RestTemplate();
-//        return restTemplate.getForObject(url, FlaskBaseResponse.class);
-//    }
+    @Override
+    public FlaskBaseResponse setTemperature(String deviceID, Integer temperature){
+        Validate.notNull(deviceID, "Device ID is required");
+        AC ac = acRepository.findACById(deviceID);
+        if(Objects.isNull(ac)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "AC does not exist!");
+        }
+        ac.setTemperature(Double.valueOf(temperature));
+        acRepository.save(ac);
+        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV + "/"+ deviceID + "/" + temperature + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, FlaskBaseResponse.class);
+    }
 }
