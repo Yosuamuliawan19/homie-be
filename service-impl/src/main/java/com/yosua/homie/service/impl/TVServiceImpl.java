@@ -3,6 +3,7 @@ package com.yosua.homie.service.impl;
 import com.yosua.homie.dao.TVRepository;
 import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.ApiPath;
+import com.yosua.homie.entity.constant.enums.DeviceStatus;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.Hub;
 import com.yosua.homie.entity.dao.TV;
@@ -140,6 +141,10 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
+
+        tv.setStatus(DeviceStatus.ON);
+        tvRepository.save(tv);
+
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_ON_TV + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
@@ -153,6 +158,8 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
+        tv.setStatus(DeviceStatus.OFF);
+        tvRepository.save(tv);
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_OFF_TV+ "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
@@ -166,6 +173,8 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
+        tv.setVolume(tv.getVolume()+1);
+        tvRepository.save(tv);
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_UP_TV + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
@@ -179,6 +188,8 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
+        tv.setVolume(tv.getVolume()-1);
+        tvRepository.save(tv);
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
@@ -192,6 +203,8 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
+        tv.setVolume(tv.getChannelNumber()+1);
+        tvRepository.save(tv);
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_UP_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
@@ -205,6 +218,8 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
+        tv.setVolume(tv.getChannelNumber()-1);
+        tvRepository.save(tv);
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_DOWN_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
@@ -219,6 +234,8 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "TV does not exist!");
         }
+        tv.setMuted(!tv.getMuted());
+        tvRepository.save(tv);
         final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_MUTE_TV + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
