@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @GeneratePojoBuilder
 @Document(collection = CollectionName.FLAME_SENSOR)
-
 public class FlameSensor extends BaseMongo {
     @Field(value = FlameSensorFields.NAME)
     private String name;

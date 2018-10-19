@@ -13,4 +13,5 @@ public interface RainSensorService {
     List<RainSensor> getAllUsersRainSensor(String userID);
     List<RainSensorResponse> toRainSensorResponse(List<RainSensor> rainSensorList);
     FlaskBaseResponse checkRain(String deviceID);
+//    FlaskBaseResponse notifyRain(String deviceID);
 }

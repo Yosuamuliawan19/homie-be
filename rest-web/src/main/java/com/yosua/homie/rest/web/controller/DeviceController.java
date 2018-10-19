@@ -318,6 +318,10 @@ public class DeviceController {
         }
     }
 
+//    @ApiOperation(value = "Rain Notification")
+//    @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_RAIN)
+//    public FlaskBaseResponse
+
     // Flame sensor --------------
     @ApiOperation(value = "Get All Users' Flame Sensor")
     @GetMapping(ApiPath.GET_ALL_USERS_FLAME_SENSOR)
@@ -346,6 +350,9 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
+
+//    @ApiOperation(value = "Flame Notification")
+//    @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_FLAME)
 
     // Gas Sensor --------------
     @ApiOperation(value = "Get All Users' Gas Sensor")
@@ -377,6 +384,10 @@ public class DeviceController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
+
+//    @ApiOperation(value = "Gas Notification")
+//    @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_GAS)
+
     // Smoke Sensor --------------
     @ApiOperation(value = "Get All Users' Smoke Sensor")
     @GetMapping(ApiPath.GET_ALL_USERS_SMOKE_SENSOR)
