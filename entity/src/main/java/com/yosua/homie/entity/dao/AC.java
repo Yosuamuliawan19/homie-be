@@ -7,6 +7,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Date;
+
 @GeneratePojoBuilder
 @Document(collection = CollectionName.AC)
 public class AC extends BaseMongo {
@@ -21,6 +23,12 @@ public class AC extends BaseMongo {
 
     @Field(value = ACFields.TEMPERATURE)
     private Double temperature;
+
+    @Field(value = ACFields.START_TIMER)
+    private Date startTimer;
+
+    @Field(value = ACFields.END_TIMER)
+    private Date endTimer;
 
     public String getName() {
         return name;
@@ -54,6 +62,22 @@ public class AC extends BaseMongo {
         this.temperature = temperature;
     }
 
+    public Date getStartTimer() {
+        return startTimer;
+    }
+
+    public void setStartTimer(Date startTimer) {
+        this.startTimer = startTimer;
+    }
+
+    public Date getEndTimer() {
+        return endTimer;
+    }
+
+    public void setEndTimer(Date endTimer) {
+        this.endTimer = endTimer;
+    }
+
     @Override
     public String toString() {
         return "AC{" +
@@ -61,6 +85,8 @@ public class AC extends BaseMongo {
                 ", hubURL='" + hubURL + '\'' +
                 ", status=" + status +
                 ", temperature=" + temperature +
-                '}' + super.toString();
+                ", startTimer=" + startTimer +
+                ", endTimer=" + endTimer +
+                '}';
     }
 }

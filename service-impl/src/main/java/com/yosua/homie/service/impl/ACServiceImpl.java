@@ -13,6 +13,7 @@ import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.ACRequest;
 import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.ACService;
+import javafx.util.Pair;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class ACServiceImpl implements ACService {
@@ -232,5 +233,116 @@ public class ACServiceImpl implements ACService {
                 .withStatus(newAC.getStatus())
                 .withTemperature(newAC.getTemperature())
                 .build();
+    }
+
+    @Override
+    public void scheduledTurnOnAC(String deviceID) {
+        Validate.notNull(deviceID, "Device ID is required");
+        AC ac = acRepository.findACById(deviceID);
+        LOGGER.info("turning on AC");
+        AC newAC;
+        FlaskBaseResponse flaskBaseResponse = null;
+        if(Objects.isNull(ac)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "AC does not exist!");
+        }
+        ac.setStatus(DeviceStatus.ON);
+        try{
+            newAC = acRepository.save(ac);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_ON_AC + "/" + deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            if (ac.getStatus().equals(DeviceStatus.OFF)) {
+                flaskBaseResponse = restTemplate.getForObject(url, FlaskACResponse.class);
+            }
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+    }
+    @Override
+    public void  scheduledTurnOffAC(String deviceID){
+        LOGGER.info("turning off AC");
+        Validate.notNull(deviceID, "Device ID is required");
+        AC ac = acRepository.findACById(deviceID);
+        AC newAC;
+        FlaskBaseResponse flaskBaseResponse;
+        if(Objects.isNull(ac)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "AC does not exist!");
+        }
+        ac.setStatus(DeviceStatus.OFF);
+        try{
+            acRepository.save(ac);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_OFF_AC + "/" + deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            if (ac.getStatus().equals(DeviceStatus.OFF)) {
+                flaskBaseResponse = restTemplate.getForObject(url, FlaskACResponse.class);
+            }
+        }catch (Exception e)
+        {
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+    }
+
+    Map<String, Pair<Timer, Timer>> deviceIDtoTimer = new HashMap<String, Pair<Timer, Timer>>();
+
+    @Override
+    public void setTimerAC(String deviceID, Date start, Date end){
+        Validate.notNull(deviceID, "Device ID is required");
+        AC ac = acRepository.findACById(deviceID);
+        FlaskBaseResponse flaskBaseResponse;
+        if(Objects.isNull(ac)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "Lamp does not exist!");
+        }
+        LOGGER.info(start.toString() + " " + end.toString());
+        ac.setStartTimer(start);
+        ac.setEndTimer(end);
+        acRepository.save(ac);
+
+        //Now create the time and schedule it
+        Timer timerStart = new Timer();
+        //Use this if you want to execute it once
+        timerStart.schedule(new TimerTask() {
+            public void run() {
+                scheduledTurnOnAC(deviceID);
+            }
+        }, start);
+
+        //Now create the time and schedule it
+        Timer timerEnd = new Timer();
+        //Use this if you want to execute it once
+        timerEnd.schedule(new TimerTask() {
+            public void run() {
+                scheduledTurnOffAC(deviceID);
+            }
+        }, end);
+
+        if (deviceIDtoTimer.containsKey(deviceID)){
+            Pair<Timer, Timer> timers = deviceIDtoTimer.get(deviceID);
+            timers.getKey().cancel();
+            timers.getKey().purge();
+            timers.getValue().cancel();
+            timers.getValue().purge();
+        }
+
+        deviceIDtoTimer.put(deviceID, new Pair<>(timerStart, timerEnd));
     }
 }
