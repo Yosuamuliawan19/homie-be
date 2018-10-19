@@ -7,5 +7,6 @@ public class TVFields {
     public static final String VOLUME = "volume";
     public static final String IS_MUTED = "isMuted";
     public static final String CHANNEL_NUMBER = "channelNumber";
-
+    public static final String START_TIMER = "startTimer";
+    public static final String END_TIMER = "endTimer";
 }

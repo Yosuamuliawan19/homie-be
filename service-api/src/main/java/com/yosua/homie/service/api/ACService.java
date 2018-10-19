@@ -7,6 +7,7 @@ import com.yosua.homie.rest.web.model.response.FlaskACResponse;
 import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
 
 import java.util.List;
+import java.util.Date;
 
 public interface ACService {
     AC addAC(ACRequest acRequest);
@@ -17,4 +18,7 @@ public interface ACService {
     FlaskBaseResponse turnOffAC(String deviceID);
     FlaskACResponse setTemperature(String deviceID, Double temperature);
     AC getACFromDeviceID(String deviceID);
+    void scheduledTurnOffAC(String deviceID);
+    void scheduledTurnOnAC(String deviceID);
+    void setTimerAC(String deviceID, Date start, Date end);
 }

@@ -16,7 +16,7 @@ public interface LampService {
     List<LampResponse> toLampResponse(List<Lamp> lampList);
     FlaskBaseResponse turnOnLamp(String deviceID);
     FlaskBaseResponse turnOffLamp(String deviceID);
-    public void  scheduledTurnOffLamp(String deviceID);
-    public void  scheduledTurnOnLamp(String deviceID);
-    public void setTimerLamp(String deviceID, Date start, Date end);
+    void scheduledTurnOffLamp(String deviceID);
+    void scheduledTurnOnLamp(String deviceID);
+    void setTimerLamp(String deviceID, Date start, Date end);
 }

@@ -127,6 +127,29 @@ public class DeviceController {
         }
     }
 
+    @ApiOperation(value = "Set Timer for AC")
+    @GetMapping(ApiPath.SET_TIMER_AC)
+    public void setTimerAC(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID,
+                           @RequestParam String StringStart, @RequestParam String StringEnd) {
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date start = null;
+        Date end = null;
+        try {
+            start = dateFormatter.parse(StringStart);
+            end = dateFormatter.parse(StringEnd);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+//        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+        acService.setTimerAC(deviceID, start, end);
+//        }else
+//        {
+//        throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+//                ResponseCode.INVALID_TOKEN.getMessage());
+//        }
+    }
+
     // TV --------------
     @ApiOperation(value = "Get All User's TV")
     @GetMapping(ApiPath.GET_ALL_USERS_TV)
@@ -237,6 +260,27 @@ public class DeviceController {
             throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
+    }
+
+    @ApiOperation(value = "Set timer for TV")
+    @GetMapping(ApiPath.SET_TIMER_TV)
+    public void setTimerTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest,@RequestParam String deviceID
+            , @RequestParam String StringStart, @RequestParam String StringEnd){
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date start = null;
+        Date end = null;
+        try {
+            start = dateFormatter.parse(StringStart);
+            end  = dateFormatter.parse(StringEnd);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+//        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            tvService.setTimerTV(deviceID, start, end);
+//        }else {
+//            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(), ResponseCode.INVALID_TOKEN.getMessage());
+//        }
     }
 
     // Lamp --------------

@@ -7,6 +7,7 @@ import com.yosua.homie.rest.web.model.request.TVRequest;
 import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
 import com.yosua.homie.rest.web.model.response.TVResponse;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TVService {
@@ -22,5 +23,7 @@ public interface TVService {
     FlaskBaseResponse programUpTV(String deviceID);
     FlaskBaseResponse programDownTV(String deviceID);
     FlaskBaseResponse muteTV(String deviceID);
-
+    void scheduledTurnOffTV(String deviceID);
+    void scheduledTurnOnTV(String deviceID);
+    void setTimerTV(String deviceID, Date start, Date end);
 }

@@ -7,6 +7,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Date;
+
 @GeneratePojoBuilder
 @Document(collection = CollectionName.TV)
 public class TV extends BaseMongo {
@@ -27,6 +29,12 @@ public class TV extends BaseMongo {
 
     @Field(value = TVFields.IS_MUTED)
     private Boolean isMuted;
+
+    @Field(value = TVFields.START_TIMER)
+    private Date startTimer;
+
+    @Field(value = TVFields.END_TIMER)
+    private Date endTimer;
 
     public String getName() {
         return name;
@@ -76,6 +84,22 @@ public class TV extends BaseMongo {
         isMuted = muted;
     }
 
+    public Date getStartTimer() {
+        return startTimer;
+    }
+
+    public void setStartTimer(Date startTimer) {
+        this.startTimer = startTimer;
+    }
+
+    public Date getEndTimer() {
+        return endTimer;
+    }
+
+    public void setEndTimer(Date endTimer) {
+        this.endTimer = endTimer;
+    }
+
     @Override
     public String toString() {
         return "TV{" +
@@ -85,6 +109,8 @@ public class TV extends BaseMongo {
                 ", channelNumber=" + channelNumber +
                 ", volume=" + volume +
                 ", isMuted=" + isMuted +
-                '}'+ super.toString();
+                ", startTimer=" + startTimer +
+                ", endTimer=" + endTimer +
+                '}';
     }
 }

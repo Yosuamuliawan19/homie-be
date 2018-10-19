@@ -52,13 +52,13 @@ public interface ApiPath {
   String TURN_ON_AC = DEVICE_CONTROLLER + "/turn-on-ac";
   String TURN_OFF_AC = DEVICE_CONTROLLER + "/turn-off-ac";
   String GET_AC_BY_DEVICE_ID =  DEVICE_CONTROLLER + "/get-ac-by-device-id";
-
+  String SET_TIMER_AC = DEVICE_CONTROLLER + "/set-timer-ac";
 
   String GET_ALL_USERS_TV = DEVICE_CONTROLLER + "/get-all-users-tv";
   String TURN_ON_TV = DEVICE_CONTROLLER + "/turn-on-tv";
   String TURN_OFF_TV = DEVICE_CONTROLLER + "/turn-off-tv";
   String GET_TV_BY_DEVICE_ID =  DEVICE_CONTROLLER + "/get-tv-by-device-id";
-
+  String SET_TIMER_TV = DEVICE_CONTROLLER + "/set-timer-tv";
 
   String GET_ALL_USERS_LAMP = DEVICE_CONTROLLER + "/get-all-users-lamp";
   String TURN_ON_LAMP = DEVICE_CONTROLLER + "/turn-on-lamp";
