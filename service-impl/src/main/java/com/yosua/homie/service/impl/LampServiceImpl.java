@@ -13,6 +13,7 @@ import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.LampRequest;
 import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.LampService;
+import javafx.util.Pair;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class LampServiceImpl implements LampService {
@@ -155,7 +156,6 @@ public class LampServiceImpl implements LampService {
                 .withStatus(newLamp.getStatus())
                 .build();
     }
-
     @Override
     public FlaskLampResponse turnOffLamp(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
@@ -174,7 +174,7 @@ public class LampServiceImpl implements LampService {
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
 
-        final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_OFF_LAMP + deviceID + "/";
+        final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_OFF_LAMP + "/"+ deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -192,5 +192,115 @@ public class LampServiceImpl implements LampService {
                 .withName(newLamp.getName())
                 .withStatus(newLamp.getStatus())
                 .build();
+    }
+    @Override
+    public void scheduledTurnOnLamp(String deviceID) {
+        Validate.notNull(deviceID, "Device ID is required");
+        Lamp lamp = lampRepository.findLampById(deviceID);
+        LOGGER.info("turning on lamp");
+        Lamp newLamp;
+        FlaskBaseResponse flaskBaseResponse = null;
+        if(Objects.isNull(lamp)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "Lamp does not exist!");
+        }
+        lamp.setStatus(DeviceStatus.ON);
+        try{
+            newLamp = lampRepository.save(lamp);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+        final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_ON_LAMP + "/" + deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            if (lamp.getStatus().equals(DeviceStatus.OFF)) {
+                flaskBaseResponse = restTemplate.getForObject(url, FlaskLampResponse.class);
+            }
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+    }
+    @Override
+    public void  scheduledTurnOffLamp(String deviceID){
+        LOGGER.info("turning off lamp");
+        Validate.notNull(deviceID, "Device ID is required");
+        Lamp lamp = lampRepository.findLampById(deviceID);
+        Lamp newLamp;
+        FlaskBaseResponse flaskBaseResponse;
+        if(Objects.isNull(lamp)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "Lamp does not exist!");
+        }
+        lamp.setStatus(DeviceStatus.OFF);
+        try{
+            lampRepository.save(lamp);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+        final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_OFF_LAMP + deviceID + "/";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            if (lamp.getStatus().equals(DeviceStatus.OFF)) {
+                flaskBaseResponse = restTemplate.getForObject(url, FlaskLampResponse.class);
+            }
+        }catch (Exception e)
+        {
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+
+    }
+
+    Map<String, Pair<Timer, Timer>> deviceIDtoTimer=new HashMap<String, Pair<Timer, Timer>>();
+
+    @Override
+    public void setTimerLamp(String deviceID, Date start, Date end){
+        Validate.notNull(deviceID, "Device ID is required");
+        Lamp lamp = lampRepository.findLampById(deviceID);
+        FlaskBaseResponse flaskBaseResponse;
+        if(Objects.isNull(lamp)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "Lamp does not exist!");
+        }
+        LOGGER.info(start.toString() + " " + end.toString());
+        lamp.setStartTimer(start);
+        lamp.setEndTimer(end);
+        lampRepository.save(lamp);
+
+        //Now create the time and schedule it
+        Timer timerStart = new Timer();
+        //Use this if you want to execute it once
+        timerStart.schedule(new TimerTask() {
+            public void run() {
+                scheduledTurnOnLamp(deviceID);
+            }
+        }, start);
+
+        //Now create the time and schedule it
+        Timer timerEnd = new Timer();
+        //Use this if you want to execute it once
+        timerEnd.schedule(new TimerTask() {
+            public void run() {
+                scheduledTurnOffLamp(deviceID);
+            }
+        }, end);
+
+        if (deviceIDtoTimer.containsKey(deviceID)){
+            Pair<Timer, Timer> timers = deviceIDtoTimer.get(deviceID);
+            timers.getKey().cancel();
+            timers.getKey().purge();
+            timers.getValue().cancel();
+            timers.getValue().purge();
+        }
+
+        deviceIDtoTimer.put(deviceID, new Pair<>(timerStart, timerEnd));
     }
 }
