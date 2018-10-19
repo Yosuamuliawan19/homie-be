@@ -4,7 +4,7 @@ public enum ResponseCode {
   SUCCESS("SUCCESS", "SUCCESS"),
   INVALID_EMAIL("INVALID_EMAIL", "Invalid Email"),
   UNSUPPORTED_ENCODING("UNSUPPORTED_ENCODING", "Unsupported Encoding"),
-
+  INVALID_DATE_FORMAT("INVALID_DATE_FORMAT", "Invalid date format"),
   INVALID_VERIFICATION_CODE("INVALID_VERIFICATION_CODE", "Invalid Verification Code"),
   SYSTEM_ERROR("SYSTEM_ERROR", "Contact our team"),
   DUPLICATE_DATA("DUPLICATED_DATA", "Duplicated data"),

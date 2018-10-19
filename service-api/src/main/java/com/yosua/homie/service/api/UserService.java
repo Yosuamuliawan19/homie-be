@@ -8,5 +8,6 @@ public interface UserService {
     User toUser(UserRequest userRequest);
     UserResponse toUserResponse(User user,String token);
     UserResponse toUserResponse(User user);
-
+    public User editNotificationToken(String userID, String notificationToken);
+    public String getNotificationToken(String userID);
 }

@@ -13,5 +13,6 @@ public interface FlameSensorService {
     List<FlameSensor> getAllUsersFlameSensor(String userID);
     List<FlameSensorResponse> toFlameSensorResponse(List<FlameSensor> flameSensorList);
     FlaskBaseResponse checkFlame(String deviceID);
+    public String notifyForFlame(String userID);
 //    FlaskBaseResponse notifyFlame(String deviceID);
 }

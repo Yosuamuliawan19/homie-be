@@ -6,4 +6,5 @@ public class UserFields {
     public static final String EMAIL = "email";
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String HUBS = "hubs";
+    public static final String NOTIFICATION_TOKEN = "notificationToken";
 }

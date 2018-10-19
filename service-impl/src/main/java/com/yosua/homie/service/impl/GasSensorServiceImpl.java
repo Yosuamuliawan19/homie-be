@@ -3,22 +3,26 @@ package com.yosua.homie.service.impl;
 import com.yosua.homie.dao.GasSensorRepository;
 import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.ApiPath;
+import com.yosua.homie.entity.constant.Firebase;
+import com.yosua.homie.entity.constant.enums.DeviceStatus;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
-import com.yosua.homie.entity.dao.GasSensor;
-import com.yosua.homie.entity.dao.GasSensorBuilder;
-import com.yosua.homie.entity.dao.Hub;
-import com.yosua.homie.entity.dao.User;
+import com.yosua.homie.entity.dao.*;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.GasSensorRequest;
-import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
-import com.yosua.homie.rest.web.model.response.GasSensorResponse;
-import com.yosua.homie.rest.web.model.response.GasSensorResponseBuilder;
+import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.GasSensorService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -130,5 +134,32 @@ public class GasSensorServiceImpl implements GasSensorService {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
 
+    }
+
+    @Override
+    public String notifyForGas(String userID){
+        Validate.notNull(userID, "User ID is required");
+        User user = userRepository.findUserById(userID);
+        if(Objects.isNull(user)) {
+            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+                    "Lamp does not exist!");
+        }
+        final String url = "https://fcm.googleapis.com/fcm/send";
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.add("Authorization", "key=" + user.getNotificationToken());
+        String requestJson = "{\n" +
+                "    \"notification\": {\n" +
+                "        \"title\": \"There is a gas leak in your house\",\n" +
+                "        \"body\": \"Contact the police\",\n" +
+                "        \"click_action\": \"http://localhost:3000/\",\n" +
+                "        \"icon\": \"http://url-to-an-icon/icon.png\"\n" +
+                "    },\n" +
+                "    \"to\": \"" + Firebase.SERVER_KEY +"\"\n" +
+                "}";
+        HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+        return restTemplate.postForObject(url, entity, String.class);
     }
 }
