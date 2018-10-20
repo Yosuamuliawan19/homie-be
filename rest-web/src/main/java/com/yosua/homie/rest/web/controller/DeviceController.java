@@ -140,14 +140,7 @@ public class DeviceController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-//        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
         acService.setTimerAC(deviceID, start, end);
-//        }else
-//        {
-//        throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
-//                ResponseCode.INVALID_TOKEN.getMessage());
-//        }
     }
 
     // TV --------------
