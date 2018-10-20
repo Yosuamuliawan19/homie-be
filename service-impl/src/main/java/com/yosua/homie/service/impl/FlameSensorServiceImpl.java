@@ -142,7 +142,7 @@ public class FlameSensorServiceImpl implements FlameSensorService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "key=" + user.getNotificationToken());
+        headers.add("Authorization", "key=" +  Firebase.SERVER_KEY);
         String requestJson = "{\n" +
                 "    \"notification\": {\n" +
                 "        \"title\": \"There is a flame in your house!!\",\n" +
@@ -150,7 +150,7 @@ public class FlameSensorServiceImpl implements FlameSensorService {
                 "        \"click_action\": \"http://localhost:3000/\",\n" +
                 "        \"icon\": \"http://url-to-an-icon/icon.png\"\n" +
                 "    },\n" +
-                "    \"to\": \"" + Firebase.SERVER_KEY +"\"\n" +
+                "    \"to\": \"" + user.getNotificationToken() +"\"\n" +
                 "}";
         HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
         return restTemplate.postForObject(url, entity, String.class);

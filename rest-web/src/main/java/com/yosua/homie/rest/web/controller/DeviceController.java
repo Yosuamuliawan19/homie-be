@@ -483,44 +483,24 @@ public class DeviceController {
 
     @ApiOperation(value = "Push notification for gas")
     @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_GAS)
-    public BaseResponse<String> pushNotificationGas (@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
-        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
-            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+    public BaseResponse<String> pushNotificationGas ( @RequestParam String userID){
             String response = gasSensorService.notifyForGas(userID);
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, response);
-        }
-        else{
-            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
-                    ResponseCode.INVALID_TOKEN.getMessage());
-        }
     }
     @ApiOperation(value = "Push notification for flame")
     @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_FLAME)
-    public BaseResponse<String> pushNotificationFlame (@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
-        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
-            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+    public BaseResponse<String> pushNotificationFlame ( @RequestParam String userID){
             String response = flameSensorService.notifyForFlame(userID);
+            LOGGER.info(response);
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, response);
-        }
-        else{
-            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
-                    ResponseCode.INVALID_TOKEN.getMessage());
-        }
     }
     @ApiOperation(value = "Push notification for smoke")
     @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_RAIN)
-    public BaseResponse<String> pushNotificationRain(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
-        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
-            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+    public BaseResponse<String> pushNotificationRain( @RequestParam String userID){
             String response = rainSensorService.notifyForRain(userID);
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, response);
-        }
-        else{
-            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
-                    ResponseCode.INVALID_TOKEN.getMessage());
-        }
     }
 }

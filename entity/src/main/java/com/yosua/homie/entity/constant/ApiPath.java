@@ -46,7 +46,7 @@ public interface ApiPath {
   String VERIFY_CREDENTIALS = USER_CONTROLLER + "/verify-credentials";
   String EDIT_HUBS = USER_CONTROLLER + "/edit-hubs";
   String CHANGE_PASSWORD = USER_CONTROLLER + "/change-password";
-  String EDIT_NOTIFICATION_TOKEN = USER_CONTROLLER + "/change-password";
+  String EDIT_NOTIFICATION_TOKEN = USER_CONTROLLER + "/edit-notification-token";
   //Device
   String GET_ALL_USERS_AC = DEVICE_CONTROLLER + "/get-all-users-ac";
   String TURN_ON_AC = DEVICE_CONTROLLER + "/turn-on-ac";
