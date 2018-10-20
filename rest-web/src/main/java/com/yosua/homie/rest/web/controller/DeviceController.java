@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -496,4 +497,10 @@ public class DeviceController {
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, response);
     }
+
+    @ModelAttribute
+    public MandatoryRequest getMandatoryParameter(HttpServletRequest request) {
+        return (MandatoryRequest) request.getAttribute("mandatory");
+    }
+
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
@@ -55,4 +56,10 @@ public class EnvironmentController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
+
+    @ModelAttribute
+    public MandatoryRequest getMandatoryParameter(HttpServletRequest request) {
+        return (MandatoryRequest) request.getAttribute("mandatory");
+    }
+
 }

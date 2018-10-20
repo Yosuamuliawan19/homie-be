@@ -20,9 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -36,7 +33,7 @@ public class ACServiceImpl implements ACService {
     @Autowired
     ACRepository acRepository;
 
-    Map<String, Pair<Timer, Timer>> deviceIDtoTimer = new HashMap<String, Pair<Timer, Timer>>();
+    private Map<String, Pair<Timer, Timer>> deviceIDtoTimer = new HashMap<>();
 
     @Override
     public AC addAC(ACRequest acRequest){
