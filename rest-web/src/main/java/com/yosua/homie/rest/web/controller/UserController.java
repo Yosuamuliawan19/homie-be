@@ -98,7 +98,7 @@ public class UserController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
-    @ApiOperation(value = "Edit notification token for user")
+//    @ApiOperation(value = "Edit notification token for user")
     @PostMapping(ApiPath.EDIT_NOTIFICATION_TOKEN)
     public BaseResponse<UserResponse> editNotification(
             @ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest,
@@ -106,6 +106,7 @@ public class UserController {
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
             User updatedUser = userService.editNotificationToken(userID, notificationToken);
+            LOGGER.info("notification token " + notificationToken);
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, userService.toUserResponse(updatedUser, mandatoryRequest.getAccessToken()));
         } else {

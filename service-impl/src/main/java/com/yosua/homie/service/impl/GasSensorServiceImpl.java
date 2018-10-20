@@ -149,7 +149,7 @@ public class GasSensorServiceImpl implements GasSensorService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "key=" + user.getNotificationToken());
+        headers.add("Authorization", "key=" +Firebase.SERVER_KEY);
         String requestJson = "{\n" +
                 "    \"notification\": {\n" +
                 "        \"title\": \"There is a gas leak in your house\",\n" +
@@ -157,7 +157,7 @@ public class GasSensorServiceImpl implements GasSensorService {
                 "        \"click_action\": \"http://localhost:3000/\",\n" +
                 "        \"icon\": \"http://url-to-an-icon/icon.png\"\n" +
                 "    },\n" +
-                "    \"to\": \"" + Firebase.SERVER_KEY +"\"\n" +
+                "    \"to\": \"" +  user.getNotificationToken() +"\"\n" +
                 "}";
         HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
         return restTemplate.postForObject(url, entity, String.class);
