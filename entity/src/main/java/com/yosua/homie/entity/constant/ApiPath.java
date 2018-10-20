@@ -80,6 +80,7 @@ public interface ApiPath {
 
   //Environment Control
   String GET_TEMPERATURE_DATA = ENVIRONMENT_CONTROLLER + "/get-temperature-data";
+  String GET_HUMIDITY_DATA = ENVIRONMENT_CONTROLLER + "/get-humidity-data";
 
   //Kafka Notification
   String NOTIFY_IN_CASE_OF_GAS = "/gas-notification";

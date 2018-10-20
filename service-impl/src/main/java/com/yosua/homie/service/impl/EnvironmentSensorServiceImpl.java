@@ -3,6 +3,7 @@ package com.yosua.homie.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yosua.homie.dao.EnvironmentSensorRepository;
 import com.yosua.homie.dao.UserRepository;
+import com.yosua.homie.entity.constant.enums.EnvironmentDataType;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.EnvironmentSensor;
 import com.yosua.homie.entity.dao.EnvironmentSensorBuilder;
@@ -94,18 +95,33 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
         Date endTime;
         ArrayList<Double> averageTemperaturesPerDay = new ArrayList<>();
         for(int i=0;i<7;i++){
-
             endTime = new DateTime(currentTime).minusDays(7-i-1).toDate();
             startTime = new DateTime(currentTime).minusDays(7-i).toDate();
             LOGGER.info(startTime + "    " + endTime);
-            averageTemperaturesPerDay.add(getAverageTemperatureData(endTime,startTime));
+            averageTemperaturesPerDay.add(getAverageData(endTime,startTime, EnvironmentDataType.TEMPERATURE));
         }
         LOGGER.info(averageTemperaturesPerDay.toString());
         return averageTemperaturesPerDay;
     }
 
     @Override
-    public Double getAverageTemperatureData(Date endTime, Date startTime){
+    public List<Double> getHumidityDataFromlastWeek(){
+        Date currentTime = new DateTime().toDate();
+        Date startTime;
+        Date endTime;
+        ArrayList<Double> averageHumidityPerDay = new ArrayList<>();
+        for(int i=0;i<7;i++) {
+            endTime = new DateTime(currentTime).minusDays(7 - i - 1).toDate();
+            startTime = new DateTime(currentTime).minusDays(7 - i).toDate();
+            LOGGER.info(startTime + "    " + endTime);
+            averageHumidityPerDay.add(getAverageData(endTime, startTime, EnvironmentDataType.HUMIDITY));
+        }
+        LOGGER.info(averageHumidityPerDay.toString());
+        return averageHumidityPerDay;
+    }
+
+    @Override
+    public Double getAverageData(Date endTime, Date startTime, EnvironmentDataType environmentDataType){
         Double sum = 0.0;
         double average = 0.0;
         List<EnvironmentSensor> environmentData = environmentSensorRepository.findEnvironmentSensorByServerTimeBetween
@@ -113,12 +129,18 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
         if(!Objects.isNull(environmentData) && !environmentData.isEmpty()){
             for(EnvironmentSensor data: environmentData){
                 LOGGER.info(data.toString());
-                sum += data.getTemperature();
+                if(environmentDataType.equals(EnvironmentDataType.TEMPERATURE)) {
+                    sum += data.getTemperature();
+                }
+                else{
+                    sum += data.getHumidity();
+                }
             }
             average = sum/environmentData.size();
         }
         LOGGER.info("AVERAGE: " + average);
         return average;
     }
+
 
 }

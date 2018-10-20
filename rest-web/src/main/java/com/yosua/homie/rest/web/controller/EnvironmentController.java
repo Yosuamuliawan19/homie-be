@@ -42,4 +42,18 @@ public class EnvironmentController {
                     ResponseCode.INVALID_TOKEN.getMessage());
         }
     }
+
+    @GetMapping(ApiPath.GET_HUMIDITY_DATA)
+    public BaseResponse<List<Double>> getHumidityData(
+            @ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            List<Double> num = environmentSensorService.getHumidityData();
+            List<Double> humidityData = environmentSensorService.getHumidityDataFromLastWeek();
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, humidityData);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
 }
