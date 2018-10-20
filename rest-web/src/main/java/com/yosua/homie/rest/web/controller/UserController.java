@@ -38,9 +38,6 @@ public class UserController {
     @Autowired
     private HubService hubService;
 
-    @Autowired
-    private ACService acService;
-
 
     @PostMapping(ApiPath.VERIFY_CREDENTIALS)
     public BaseResponse<UserResponse> verifyCredentials(@RequestParam String email, @RequestParam String password) {
@@ -66,11 +63,6 @@ public class UserController {
 
         User user = authService.findOne(email.toLowerCase());
         LOGGER.info("user id " + user.getId());
-        if (user.equals(null))
-        {
-            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
-                    ResponseCode.DATA_NOT_EXIST.getMessage());
-        }
         if(PasswordHelper.matchPassword(password, user.getPassword())) {
 
             Boolean success = authService.verifyCode(code, user);

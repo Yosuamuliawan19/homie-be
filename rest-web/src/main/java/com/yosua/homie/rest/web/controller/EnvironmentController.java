@@ -47,7 +47,6 @@ public class EnvironmentController {
     public BaseResponse<List<Double>> getHumidityData(
             @ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
-            List<Double> num = environmentSensorService.getHumidityData();
             List<Double> humidityData = environmentSensorService.getHumidityDataFromLastWeek();
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, humidityData);

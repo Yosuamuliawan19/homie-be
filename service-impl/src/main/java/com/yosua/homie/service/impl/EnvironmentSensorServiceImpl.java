@@ -105,7 +105,7 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
     }
 
     @Override
-    public List<Double> getHumidityDataFromlastWeek(){
+    public List<Double> getHumidityDataFromLastWeek(){
         Date currentTime = new DateTime().toDate();
         Date startTime;
         Date endTime;
@@ -127,12 +127,15 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
         List<EnvironmentSensor> environmentData = environmentSensorRepository.findEnvironmentSensorByServerTimeBetween
                 (endTime.toInstant(),startTime.toInstant());
         if(!Objects.isNull(environmentData) && !environmentData.isEmpty()){
-            for(EnvironmentSensor data: environmentData){
-                LOGGER.info(data.toString());
-                if(environmentDataType.equals(EnvironmentDataType.TEMPERATURE)) {
-                    sum += data.getTemperature();
+            if(environmentDataType.equals(EnvironmentDataType.TEMPERATURE)){
+                for(EnvironmentSensor data: environmentData){
+                    LOGGER.info(data.toString());
+                        sum += data.getTemperature();
                 }
-                else{
+            }
+            else{
+                for(EnvironmentSensor data: environmentData) {
+                    LOGGER.info(data.toString());
                     sum += data.getHumidity();
                 }
             }
