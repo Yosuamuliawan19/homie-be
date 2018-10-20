@@ -89,31 +89,28 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
     }
 
     @Override
-    public List<Double> getTemperatureData(){
+    public List<Double> getTemperatureDataFromLastWeek(){
         Date currentTime = new DateTime().toDate();
         Date startTime;
         Date endTime;
         ArrayList<Double> averageTemperaturesPerDay = new ArrayList<>();
         for(int i=0;i<7;i++){
-
             endTime = new DateTime(currentTime).minusDays(7-i-1).toDate();
             startTime = new DateTime(currentTime).minusDays(7-i).toDate();
             LOGGER.info(startTime + "    " + endTime);
             averageTemperaturesPerDay.add(getAverageData(endTime,startTime, EnvironmentDataType.TEMPERATURE));
-
         }
         LOGGER.info(averageTemperaturesPerDay.toString());
         return averageTemperaturesPerDay;
     }
 
     @Override
-    public List<Double> getHumidityData(){
+    public List<Double> getHumidityDataFromlastWeek(){
         Date currentTime = new DateTime().toDate();
         Date startTime;
         Date endTime;
         ArrayList<Double> averageHumidityPerDay = new ArrayList<>();
         for(int i=0;i<7;i++) {
-
             endTime = new DateTime(currentTime).minusDays(7 - i - 1).toDate();
             startTime = new DateTime(currentTime).minusDays(7 - i).toDate();
             LOGGER.info(startTime + "    " + endTime);

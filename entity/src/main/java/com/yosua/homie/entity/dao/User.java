@@ -27,6 +27,9 @@ public class User extends BaseMongo{
     @Field(value = UserFields.HUBS)
     private List<Hub> hubs;
 
+    @Field(value = UserFields.NOTIFICATION_TOKEN)
+    private String notificationToken;
+
     public String getName() {
         return name;
     }
@@ -65,6 +68,14 @@ public class User extends BaseMongo{
         this.hubs = hubs;
     }
 
+    public String getNotificationToken() {
+        return notificationToken;
+    }
+
+    public void setNotificationToken(String notificationToken) {
+        this.notificationToken = notificationToken;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -72,7 +83,8 @@ public class User extends BaseMongo{
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", hubs =" + hubs +
+                ", hubs=" + hubs +
+                ", notificationToken='" + notificationToken + '\'' +
                 '}';
     }
 }
