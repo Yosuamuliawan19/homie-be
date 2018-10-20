@@ -2,9 +2,11 @@ package com.yosua.homie.rest.web.controller;
 
 import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
+import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.libraries.utility.BaseResponseHelper;
 import com.yosua.homie.rest.web.model.request.MandatoryRequest;
 import com.yosua.homie.rest.web.model.response.BaseResponse;
+import com.yosua.homie.service.api.AuthService;
 import com.yosua.homie.service.api.EnvironmentSensorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +25,21 @@ public class EnvironmentController {
     private static final Logger LOGGER = LoggerFactory.getLogger(EnvironmentController.class);
 
     @Autowired
+    AuthService authService;
+
+    @Autowired
     EnvironmentSensorService environmentSensorService;
 
     @GetMapping(ApiPath.GET_TEMPERATURE_DATA)
     public BaseResponse<List<Double>> getTemperatureData(
-            @ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest)  {
-        List<Double> num =  environmentSensorService.getTemperatureData();
-        return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
-                null, num);
-
+            @ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest) {
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            List<Double> temperatureData = environmentSensorService.getTemperatureDataFromLastWeek();
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, temperatureData);
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
     }
-
 }
