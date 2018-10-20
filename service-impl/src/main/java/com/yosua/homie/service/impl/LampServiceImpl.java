@@ -35,6 +35,9 @@ public class LampServiceImpl implements LampService {
     @Autowired
     LampRepository lampRepository;
 
+    private Map<String, Pair<Timer, Timer>> deviceIDtoTimer=new HashMap<String, Pair<Timer, Timer>>();
+
+
     @Override
     public Lamp addLamp(LampRequest lampRequest){
         Validate.notNull(lampRequest,"Lamp Request to be added is required");
@@ -259,13 +262,11 @@ public class LampServiceImpl implements LampService {
 
     }
 
-    Map<String, Pair<Timer, Timer>> deviceIDtoTimer=new HashMap<String, Pair<Timer, Timer>>();
 
     @Override
     public void setTimerLamp(String deviceID, Date start, Date end){
         Validate.notNull(deviceID, "Device ID is required");
         Lamp lamp = lampRepository.findLampById(deviceID);
-        FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(lamp)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Lamp does not exist!");
@@ -274,33 +275,26 @@ public class LampServiceImpl implements LampService {
         lamp.setStartTimer(start);
         lamp.setEndTimer(end);
         lampRepository.save(lamp);
-
-        //Now create the time and schedule it
         Timer timerStart = new Timer();
-        //Use this if you want to execute it once
         timerStart.schedule(new TimerTask() {
             public void run() {
                 scheduledTurnOnLamp(deviceID);
             }
         }, start);
-
-        //Now create the time and schedule it
         Timer timerEnd = new Timer();
-        //Use this if you want to execute it once
         timerEnd.schedule(new TimerTask() {
             public void run() {
                 scheduledTurnOffLamp(deviceID);
             }
         }, end);
-
         if (deviceIDtoTimer.containsKey(deviceID)){
             Pair<Timer, Timer> timers = deviceIDtoTimer.get(deviceID);
             timers.getKey().cancel();
             timers.getKey().purge();
             timers.getValue().cancel();
             timers.getValue().purge();
+            deviceIDtoTimer.remove(deviceID);
         }
-
         deviceIDtoTimer.put(deviceID, new Pair<>(timerStart, timerEnd));
     }
 }

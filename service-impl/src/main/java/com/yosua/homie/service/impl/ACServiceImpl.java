@@ -36,6 +36,8 @@ public class ACServiceImpl implements ACService {
     @Autowired
     ACRepository acRepository;
 
+    Map<String, Pair<Timer, Timer>> deviceIDtoTimer = new HashMap<String, Pair<Timer, Timer>>();
+
     @Override
     public AC addAC(ACRequest acRequest){
         Validate.notNull(acRequest,"AC Request to be added is required");
@@ -301,7 +303,6 @@ public class ACServiceImpl implements ACService {
 
     }
 
-    Map<String, Pair<Timer, Timer>> deviceIDtoTimer = new HashMap<String, Pair<Timer, Timer>>();
 
     @Override
     public void setTimerAC(String deviceID, Date start, Date end){
@@ -316,31 +317,25 @@ public class ACServiceImpl implements ACService {
         ac.setStartTimer(start);
         ac.setEndTimer(end);
         acRepository.save(ac);
-
-        //Now create the time and schedule it
         Timer timerStart = new Timer();
-        //Use this if you want to execute it once
         timerStart.schedule(new TimerTask() {
             public void run() {
                 scheduledTurnOnAC(deviceID);
             }
         }, start);
-
-        //Now create the time and schedule it
         Timer timerEnd = new Timer();
-        //Use this if you want to execute it once
         timerEnd.schedule(new TimerTask() {
             public void run() {
                 scheduledTurnOffAC(deviceID);
             }
         }, end);
-
         if (deviceIDtoTimer.containsKey(deviceID)){
             Pair<Timer, Timer> timers = deviceIDtoTimer.get(deviceID);
             timers.getKey().cancel();
             timers.getKey().purge();
             timers.getValue().cancel();
             timers.getValue().purge();
+            deviceIDtoTimer.remove(deviceID);
         }
 
         deviceIDtoTimer.put(deviceID, new Pair<>(timerStart, timerEnd));

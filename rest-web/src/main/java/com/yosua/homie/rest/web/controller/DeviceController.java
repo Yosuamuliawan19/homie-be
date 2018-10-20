@@ -347,15 +347,15 @@ public class DeviceController {
             start = dateFormatter.parse(StringStart);
             end  = dateFormatter.parse(StringEnd);
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new BusinessLogicException(ResponseCode.INVALID_DATE_FORMAT.getCode(),
+                    ResponseCode.INVALID_DATE_FORMAT.getMessage());
         }
-
-//  if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             lampService.setTimerLamp(deviceID, start, end);
-//        } else {
-//            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
-//                    ResponseCode.INVALID_TOKEN.getMessage());
-//        }
+        } else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
     }
 
     // Rain sensor --------------
@@ -387,9 +387,6 @@ public class DeviceController {
         }
     }
 
-//    @ApiOperation(value = "Rain Notification")
-//    @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_RAIN)
-//    public FlaskBaseResponse
 
     // Flame sensor --------------
     @ApiOperation(value = "Get All Users' Flame Sensor")
@@ -420,8 +417,6 @@ public class DeviceController {
         }
     }
 
-//    @ApiOperation(value = "Flame Notification")
-//    @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_FLAME)
 
     // Gas Sensor --------------
     @ApiOperation(value = "Get All Users' Gas Sensor")
@@ -454,8 +449,6 @@ public class DeviceController {
         }
     }
 
-//    @ApiOperation(value = "Gas Notification")
-//    @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_GAS)
 
     // Smoke Sensor --------------
     @ApiOperation(value = "Get All Users' Smoke Sensor")
@@ -488,4 +481,46 @@ public class DeviceController {
         }
     }
 
+    @ApiOperation(value = "Push notification for gas")
+    @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_GAS)
+    public BaseResponse<String> pushNotificationGas (@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            String response = gasSensorService.notifyForGas(userID);
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, response);
+        }
+        else{
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+    @ApiOperation(value = "Push notification for flame")
+    @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_FLAME)
+    public BaseResponse<String> pushNotificationFlame (@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            String response = flameSensorService.notifyForFlame(userID);
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, response);
+        }
+        else{
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
+    @ApiOperation(value = "Push notification for smoke")
+    @GetMapping(ApiPath.NOTIFY_IN_CASE_OF_RAIN)
+    public BaseResponse<String> pushNotificationRain(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
+        if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
+            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
+            String response = rainSensorService.notifyForRain(userID);
+            return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                    null, response);
+        }
+        else{
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
+        }
+    }
 }
