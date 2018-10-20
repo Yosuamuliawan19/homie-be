@@ -12,6 +12,6 @@ public interface EnvironmentSensorService {
     EnvironmentSensor addEnvironmentSensor(EnvironmentSensorRequest environmentSensorRequest);
     EnvironmentSensorResponse toEnvironmentSensorResponse(EnvironmentSensor environmentSensor);
     List<EnvironmentSensorResponse> toEnvironmentSensorResponse(List<EnvironmentSensor> environmentSensorList);
-    List<Double> getTemperatureData();
+    List<Double> getTemperatureDataFromLastWeek();
     Double getAverageTemperatureData(Date startTime, Date endTime);
 }

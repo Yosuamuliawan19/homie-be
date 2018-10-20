@@ -88,7 +88,7 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
     }
 
     @Override
-    public List<Double> getTemperatureData(){
+    public List<Double> getTemperatureDataFromLastWeek(){
         Date currentTime = new DateTime().toDate();
         Date startTime;
         Date endTime;
@@ -99,7 +99,6 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
             startTime = new DateTime(currentTime).minusDays(7-i).toDate();
             LOGGER.info(startTime + "    " + endTime);
             averageTemperaturesPerDay.add(getAverageTemperatureData(endTime,startTime));
-
         }
         LOGGER.info(averageTemperaturesPerDay.toString());
         return averageTemperaturesPerDay;
