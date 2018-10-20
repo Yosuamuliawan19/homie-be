@@ -31,7 +31,13 @@ public class EnvironmentController {
         List<Double> num =  environmentSensorService.getTemperatureData();
         return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                 null, num);
+    }
 
+    @GetMapping(ApiPath.GET_HUMIDITY_DATA)
+    public BaseResponse<List<Double>> getHumidityData(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest){
+        List<Double> num = environmentSensorService.getHumidityData();
+        return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
+                null, num);
     }
 
 }

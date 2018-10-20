@@ -1,5 +1,6 @@
 package com.yosua.homie.service.api;
 
+import com.yosua.homie.entity.constant.enums.EnvironmentDataType;
 import com.yosua.homie.entity.dao.EnvironmentSensor;
 import com.yosua.homie.rest.web.model.request.EnvironmentSensorRequest;
 import com.yosua.homie.rest.web.model.response.EnvironmentSensorResponse;
@@ -13,5 +14,6 @@ public interface EnvironmentSensorService {
     EnvironmentSensorResponse toEnvironmentSensorResponse(EnvironmentSensor environmentSensor);
     List<EnvironmentSensorResponse> toEnvironmentSensorResponse(List<EnvironmentSensor> environmentSensorList);
     List<Double> getTemperatureData();
-    Double getAverageTemperatureData(Date startTime, Date endTime);
+    List<Double> getHumidityData();
+    Double getAverageData(Date startTime, Date endTime, EnvironmentDataType environmentDataType);
 }
