@@ -116,7 +116,7 @@ public class DeviceController {
     }
 
     @ApiOperation(value = "Set AC Temperature")
-    @GetMapping(ApiPath.FLASK_SET_TEMPERATURE_AC)
+    @GetMapping(ApiPath.SET_TEMPERATURE)
     public FlaskBaseResponse setTemperature(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID,
                                             @RequestParam Double temperature){
         if(authService.isTokenValid(mandatoryRequest.getAccessToken())){

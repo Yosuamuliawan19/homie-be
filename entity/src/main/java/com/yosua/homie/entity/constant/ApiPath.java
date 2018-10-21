@@ -49,6 +49,7 @@ public interface ApiPath {
   String EDIT_NOTIFICATION_TOKEN = USER_CONTROLLER + "/edit-notification-token";
   //Device
   String GET_ALL_USERS_AC = DEVICE_CONTROLLER + "/get-all-users-ac";
+  String SET_TEMPERATURE = DEVICE_CONTROLLER + "/set-temperature";
   String TURN_ON_AC = DEVICE_CONTROLLER + "/turn-on-ac";
   String TURN_OFF_AC = DEVICE_CONTROLLER + "/turn-off-ac";
   String GET_AC_BY_DEVICE_ID =  DEVICE_CONTROLLER + "/get-ac-by-device-id";
