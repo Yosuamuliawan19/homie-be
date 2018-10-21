@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: homie-backend
+  labels:
+    #Project ID
+    app: homie-backend
+spec:
+  #Run two instances of our application
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: homie-backend
+    spec:
+      #Container details
+      containers:
+        - name: node-app
+          image: gcr.io/homie-backend/spring-app:0.0.1
+          imagePullPolicy: Always
+          #Ports to expose
+          ports:
+          - containerPort: 8000
