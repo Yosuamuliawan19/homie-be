@@ -13,11 +13,12 @@ import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.TVRequest;
 import com.yosua.homie.rest.web.model.response.*;
 import com.yosua.homie.service.api.TVService;
-import javafx.util.Pair;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -502,12 +503,12 @@ public class TVServiceImpl implements TVService {
 
         if (deviceIDtoTimer.containsKey(deviceID)){
             Pair<Timer, Timer> timers = deviceIDtoTimer.get(deviceID);
-            timers.getKey().cancel();
-            timers.getKey().purge();
-            timers.getValue().cancel();
-            timers.getValue().purge();
+            timers.getFirst().cancel();
+            timers.getFirst().purge();
+            timers.getSecond().cancel();
+            timers.getSecond().purge();
         }
 
-        deviceIDtoTimer.put(deviceID, new Pair<>(timerStart, timerEnd));
+        deviceIDtoTimer.put(deviceID, Pair.of(timerStart, timerEnd));
     }
 }
