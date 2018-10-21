@@ -27,7 +27,7 @@ public class EnvironmentDataInboundServiceImpl implements EnvironmentDataInbound
 
     @Override
     @KafkaListener(topics = "${homie.kafka.topic.environmentdata}", groupId = "${homie.kafka.environmentdata.consumerGroupId}")
-    public void listen(ConsumerRecord<String, String> record) throws IOException {
+    public void listen(ConsumerRecord<byte[], byte[]> record) throws IOException {
         LOGGER.info("receive data request {}", record);
         ObjectMapper mapper = new ObjectMapper();
         EnvironmentSensorRequest environmentSensorRequest;
