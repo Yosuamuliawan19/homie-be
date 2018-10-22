@@ -48,8 +48,6 @@ public class UserController {
                     ResponseCode.DATA_NOT_EXIST.getMessage());
         }
         if (PasswordHelper.matchPassword(password, user.getPassword())) {
-
-
             authService.generateCode(user);
             return BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, userService.toUserResponse(user));

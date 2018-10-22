@@ -198,18 +198,25 @@ public class AuthServiceImpl implements AuthService {
   }
 
   private void sendEmail(String userEmail, String code){
+    Email email;
     try {
-      final Email email = DefaultEmail.builder()
+       email = DefaultEmail.builder()
               .from(new InternetAddress(emailAddress, "Homie"))
               .to(Lists.newArrayList(new InternetAddress(userEmail, "")))
               .subject("Two factor authentication - HOMIE")
               .body(code)
               .encoding("UTF-8").build();
-      emailService.send(email);
     } catch (UnsupportedEncodingException e) {
       throw new BusinessLogicException(ResponseCode.UNSUPPORTED_ENCODING.getCode(),
               ResponseCode.UNSUPPORTED_ENCODING.getMessage());
     }
+    try{
+      emailService.send(email);
+    } catch (Exception e) {
+      throw new BusinessLogicException(ResponseCode.INVALID_EMAIL.getCode(),
+              ResponseCode.INVALID_EMAIL.getMessage());
+    }
+
   }
 
   @Override

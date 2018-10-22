@@ -81,7 +81,6 @@ public class DeviceController {
     @GetMapping(ApiPath.GET_AC_BY_DEVICE_ID)
     public BaseResponse<ACResponse> getACbyDeviceID(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())){
-            String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
             AC ac = acService.getACFromDeviceID(deviceID);
             LOGGER.info(BaseResponseHelper.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),
                     null, acService.toACResponse(ac)).toString());
