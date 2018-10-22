@@ -220,7 +220,7 @@ public class DeviceController {
         }
     }
     @ApiOperation(value = "Program up TV")
-    @GetMapping(ApiPath.FLASK_PROGRAM_UP_TV)
+    @GetMapping(ApiPath.PROGRAM_UP_TV)
     public FlaskBaseResponse programUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Program up TV Token: " +  mandatoryRequest.getAccessToken());
@@ -231,7 +231,7 @@ public class DeviceController {
         }
     }
     @ApiOperation(value = "Program down TV")
-    @GetMapping(ApiPath.FLASK_PROGRAM_DOWN_TV)
+    @GetMapping(ApiPath.PROGRAM_DOWN_TV)
     public FlaskBaseResponse programDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Program down TV Token: " +  mandatoryRequest.getAccessToken());
@@ -243,7 +243,7 @@ public class DeviceController {
     }
 
     @ApiOperation(value = "Mute TV")
-    @GetMapping(ApiPath.FLASK_MUTE_TV)
+    @GetMapping(ApiPath.MUTE_TV)
     public FlaskBaseResponse muteTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken()))
         {

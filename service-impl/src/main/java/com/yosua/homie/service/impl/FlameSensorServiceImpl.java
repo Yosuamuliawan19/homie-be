@@ -127,7 +127,7 @@ public class FlameSensorServiceImpl implements FlameSensorService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Flame sensor does not exist!");
         }
-        final String url = ApiPath.HTTP + flameSensor.getHubURL() + ApiPath.FLASK_CHECK_FLAME + deviceID + "/";
+        final String url = ApiPath.HTTP + flameSensor.getHubURL() + ApiPath.FLASK_CHECK_FLAME + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);

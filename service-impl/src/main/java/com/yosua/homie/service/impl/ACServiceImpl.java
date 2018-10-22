@@ -141,7 +141,7 @@ public class ACServiceImpl implements ACService {
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
 
-        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_ON_AC + "/"+ deviceID + "/";
+        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_ON_AC + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -177,7 +177,7 @@ public class ACServiceImpl implements ACService {
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
 
-        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_OFF_AC + "/"+ deviceID + "/";
+        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_TURN_OFF_AC + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try {
