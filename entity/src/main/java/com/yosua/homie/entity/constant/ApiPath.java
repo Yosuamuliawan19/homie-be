@@ -66,6 +66,8 @@ public interface ApiPath {
   String TURN_OFF_TV = DEVICE_CONTROLLER + TV + "/turn-off-tv";
   String GET_TV_BY_DEVICE_ID =  DEVICE_CONTROLLER + TV + "/get-tv-by-device-id";
   String SET_TIMER_TV = DEVICE_CONTROLLER + TV + "/set-timer-tv";
+  String TURN_UP_VOLUME_TV = DEVICE_CONTROLLER + TV + "/volume-up";
+  String TURN_DOWN_VOLUME_TV = DEVICE_CONTROLLER + TV + "/volume-down";
 
   String GET_ALL_USERS_LAMP = DEVICE_CONTROLLER + LAMP + "/get-all-users-lamp";
   String TURN_ON_LAMP = DEVICE_CONTROLLER + LAMP + "/turn-on-lamp";

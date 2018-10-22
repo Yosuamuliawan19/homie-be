@@ -93,8 +93,7 @@ public class RainSensorServiceImpl implements RainSensorService {
         List<Hub> userHubs = user.getHubs();
         List<String> hubsURL = new ArrayList<>();
         if(!Objects.isNull(userHubs) && !userHubs.isEmpty()){
-            for(Hub hubs: userHubs)
-            {
+            for(Hub hubs: userHubs) {
                 hubsURL.add(hubs.getURL());
             }
         }
@@ -136,11 +135,6 @@ public class RainSensorServiceImpl implements RainSensorService {
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
     }
 
-//    @Override
-//    public FlaskBaseResponse notifyRain(String deviceID){
-//        Validate.notNull(deviceID, "Device ID is required");
-//
-//    }
     @Override
     public String notifyForRain(String userID){
         Validate.notNull(userID, "User ID is required");

@@ -199,7 +199,7 @@ public class DeviceController {
     }
 
     @ApiOperation(value = "Volume up TV")
-    @GetMapping(ApiPath.FLASK_VOLUME_UP_TV)
+    @GetMapping(ApiPath.TURN_UP_VOLUME_TV)
     public FlaskBaseResponse volumeUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Volume up TV Token: " +  mandatoryRequest.getAccessToken());
@@ -210,7 +210,7 @@ public class DeviceController {
         }
     }
     @ApiOperation(value = "Volume down TV")
-    @GetMapping(ApiPath.FLASK_VOLUME_DOWN_TV)
+    @GetMapping(ApiPath.TURN_DOWN_VOLUME_TV)
     public FlaskBaseResponse volumeDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Volume down TV Token: " +  mandatoryRequest.getAccessToken());
