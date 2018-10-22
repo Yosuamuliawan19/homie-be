@@ -215,7 +215,7 @@ public class ACServiceImpl implements ACService {
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
 
-        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV + "/" + deviceID + "/" + temperature + "/";
+        final String url = ApiPath.HTTP + ac.getHubURL() + ApiPath.FLASK_SET_TEMPERATURE_AC + "/" + deviceID + "/" + temperature + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try {

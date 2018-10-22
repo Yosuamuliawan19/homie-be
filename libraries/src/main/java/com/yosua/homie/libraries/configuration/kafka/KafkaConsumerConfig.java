@@ -1,5 +1,6 @@
 package com.yosua.homie.libraries.configuration.kafka;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +16,14 @@ import java.util.Map;
 @Configuration
 @EnableKafka
 public class KafkaConsumerConfig {
+
+    @Value("${homie.kafka.environmentdata.bootstrapServers}")
+    private String bootstrapServer;
+
     @Bean
     public ConsumerFactory<String, String> consumerFactory () {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "167.99.75.206:9092");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "com.yosua.homie.environmentdata");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);

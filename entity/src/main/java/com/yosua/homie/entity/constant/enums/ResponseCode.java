@@ -17,8 +17,8 @@ public enum ResponseCode {
   USER_DOES_NOT_EXIST("USER_DOES_NOT_EXIST","Specified user does not exist"),
   PASSWORDS_DOES_NOT_MATCH("PASSWORDS_DOES_NOT_MATCH", "Passwords does not match"),
   INCORRECT_PASSWORD("INCORRECT PASSWORD", "INCORRECT PASSWORD"),
-  INVALID_JSON_FORMAT("INVALID JSON FORMAT", "Invalid JSON format");
-
+  INVALID_JSON_FORMAT("INVALID JSON FORMAT", "Invalid JSON format"),
+  INVALID_TIME_FORMAT("INVALID TIME FORMAT", "Invalid time format");
 
   private String code;
   private String message;

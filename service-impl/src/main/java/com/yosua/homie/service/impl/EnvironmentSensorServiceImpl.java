@@ -20,12 +20,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
 public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ACServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnvironmentSensorServiceImpl.class);
 
     @Autowired
     UserRepository userRepository;
@@ -37,6 +39,15 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
     public EnvironmentSensor addEnvironmentSensor(EnvironmentSensorRequest environmentSensorRequest){
         Validate.notNull(environmentSensorRequest,"EnvironmentSensor Request to be added is required");
         EnvironmentSensor newEnvironmentSensor;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss.SSSSSS");
+        Date serverTime;
+        try {
+           serverTime  = format.parse(environmentSensorRequest.getServerTime());
+           LOGGER.info(serverTime.toString());
+        } catch (ParseException e) {
+            throw new BusinessLogicException(ResponseCode.INVALID_DATE_FORMAT.getCode(),
+                    ResponseCode.INVALID_DATE_FORMAT.getMessage());
+        }
         User user = userRepository.findUserByHubsURL(environmentSensorRequest.getHubURL());
         if(Objects.isNull(user))
         {
@@ -44,7 +55,7 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
                     "Hub does not exist!");
         }
         EnvironmentSensor existingEnvironmentSensorWithSameURLAndServerTime = environmentSensorRepository.findEnvironmentSensorByHubURLAndServerTime
-                (environmentSensorRequest.getHubURL(), environmentSensorRequest.getServerTime());
+                (environmentSensorRequest.getHubURL(), serverTime);
         if(!Objects.isNull(existingEnvironmentSensorWithSameURLAndServerTime)) {
             throw new BusinessLogicException(ResponseCode.DUPLICATE_DATA.getCode(),
                     "Environment Record already exist!");
@@ -53,7 +64,7 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
                 .withHubURL(environmentSensorRequest.getHubURL())
                 .withTemperature(environmentSensorRequest.getTemperature())
                 .withHumidity(environmentSensorRequest.getHumidity())
-                .withServerTime(environmentSensorRequest.getServerTime())
+                .withServerTime(serverTime)
                 .build();
         try{
             return environmentSensorRepository.save(newEnvironmentSensor);
@@ -144,6 +155,4 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
         LOGGER.info("AVERAGE: " + average);
         return average;
     }
-
-
 }

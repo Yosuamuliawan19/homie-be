@@ -1,12 +1,10 @@
 package com.yosua.homie.rest.web.model.request;
 
-import java.util.Date;
-
 public class EnvironmentSensorRequest {
     private String hubURL;
     private Double temperature;
     private Double humidity;
-    private Date serverTime;
+    private String serverTime;
 
     public String getHubURL() {
         return hubURL;
@@ -32,11 +30,11 @@ public class EnvironmentSensorRequest {
         this.humidity = humidity;
     }
 
-    public Date getServerTime() {
+    public String getServerTime() {
         return serverTime;
     }
 
-    public void setServerTime(Date serverTime) {
+    public void setServerTime(String serverTime) {
         this.serverTime = serverTime;
     }
 
