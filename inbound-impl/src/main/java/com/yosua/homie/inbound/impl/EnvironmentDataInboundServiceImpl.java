@@ -33,9 +33,7 @@ public class EnvironmentDataInboundServiceImpl implements EnvironmentDataInbound
         String recordValue;
         EnvironmentSensorRequest environmentSensorRequest;
         try{
-            recordValue = record.value().replace(" ", "");
-            recordValue = recordValue.replace("\\","");
-            recordValue = recordValue.substring(1, recordValue.length()-1);
+            recordValue = this.parseEnvironmentDataRecordValue(record.value());
             LOGGER.info(recordValue);
             environmentSensorRequest = mapper.readValue(recordValue, EnvironmentSensorRequest.class);
             LOGGER.info(environmentSensorRequest.toString());
@@ -45,6 +43,13 @@ public class EnvironmentDataInboundServiceImpl implements EnvironmentDataInbound
         }
         EnvironmentSensor environmentSensor = environmentSensorService.addEnvironmentSensor(environmentSensorRequest);
         LOGGER.info(environmentSensor.toString());
+    }
+
+    private String parseEnvironmentDataRecordValue(String recordValue){
+        recordValue = recordValue.replace(" ", "");
+        recordValue = recordValue.replace("\\","");
+        recordValue = recordValue.substring(1, recordValue.length()-1);
+        return recordValue;
     }
 
 }

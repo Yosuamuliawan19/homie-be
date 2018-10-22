@@ -1,10 +1,9 @@
 package com.yosua.homie.entity.dao;
 
-import com.yosua.homie.entity.constant.enums.DeviceStatus;
 import com.yosua.homie.entity.constant.fields.EnvironmentSensorFields;
-import com.yosua.homie.entity.constant.fields.LampFields;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.springframework.data.mongodb.core.mapping.Field;
+
 import java.util.Date;
 
 @GeneratePojoBuilder

@@ -3,7 +3,6 @@ package com.yosua.homie.service.impl;
 import com.yosua.homie.dao.FlameSensorRepository;
 import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.ApiPath;
-import com.yosua.homie.entity.constant.Firebase;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.FlameSensor;
 import com.yosua.homie.entity.dao.FlameSensorBuilder;
@@ -19,6 +18,7 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -31,6 +31,9 @@ import java.util.Objects;
 @Service
 public class FlameSensorServiceImpl implements FlameSensorService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FlameSensorServiceImpl.class);
+
+    @Value("${homie.firebase.server.key}")
+    private String fireBaseServerKey;
 
     @Autowired
     UserRepository userRepository;
@@ -142,7 +145,7 @@ public class FlameSensorServiceImpl implements FlameSensorService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "key=" +  Firebase.SERVER_KEY);
+        headers.add("Authorization", "key=" +  fireBaseServerKey);
         String requestJson = "{\n" +
                 "    \"notification\": {\n" +
                 "        \"title\": \"There is a flame in your house!!\",\n" +
@@ -152,7 +155,7 @@ public class FlameSensorServiceImpl implements FlameSensorService {
                 "    },\n" +
                 "    \"to\": \"" + user.getNotificationToken() +"\"\n" +
                 "}";
-        HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+        HttpEntity<String> entity = new HttpEntity<>(requestJson,headers);
         return restTemplate.postForObject(url, entity, String.class);
     }
 }

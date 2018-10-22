@@ -9,7 +9,6 @@ import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.dao.UserVerificationRepository;
 import com.yosua.homie.entity.JWTokenClaim;
 import com.yosua.homie.entity.JWTokenClaimBuilder;
-import com.yosua.homie.entity.constant.EmailDetails;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.entity.dao.UserBuilder;
@@ -50,6 +49,9 @@ public class AuthServiceImpl implements AuthService {
 
   @Value("${homie.auth.secret}")
   private String TOKEN_SECRET;
+
+  @Value("${homie.email.address}")
+  private String emailAddress;
 
   @Override
   public String createToken(String userId) {
@@ -192,16 +194,18 @@ public class AuthServiceImpl implements AuthService {
     }
     userVerification.setCode(code);
     userVerificationRepository.save(userVerification);
-    // send email
+    this.sendEmail(user.getEmail(), code);
+  }
+
+  private void sendEmail(String userEmail, String code){
     try {
       final Email email = DefaultEmail.builder()
-              .from(new InternetAddress(EmailDetails.EMAIL_ADDRESS, "Marco Tullio Cicerone "))
-              .to(Lists.newArrayList(new InternetAddress(user.getEmail().toString(), "Pomponius Attĭcus")))
+              .from(new InternetAddress(emailAddress, "Homie"))
+              .to(Lists.newArrayList(new InternetAddress(userEmail, "")))
               .subject("Two factor authentication - HOMIE")
-              .body(code.toString())
+              .body(code)
               .encoding("UTF-8").build();
-
-//      emailService.send(email);
+      emailService.send(email);
     } catch (UnsupportedEncodingException e) {
       throw new BusinessLogicException(ResponseCode.UNSUPPORTED_ENCODING.getCode(),
               ResponseCode.UNSUPPORTED_ENCODING.getMessage());

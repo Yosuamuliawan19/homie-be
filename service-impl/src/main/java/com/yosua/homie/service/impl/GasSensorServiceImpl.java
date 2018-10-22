@@ -3,26 +3,25 @@ package com.yosua.homie.service.impl;
 import com.yosua.homie.dao.GasSensorRepository;
 import com.yosua.homie.dao.UserRepository;
 import com.yosua.homie.entity.constant.ApiPath;
-import com.yosua.homie.entity.constant.Firebase;
-import com.yosua.homie.entity.constant.enums.DeviceStatus;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
-import com.yosua.homie.entity.dao.*;
+import com.yosua.homie.entity.dao.GasSensor;
+import com.yosua.homie.entity.dao.GasSensorBuilder;
+import com.yosua.homie.entity.dao.Hub;
+import com.yosua.homie.entity.dao.User;
 import com.yosua.homie.libraries.exception.BusinessLogicException;
 import com.yosua.homie.rest.web.model.request.GasSensorRequest;
-import com.yosua.homie.rest.web.model.response.*;
+import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
+import com.yosua.homie.rest.web.model.response.GasSensorResponse;
+import com.yosua.homie.rest.web.model.response.GasSensorResponseBuilder;
 import com.yosua.homie.service.api.GasSensorService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -32,6 +31,9 @@ import java.util.Objects;
 @Service
 public class GasSensorServiceImpl implements GasSensorService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GasSensorServiceImpl.class);
+
+    @Value("${homie.firebase.server.key}")
+    private String fireBaseServerKey;
 
     @Autowired
     UserRepository userRepository;
@@ -149,7 +151,7 @@ public class GasSensorServiceImpl implements GasSensorService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "key=" +Firebase.SERVER_KEY);
+        headers.add("Authorization", "key=" + fireBaseServerKey);
         String requestJson = "{\n" +
                 "    \"notification\": {\n" +
                 "        \"title\": \"There is a gas leak in your house\",\n" +

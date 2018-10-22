@@ -85,6 +85,6 @@ public class User extends BaseMongo{
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", hubs=" + hubs +
                 ", notificationToken='" + notificationToken + '\'' +
-                '}';
+                '}' + super.toString();
     }
 }

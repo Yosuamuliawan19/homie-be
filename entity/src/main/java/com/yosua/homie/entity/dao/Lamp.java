@@ -28,7 +28,6 @@ public class Lamp extends BaseMongo {
     private Date endTimer;
 
 
-
     public String getName() {
         return name;
     }
@@ -77,7 +76,7 @@ public class Lamp extends BaseMongo {
                 ", status=" + status +
                 ", startTimer=" + startTimer +
                 ", endTimer=" + endTimer +
-                '}';
+                '}' + super.toString();
     }
 }
 

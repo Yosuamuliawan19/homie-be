@@ -87,6 +87,6 @@ public class AC extends BaseMongo {
                 ", temperature=" + temperature +
                 ", startTimer=" + startTimer +
                 ", endTimer=" + endTimer +
-                '}';
+                '}' + super.toString();
     }
 }

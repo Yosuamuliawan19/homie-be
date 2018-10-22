@@ -97,13 +97,13 @@ public abstract class BaseMongo implements Serializable {
   @Override
   public String toString() {
     return "BaseMongo{" +
-        "id='" + id + '\'' +
-        ", version=" + version +
-        ", createdDate=" + createdDate +
-        ", createdBy='" + createdBy + '\'' +
-        ", updatedDate=" + updatedDate +
-        ", updatedBy='" + updatedBy + '\'' +
-        ", isDeleted=" + isDeleted +
-        "} " + super.toString();
+            "id='" + id + '\'' +
+            ", version=" + version +
+            ", createdDate=" + createdDate +
+            ", createdBy='" + createdBy + '\'' +
+            ", updatedDate=" + updatedDate +
+            ", updatedBy='" + updatedBy + '\'' +
+            ", isDeleted=" + isDeleted +
+            '}';
   }
 }

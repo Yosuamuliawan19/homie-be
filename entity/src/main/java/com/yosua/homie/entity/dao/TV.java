@@ -111,6 +111,6 @@ public class TV extends BaseMongo {
                 ", isMuted=" + isMuted +
                 ", startTimer=" + startTimer +
                 ", endTimer=" + endTimer +
-                '}';
+                '}' + super.toString();
     }
 }
