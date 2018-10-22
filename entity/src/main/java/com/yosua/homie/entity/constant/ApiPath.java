@@ -68,7 +68,9 @@ public interface ApiPath {
   String SET_TIMER_TV = DEVICE_CONTROLLER + TV + "/set-timer-tv";
   String TURN_UP_VOLUME_TV = DEVICE_CONTROLLER + TV + "/volume-up";
   String TURN_DOWN_VOLUME_TV = DEVICE_CONTROLLER + TV + "/volume-down";
-  //program up, down ,mute
+  String PROGRAM_UP_TV = DEVICE_CONTROLLER + TV + "/program-up";
+  String PROGRAM_DOWN_TV = DEVICE_CONTROLLER + TV + "/program-down";
+  String MUTE_TV = DEVICE_CONTROLLER + TV + "/mute-tv";
 
   String GET_ALL_USERS_LAMP = DEVICE_CONTROLLER + LAMP + "/get-all-users-lamp";
   String TURN_ON_LAMP = DEVICE_CONTROLLER + LAMP + "/turn-on-lamp";

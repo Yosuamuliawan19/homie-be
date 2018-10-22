@@ -151,7 +151,7 @@ public class TVServiceImpl implements TVService {
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
 
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_ON_TV + deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_ON_TV + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -188,7 +188,7 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_OFF_TV+ "/" + deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_TURN_OFF_TV + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try{
@@ -263,7 +263,7 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV + "/"+ deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_VOLUME_DOWN_TV + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
 
@@ -301,7 +301,7 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_UP_TV + "/"+ deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_UP_TV + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
 
@@ -339,7 +339,7 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_DOWN_TV + "/"+ deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_PROGRAM_DOWN_TV + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -379,7 +379,7 @@ public class TVServiceImpl implements TVService {
             throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
-        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_MUTE_TV + "/"+ deviceID + "/";
+        final String url = ApiPath.HTTP + tv.getHubURL() + ApiPath.FLASK_MUTE_TV + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try{

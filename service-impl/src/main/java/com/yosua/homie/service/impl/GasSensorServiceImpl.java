@@ -131,7 +131,7 @@ public class GasSensorServiceImpl implements GasSensorService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Gas sensor does not exist");
         }
-        final String url = ApiPath.HTTP + gasSensor.getHubURL() + ApiPath.FLASK_CHECK_GAS  + "/"+ deviceID + "/";
+        final String url = ApiPath.HTTP + gasSensor.getHubURL() + ApiPath.FLASK_CHECK_GAS  + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);

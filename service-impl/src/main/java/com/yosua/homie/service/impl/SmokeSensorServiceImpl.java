@@ -125,7 +125,7 @@ public class SmokeSensorServiceImpl implements SmokeSensorService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Smoke sensor does not exist");
         }
-        final String url = ApiPath.HTTP + smokeSensor.getHubURL() + ApiPath.FLASK_CHECK_GAS  + "/"+ deviceID + "/";
+        final String url = ApiPath.HTTP + smokeSensor.getHubURL() + ApiPath.FLASK_CHECK_GAS  + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);

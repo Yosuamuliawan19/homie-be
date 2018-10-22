@@ -141,7 +141,7 @@ public class LampServiceImpl implements LampService {
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
 
-        final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_ON_LAMP + deviceID + "/";
+        final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_ON_LAMP + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -177,7 +177,7 @@ public class LampServiceImpl implements LampService {
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
 
-        final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_OFF_LAMP + "/"+ deviceID + "/";
+        final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_OFF_LAMP + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -247,7 +247,7 @@ public class LampServiceImpl implements LampService {
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
 
-        final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_OFF_LAMP + deviceID + "/";
+        final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_OFF_LAMP + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         try {
