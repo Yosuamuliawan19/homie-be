@@ -1,8 +1,8 @@
 package com.yosua.homie.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yosua.homie.dao.EnvironmentSensorRepository;
 import com.yosua.homie.dao.UserRepository;
+import com.yosua.homie.entity.constant.ApiPath;
 import com.yosua.homie.entity.constant.enums.EnvironmentDataType;
 import com.yosua.homie.entity.constant.enums.ResponseCode;
 import com.yosua.homie.entity.dao.EnvironmentSensor;
@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,31 +74,31 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
     }
-    @Override
-    public EnvironmentSensorResponse toEnvironmentSensorResponse(EnvironmentSensor environmentSensor){
-        Validate.notNull(environmentSensor,"Environment Sensor is required");
-        return new EnvironmentSensorResponseBuilder()
-                .withHubURL(environmentSensor.getHubURL())
-                .withHumidity(environmentSensor.getHumidity())
-                .withTemperature(environmentSensor.getTemperature())
-                .withServerTime(environmentSensor.getServerTime())
-                .build();
-    }
-
-    @Override
-    public List<EnvironmentSensorResponse> toEnvironmentSensorResponse(List<EnvironmentSensor> environmentSensorList){
-        Validate.notNull(environmentSensorList, "EnvironmentSensorList List is required");
-        List<EnvironmentSensorResponse> environmentSensorResponses= new ArrayList<>();
-        for(EnvironmentSensor EnvironmentSensors: environmentSensorList){
-            environmentSensorResponses.add(new EnvironmentSensorResponseBuilder()
-                    .withHubURL(EnvironmentSensors.getHubURL())
-                    .withHumidity(EnvironmentSensors.getHumidity())
-                    .withTemperature(EnvironmentSensors.getTemperature())
-                    .withServerTime(EnvironmentSensors.getServerTime())
-                    .build());
-        }
-        return environmentSensorResponses;
-    }
+//    @Override
+//    public EnvironmentSensorResponse toEnvironmentSensorResponse(EnvironmentSensor environmentSensor){
+//        Validate.notNull(environmentSensor,"Environment Sensor is required");
+//        return new EnvironmentSensorResponseBuilder()
+//                .withHubURL(environmentSensor.getHubURL())
+//                .withHumidity(environmentSensor.getHumidity())
+//                .withTemperature(environmentSensor.getTemperature())
+//                .withServerTime(environmentSensor.getServerTime())
+//                .build();
+//    }
+//
+//    @Override
+//    public List<EnvironmentSensorResponse> toEnvironmentSensorResponse(List<EnvironmentSensor> environmentSensorList){
+//        Validate.notNull(environmentSensorList, "EnvironmentSensorList List is required");
+//        List<EnvironmentSensorResponse> environmentSensorResponses= new ArrayList<>();
+//        for(EnvironmentSensor EnvironmentSensors: environmentSensorList){
+//            environmentSensorResponses.add(new EnvironmentSensorResponseBuilder()
+//                    .withHubURL(EnvironmentSensors.getHubURL())
+//                    .withHumidity(EnvironmentSensors.getHumidity())
+//                    .withTemperature(EnvironmentSensors.getTemperature())
+//                    .withServerTime(EnvironmentSensors.getServerTime())
+//                    .build());
+//        }
+//        return environmentSensorResponses;
+//    }
 
     @Override
     public List<Double> getTemperatureDataFromLastWeek(){
@@ -154,5 +155,23 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
         }
         LOGGER.info("AVERAGE: " + average);
         return average;
+    }
+
+    @Override
+    public List<Double> getCurrentEnvironmentData(String hubURL){
+        EnvironmentSensorResponse environmentSensorResponse;
+        List<Double> data = new ArrayList<>();
+        final String url = ApiPath.HTTP + hubURL + ApiPath.FLASK_GET_CURRENT_ENVIRONMENT_DATA;
+        LOGGER.info(url);
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            environmentSensorResponse = restTemplate.getForObject(url, EnvironmentSensorResponse.class);
+        }catch (Exception e){
+            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                    ResponseCode.SYSTEM_ERROR.getMessage());
+        }
+        data.add(environmentSensorResponse.getTemperature());
+        data.add(environmentSensorResponse.getHumidity());
+        return data;
     }
 }

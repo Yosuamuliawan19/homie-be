@@ -7,30 +7,30 @@ import java.io.Serializable;
 @GeneratePojoBuilder
 public class FlaskBaseResponse implements Serializable {
 
-    private String code;
-    private String message;
+        private String code;
+        private String message;
 
-    public String getCode() {
-        return code;
-    }
+        public String getCode() {
+            return code;
+        }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+        public void setCode(String code) {
+            this.code = code;
+        }
 
-    public String getMessage() {
-        return message;
-    }
+        public String getMessage() {
+            return message;
+        }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+        public void setMessage(String message) {
+            this.message = message;
+        }
 
-    @Override
-    public String toString() {
-        return "FlaskBaseResponse{" +
-                "code='" + code + '\'' +
-                ", message='" + message + '\'' +
-                '}' + super.toString();
+        @Override
+        public String toString() {
+            return "FlaskBaseResponse{" +
+                    "code='" + code + '\'' +
+                    ", message='" + message + '\'' +
+                    '}' + super.toString();
     }
 }

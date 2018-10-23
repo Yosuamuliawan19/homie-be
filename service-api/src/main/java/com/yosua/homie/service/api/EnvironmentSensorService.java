@@ -10,9 +10,8 @@ import java.util.List;
 
 public interface EnvironmentSensorService {
     EnvironmentSensor addEnvironmentSensor(EnvironmentSensorRequest environmentSensorRequest);
-    EnvironmentSensorResponse toEnvironmentSensorResponse(EnvironmentSensor environmentSensor);
-    List<EnvironmentSensorResponse> toEnvironmentSensorResponse(List<EnvironmentSensor> environmentSensorList);
     Double getAverageData(Date startTime, Date endTime, EnvironmentDataType environmentDataType);
     List<Double> getTemperatureDataFromLastWeek();
     List<Double> getHumidityDataFromLastWeek();
+    List<Double> getCurrentEnvironmentData(String hubURL);
 }

@@ -409,7 +409,6 @@ public class DeviceController {
         }
     }
 
-
     // Gas Sensor --------------
     @ApiOperation(value = "Get All Users' Gas Sensor")
     @GetMapping(ApiPath.GET_ALL_USERS_GAS_SENSOR)

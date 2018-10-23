@@ -85,7 +85,6 @@ public class UserController {
             @ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest,
             @RequestParam String URLToBeUpdated, @RequestParam String updatedPhysicalAddress) {
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
-
             String userID = authService.getUserIdFromToken(mandatoryRequest.getAccessToken());
             User updatedUser = hubService.editHubs(userID, URLToBeUpdated, updatedPhysicalAddress);
 

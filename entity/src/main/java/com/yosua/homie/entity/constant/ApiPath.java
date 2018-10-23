@@ -37,6 +37,8 @@ public interface ApiPath {
   String FLASK_TURN_OFF_LAMP = "/lamp/turn-off";
 
   String FLASK_CHECK_RAIN = "/rain/";
+
+  String FLASK_GET_CURRENT_ENVIRONMENT_DATA = "/temp";
   //Admin
   String ADD_HUBS = ADMIN_CONTROLLER + "/add-hubs";
   String ADD_USER = ADMIN_CONTROLLER+ "/add-user";
@@ -93,6 +95,7 @@ public interface ApiPath {
   //Environment Control
   String GET_TEMPERATURE_DATA = ENVIRONMENT_CONTROLLER + "/get-temperature-data";
   String GET_HUMIDITY_DATA = ENVIRONMENT_CONTROLLER + "/get-humidity-data";
+  String GET_CURRENT_DATA = ENVIRONMENT_CONTROLLER + "/get-current-env-data";
 
   //Notification
   String NOTIFY_IN_CASE_OF_GAS = "/gas-notification";
