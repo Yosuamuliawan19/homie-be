@@ -40,7 +40,7 @@ public class EnvironmentSensorServiceImpl implements EnvironmentSensorService {
     public EnvironmentSensor addEnvironmentSensor(EnvironmentSensorRequest environmentSensorRequest){
         Validate.notNull(environmentSensorRequest,"EnvironmentSensor Request to be added is required");
         EnvironmentSensor newEnvironmentSensor;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss.SSSSSS");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
         Date serverTime;
         try {
            serverTime  = format.parse(environmentSensorRequest.getServerTime());
