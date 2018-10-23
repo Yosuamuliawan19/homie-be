@@ -5,6 +5,7 @@ package com.yosua.homie.service.api;
 import com.yosua.homie.entity.dao.TV;
 import com.yosua.homie.rest.web.model.request.TVRequest;
 import com.yosua.homie.rest.web.model.response.FlaskBaseResponse;
+import com.yosua.homie.rest.web.model.response.FlaskTVResponse;
 import com.yosua.homie.rest.web.model.response.TVResponse;
 
 import java.util.Date;
@@ -16,13 +17,13 @@ public interface TVService {
     TV getTVFromDeviceID(String id);
     TVResponse toTVResponse(TV tv);
     List<TVResponse> toTVResponse(List<TV> TVList);
-    FlaskBaseResponse turnOnTV(String deviceID);
-    FlaskBaseResponse turnOffTV(String deviceID);
-    FlaskBaseResponse volumeUpTV(String deviceID);
-    FlaskBaseResponse volumeDownTV(String deviceID);
-    FlaskBaseResponse programUpTV(String deviceID);
-    FlaskBaseResponse programDownTV(String deviceID);
-    FlaskBaseResponse muteTV(String deviceID);
+    FlaskTVResponse turnOnTV(String deviceID);
+    FlaskTVResponse turnOffTV(String deviceID);
+    FlaskTVResponse volumeUpTV(String deviceID);
+    FlaskTVResponse volumeDownTV(String deviceID);
+    FlaskTVResponse programUpTV(String deviceID);
+    FlaskTVResponse programDownTV(String deviceID);
+    FlaskTVResponse muteTV(String deviceID);
     void scheduledTurnOffTV(String deviceID);
     void scheduledTurnOnTV(String deviceID);
     void setTimerTV(String deviceID, Date start, Date end);

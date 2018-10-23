@@ -35,12 +35,6 @@ public class DeviceController {
     private AuthService authService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private HubService hubService;
-
-    @Autowired
     private ACService acService;
 
     @Autowired
@@ -94,7 +88,7 @@ public class DeviceController {
 
     @ApiOperation(value = "Turn on AC")
     @GetMapping(ApiPath.TURN_ON_AC)
-    public FlaskBaseResponse turnOnAC(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskACResponse turnOnAC(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Turn on AC Token: " +  mandatoryRequest.getAccessToken());
             return acService.turnOnAC(deviceID);
@@ -117,7 +111,7 @@ public class DeviceController {
 
     @ApiOperation(value = "Set AC Temperature")
     @GetMapping(ApiPath.SET_TEMPERATURE)
-    public FlaskBaseResponse setTemperature(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID,
+    public FlaskACResponse setTemperature(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID,
                                             @RequestParam Double temperature){
         if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
             return acService.setTemperature(deviceID, temperature);
@@ -131,16 +125,21 @@ public class DeviceController {
     @GetMapping(ApiPath.SET_TIMER_AC)
     public void setTimerAC(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID,
                            @RequestParam String StringStart, @RequestParam String StringEnd) {
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date start = null;
-        Date end = null;
-        try {
-            start = dateFormatter.parse(StringStart);
-            end = dateFormatter.parse(StringEnd);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date start = null;
+            Date end = null;
+            try {
+                start = dateFormatter.parse(StringStart);
+                end = dateFormatter.parse(StringEnd);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            acService.setTimerAC(deviceID, start, end);
+        }else{
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(),
+                    ResponseCode.INVALID_TOKEN.getMessage());
         }
-        acService.setTimerAC(deviceID, start, end);
     }
 
     // TV --------------
@@ -176,7 +175,7 @@ public class DeviceController {
     }
     @ApiOperation(value = "Turn on TV")
     @GetMapping(ApiPath.TURN_ON_TV)
-    public FlaskBaseResponse turnOnTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskTVResponse turnOnTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Turn on TV Token: " +  mandatoryRequest.getAccessToken());
             return tvService.turnOnTV(deviceID);
@@ -188,7 +187,7 @@ public class DeviceController {
 
     @ApiOperation(value = "Turn off TV")
     @GetMapping(ApiPath.TURN_OFF_TV)
-    public FlaskBaseResponse turnOffTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskTVResponse turnOffTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             return tvService.turnOffTV(deviceID);
         } else {
@@ -199,7 +198,7 @@ public class DeviceController {
 
     @ApiOperation(value = "Volume up TV")
     @GetMapping(ApiPath.TURN_UP_VOLUME_TV)
-    public FlaskBaseResponse volumeUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskTVResponse volumeUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Volume up TV Token: " +  mandatoryRequest.getAccessToken());
             return tvService.volumeUpTV(deviceID);
@@ -210,7 +209,7 @@ public class DeviceController {
     }
     @ApiOperation(value = "Volume down TV")
     @GetMapping(ApiPath.TURN_DOWN_VOLUME_TV)
-    public FlaskBaseResponse volumeDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskTVResponse volumeDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Volume down TV Token: " +  mandatoryRequest.getAccessToken());
             return tvService.volumeDownTV(deviceID);
@@ -221,7 +220,7 @@ public class DeviceController {
     }
     @ApiOperation(value = "Program up TV")
     @GetMapping(ApiPath.PROGRAM_UP_TV)
-    public FlaskBaseResponse programUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskTVResponse programUpTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Program up TV Token: " +  mandatoryRequest.getAccessToken());
             return tvService.programUpTV(deviceID);
@@ -232,7 +231,7 @@ public class DeviceController {
     }
     @ApiOperation(value = "Program down TV")
     @GetMapping(ApiPath.PROGRAM_DOWN_TV)
-    public FlaskBaseResponse programDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskTVResponse programDownTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Program down TV Token: " +  mandatoryRequest.getAccessToken());
             return tvService.programDownTV(deviceID);
@@ -244,7 +243,7 @@ public class DeviceController {
 
     @ApiOperation(value = "Mute TV")
     @GetMapping(ApiPath.MUTE_TV)
-    public FlaskBaseResponse muteTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskTVResponse muteTV(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken()))
         {
             return tvService.muteTV(deviceID);
@@ -269,11 +268,11 @@ public class DeviceController {
             e.printStackTrace();
         }
 
-//        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
+        if(authService.isTokenValid(mandatoryRequest.getAccessToken())){
             tvService.setTimerTV(deviceID, start, end);
-//        }else {
-//            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(), ResponseCode.INVALID_TOKEN.getMessage());
-//        }
+        }else {
+            throw new BusinessLogicException(ResponseCode.INVALID_TOKEN.getCode(), ResponseCode.INVALID_TOKEN.getMessage());
+        }
     }
 
     // Lamp --------------
@@ -309,7 +308,7 @@ public class DeviceController {
     }
     @ApiOperation(value = "Turn on Lamp")
     @GetMapping(ApiPath.TURN_ON_LAMP)
-    public FlaskBaseResponse turnOnLamp(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskLampResponse turnOnLamp(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             LOGGER.info("Turn on Lamp Token: " +  mandatoryRequest.getAccessToken());
             return lampService.turnOnLamp(deviceID);
@@ -321,7 +320,7 @@ public class DeviceController {
 
     @ApiOperation(value = "Turn off lamp")
     @GetMapping(ApiPath.TURN_OFF_LAMP)
-    public FlaskBaseResponse turnOffLamp(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
+    public FlaskLampResponse turnOffLamp(@ApiIgnore @Valid @ModelAttribute MandatoryRequest mandatoryRequest, @RequestParam String deviceID){
         if (authService.isTokenValid(mandatoryRequest.getAccessToken())) {
             return lampService.turnOffLamp(deviceID);
         } else {

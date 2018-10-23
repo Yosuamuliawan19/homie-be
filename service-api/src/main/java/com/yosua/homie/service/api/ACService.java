@@ -14,7 +14,7 @@ public interface ACService {
     ACResponse toACResponse(AC ac);
     List<AC> getAllUsersAC(String userID);
     List<ACResponse> toACResponse(List<AC> ACList);
-    FlaskBaseResponse turnOnAC(String deviceID);
+    FlaskACResponse turnOnAC(String deviceID);
     FlaskBaseResponse turnOffAC(String deviceID);
     FlaskACResponse setTemperature(String deviceID, Double temperature);
     AC getACFromDeviceID(String deviceID);

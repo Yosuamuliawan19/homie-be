@@ -127,20 +127,11 @@ public class LampServiceImpl implements LampService {
     public FlaskLampResponse turnOnLamp(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         Lamp lamp = lampRepository.findLampById(deviceID);
-        Lamp newLamp;
         FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(lamp)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Lamp does not exist!");
         }
-        lamp.setStatus(DeviceStatus.ON);
-        try{
-            newLamp = lampRepository.save(lamp);
-        }catch (Exception e){
-            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
-                    ResponseCode.SYSTEM_ERROR.getMessage());
-        }
-
         final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_ON_LAMP + "/" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
@@ -150,31 +141,31 @@ public class LampServiceImpl implements LampService {
             throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
-
+        if(flaskBaseResponse.getCode().equals("200")){
+            lamp.setStatus(DeviceStatus.ON);
+            try{
+                lamp = lampRepository.save(lamp);
+            }catch (Exception e){
+                throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                        ResponseCode.SYSTEM_ERROR.getMessage());
+            }
+        }
         return new FlaskLampResponseBuilder()
                 .withCode(flaskBaseResponse.getCode())
                 .withMessage(flaskBaseResponse.getMessage())
-                .withHubURL(newLamp.getHubURL())
-                .withName(newLamp.getName())
-                .withStatus(newLamp.getStatus())
+                .withHubURL(lamp.getHubURL())
+                .withName(lamp.getName())
+                .withStatus(lamp.getStatus())
                 .build();
     }
     @Override
     public FlaskLampResponse turnOffLamp(String deviceID){
         Validate.notNull(deviceID, "Device ID is required");
         Lamp lamp = lampRepository.findLampById(deviceID);
-        Lamp newLamp;
         FlaskBaseResponse flaskBaseResponse;
         if(Objects.isNull(lamp)) {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Lamp does not exist!");
-        }
-        lamp.setStatus(DeviceStatus.OFF);
-        try{
-            newLamp = lampRepository.save(lamp);
-        }catch (Exception e){
-            throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
-                    ResponseCode.SYSTEM_ERROR.getMessage());
         }
 
         final String url = ApiPath.HTTP + lamp.getHubURL() + ApiPath.FLASK_TURN_OFF_LAMP + "/" + deviceID + "/";
@@ -187,13 +178,21 @@ public class LampServiceImpl implements LampService {
             throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
                     ResponseCode.SYSTEM_ERROR.getMessage());
         }
-
+        if(flaskBaseResponse.getCode().equals("200")){
+            lamp.setStatus(DeviceStatus.OFF);
+            try{
+                lamp = lampRepository.save(lamp);
+            }catch (Exception e){
+                throw new BusinessLogicException(ResponseCode.SYSTEM_ERROR.getCode(),
+                        ResponseCode.SYSTEM_ERROR.getMessage());
+            }
+        }
         return new FlaskLampResponseBuilder()
                 .withCode(flaskBaseResponse.getCode())
                 .withMessage(flaskBaseResponse.getMessage())
-                .withHubURL(newLamp.getHubURL())
-                .withName(newLamp.getName())
-                .withStatus(newLamp.getStatus())
+                .withHubURL(lamp.getHubURL())
+                .withName(lamp.getName())
+                .withStatus(lamp.getStatus())
                 .build();
     }
     @Override
