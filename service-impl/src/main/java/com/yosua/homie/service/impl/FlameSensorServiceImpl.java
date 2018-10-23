@@ -32,8 +32,11 @@ import java.util.Objects;
 public class FlameSensorServiceImpl implements FlameSensorService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FlameSensorServiceImpl.class);
 
-    @Value("${homie.firebase.server.key}")
-    private String fireBaseServerKey;
+    @Value("${homie.one.signal.server.key}")
+    private String oneSignalServerKey;
+
+    @Value("${homie.one.signal.app.id}")
+    private String oneSignalAppId;
 
     @Autowired
     UserRepository userRepository;
@@ -127,11 +130,39 @@ public class FlameSensorServiceImpl implements FlameSensorService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Flame sensor does not exist!");
         }
-        final String url = ApiPath.HTTP + flameSensor.getHubURL() + ApiPath.FLASK_CHECK_FLAME + "/" + deviceID + "/";
+        final String url = ApiPath.HTTP + flameSensor.getHubURL() + ApiPath.FLASK_CHECK_FLAME + "/" +
+                "" + deviceID + "/";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, FlaskBaseResponse.class);
     }
+//    @Override
+//    public String notifyForFlame(String userID){
+//        Validate.notNull(userID, "User ID is required");
+//        User user = userRepository.findUserById(userID);
+//        if(Objects.isNull(user)) {
+//            throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
+//                    "Lamp does not exist!");
+//        }
+//        final String url = "https://fcm.googleapis.com/fcm/send";
+//        LOGGER.info(url);
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Content-Type", "application/json");
+//        headers.add("Authorization", "key=" +  fireBaseServerKey);
+//        String requestJson = "{\n" +
+//                "    \"notification\": {\n" +
+//                "        \"title\": \"There is a flame in your house!!\",\n" +
+//                "        \"body\": \"Contact the fire department\",\n" +
+//                "        \"click_action\": \"http://localhost:3000/\",\n" +
+//                "        \"icon\": \"http://url-to-an-icon/icon.png\"\n" +
+//                "    },\n" +
+//                "    \"to\": \"" + user.getNotificationToken() +"\"\n" +
+//                "}";
+//        HttpEntity<String> entity = new HttpEntity<>(requestJson,headers);
+//        return restTemplate.postForObject(url, entity, String.class);
+//    }
+
     @Override
     public String notifyForFlame(String userID){
         Validate.notNull(userID, "User ID is required");
@@ -140,22 +171,22 @@ public class FlameSensorServiceImpl implements FlameSensorService {
             throw new BusinessLogicException(ResponseCode.DATA_NOT_EXIST.getCode(),
                     "Lamp does not exist!");
         }
-        final String url = "https://fcm.googleapis.com/fcm/send";
+        final String url = "https://onesignal.com/api/v1/notifications";
         LOGGER.info(url);
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "key=" +  fireBaseServerKey);
-        String requestJson = "{\n" +
-                "    \"notification\": {\n" +
-                "        \"title\": \"There is a flame in your house!!\",\n" +
-                "        \"body\": \"Contact the fire department\",\n" +
-                "        \"click_action\": \"http://localhost:3000/\",\n" +
-                "        \"icon\": \"http://url-to-an-icon/icon.png\"\n" +
-                "    },\n" +
-                "    \"to\": \"" + user.getNotificationToken() +"\"\n" +
-                "}";
-        HttpEntity<String> entity = new HttpEntity<>(requestJson,headers);
+        headers.add("Authorization", "Basic " + oneSignalServerKey);
+        String requestJson = "{"
+                +   "\"app_id\": \""+oneSignalAppId+"\","
+                +   "\"filters\": [{\"field\": \"tag\", \"key\": \"userId\", \"relation\": \"=\", \"value\": \""+user.getEmail()+"\"}],"
+                +   "\"data\": {\"foo\": \"bar\"},"
+                +   "\"contents\": {\"en\": \"There is fire in your house ! Contact the police or the fire department\"}"
+                + "}";
+        LOGGER.info(requestJson);
+        HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
         return restTemplate.postForObject(url, entity, String.class);
     }
+
+
 }
